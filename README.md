@@ -67,6 +67,12 @@ python -m src.analytics.overview          # tournament headline numbers
 python -m src.features.build_features     # win-probability feature table
 python -m src.models.train                # train, calibrate, evaluate
 python -m src.models.predict              # example live win-probability call
+
+python -m src.features.build_player_performance_features  # player-performance feature table
+python -m src.models.train_player_performance              # train, evaluate
+python -m src.models.predict_player_performance             # example prediction
+
+streamlit run app/Home.py                 # the full application
 ```
 
 Current scale: **1,243 matches**, **295,732 deliveries**, **804 players**,
@@ -127,6 +133,33 @@ All 7 pages are checked with Streamlit's `AppTest` headless runner (including
 widget interactions — changing the selected match/player/matchup) as part of
 verifying this works, not just that it imports.
 
+## Player Performance Predictor
+
+`python -m src.features.build_player_performance_features` builds a per-innings
+feature table (one row per player/match/innings, 16.8K rows across 524
+players) with strictly leakage-safe historical features: career average/
+strike rate, last-5/last-10 innings form, season-to-date form, and
+venue/opponent-specific averages — every one `.shift(1)`-ed so a row never
+sees its own outcome.
+
+`python -m src.models.train_player_performance` compares Linear Regression
+against a Random Forest (chronological split, same season boundaries as the
+win-probability model) and deploys the Random Forest — not because it wins
+on MAE (Linear Regression is statistically tied), but because only a tree
+ensemble's per-tree prediction spread can produce the "Prediction Range" and
+P(30+)/P(50+) outputs blueprint Module 6 asks for.
+
+**Honest result**: on the 2025-2026 test seasons, the model's MAE (16.57)
+beats a naive "always predict this player's career average" baseline
+(16.82) by only ~1.5%. This isn't a bug — a single T20 innings score is
+close to random around a player's underlying ability, so the realistic
+ceiling here is low without richer inputs (which bowler, match situation,
+weather). The Model Insights page reports this comparison directly rather
+than hiding it.
+
+`streamlit run app/Home.py` → **Player Performance Predictor** page lets you
+pick any player/opponent/venue combination and see the live prediction.
+
 ## Team-Name Normalization
 
 Cricsheet records the name a team played under at the time (blueprint
@@ -150,10 +183,10 @@ applied at analysis time only.
 - [x] Feature engineering (match-state, momentum) for win probability
 - [x] Baseline ML (Logistic Regression, Random Forest) + isotonic calibration
 - [ ] XGBoost / LightGBM (blocked on libomp)
-- [x] Streamlit application (7 pages: Home, Overview, Player Analytics, Batter vs Bowler, Venue Analytics, Win Probability, Model Insights)
-- [ ] Power BI dashboard
-- [ ] Batter-vs-bowler matchup engine
-- [ ] Player performance predictor
+- [x] Streamlit application (8 pages: Home, Overview, Player Analytics, Batter vs Bowler, Venue Analytics, Win Probability, Model Insights, Player Performance Predictor)
+- [x] Batter-vs-bowler matchup engine (historical; model-based next-ball distribution not yet built)
+- [x] Player performance predictor
+- [ ] Power BI dashboard (blocked — Power BI Desktop is Windows-only; web editor or Tableau Public are the Mac-compatible options, undecided)
 - [ ] Deployment
 
 ## Future Improvements

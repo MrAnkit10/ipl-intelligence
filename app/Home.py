@@ -42,6 +42,7 @@ nav_col1, nav_col2, nav_col3 = st.columns(3)
 with nav_col1:
     st.page_link("pages/1_IPL_Overview.py", label="📊 IPL Overview", icon="📊")
     st.page_link("pages/2_Player_Analytics.py", label="🧑 Player Analytics", icon="🧑")
+    st.page_link("pages/7_Player_Performance.py", label="🔮 Player Performance Predictor", icon="🔮")
 with nav_col2:
     st.page_link("pages/3_Batter_vs_Bowler.py", label="⚔️ Batter vs Bowler", icon="⚔️")
     st.page_link("pages/4_Venue_Analytics.py", label="🏟️ Venue Analytics", icon="🏟️")

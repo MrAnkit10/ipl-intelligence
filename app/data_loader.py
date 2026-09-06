@@ -75,11 +75,36 @@ def load_win_probability_model():
     return WinProbabilityModel.load()
 
 
+@st.cache_resource
+def load_player_performance_model():
+    from src.models.predict_player_performance import PlayerPerformanceModel
+
+    return PlayerPerformanceModel.load()
+
+
+@st.cache_data
+def load_batting_innings_table() -> pd.DataFrame:
+    from src.features.build_player_performance_features import build_batting_innings
+
+    return build_batting_innings(load_matches(), load_deliveries())
+
+
 @st.cache_data
 def load_evaluation_report() -> dict:
     import json
 
     path = MODELS_DIR / "evaluation_results.json"
+    if not path.exists():
+        return {}
+    with open(path) as f:
+        return json.load(f)
+
+
+@st.cache_data
+def load_player_performance_evaluation_report() -> dict:
+    import json
+
+    path = MODELS_DIR / "player_performance_evaluation.json"
     if not path.exists():
         return {}
     with open(path) as f:

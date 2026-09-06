@@ -1,0 +1,38 @@
+{
+  "candidate_validation_metrics": {
+    "linear_regression": {
+      "mae": 16.207350635259473,
+      "rmse": 21.56535889242265,
+      "r2": 0.1282365214496104
+    },
+    "random_forest": {
+      "mae": 16.249913813328266,
+      "rmse": 21.829041602015472,
+      "r2": 0.10678783816934889
+    }
+  },
+  "best_by_validation_mae": "linear_regression",
+  "deployed_model": "random_forest",
+  "test_metrics": {
+    "linear_regression": {
+      "mae": 16.599154952162326,
+      "rmse": 22.32676887304848,
+      "r2": 0.13793248625395493
+    },
+    "random_forest": {
+      "mae": 16.566161259019708,
+      "rmse": 22.540092314839853,
+      "r2": 0.12138035977062034
+    }
+  },
+  "naive_baseline_test_metrics": {
+    "mae": 16.815456559529505,
+    "rmse": 22.507237109741393,
+    "r2": 0.12393990470534133
+  },
+  "balls_faced_model_test_metrics": {
+    "mae": 9.294464044120152,
+    "rmse": 11.94895751888415,
+    "r2": 0.1547263767110385
+  }
+}

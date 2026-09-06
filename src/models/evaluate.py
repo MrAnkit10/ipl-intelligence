@@ -7,9 +7,12 @@ from sklearn.metrics import (
     brier_score_loss,
     f1_score,
     log_loss,
+    mean_absolute_error,
     precision_score,
+    r2_score,
     recall_score,
     roc_auc_score,
+    root_mean_squared_error,
 )
 
 
@@ -23,6 +26,14 @@ def compute_metrics(y_true: np.ndarray, y_prob: np.ndarray) -> dict:
         "precision": precision_score(y_true, y_pred, zero_division=0),
         "recall": recall_score(y_true, y_pred, zero_division=0),
         "f1": f1_score(y_true, y_pred, zero_division=0),
+    }
+
+
+def compute_regression_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> dict:
+    return {
+        "mae": mean_absolute_error(y_true, y_pred),
+        "rmse": root_mean_squared_error(y_true, y_pred),
+        "r2": r2_score(y_true, y_pred),
     }
 
 
