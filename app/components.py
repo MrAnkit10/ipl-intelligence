@@ -1,5 +1,7 @@
 """Small reusable UI pieces shared across pages."""
 
+from __future__ import annotations
+
 import hashlib
 from contextlib import contextmanager
 

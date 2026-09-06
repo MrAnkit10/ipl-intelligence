@@ -14,6 +14,8 @@ Usage:
     python -m src.features.build_player_performance_features
 """
 
+from __future__ import annotations
+
 from pathlib import Path
 
 import numpy as np

@@ -2,6 +2,8 @@
 ball-by-ball data — the same information a scorecard on any cricket site
 shows, derived directly from Cricsheet rather than a separate source."""
 
+from __future__ import annotations
+
 import pandas as pd
 
 BOWLER_CREDITED_DISMISSALS = {"caught", "bowled", "lbw", "caught and bowled", "stumped", "hit wicket"}
