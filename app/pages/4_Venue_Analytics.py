@@ -7,6 +7,7 @@ if str(ROOT_DIR) not in sys.path:
 
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import streamlit as st
 
 from app.components import avatar_html, chart_card, inject_theme_css, render_html, render_page_title
@@ -53,12 +54,32 @@ cols[4].metric("Chasing Win %", f"{row['chasing_win_pct']:.0f}%" if pd.notna(row
 cols[5].metric("Most Successful Team", row["most_successful_team"] or "—")
 
 st.divider()
-with chart_card("Scoring by Over", f"Average runs per over at {venue}"):
+with chart_card(
+    "Scoring by Over",
+    f"Average runs scored in each over number at {venue} — one over's actual total "
+    "(all 6+ balls including extras), averaged across every innings played here.",
+):
     venue_deliveries = deliveries[(deliveries["venue"] == venue) & (~deliveries["is_super_over"])]
-    by_over = venue_deliveries.groupby("over")["runs_total"].mean().reset_index()
-    fig = px.bar(by_over, x="over", y="runs_total", labels={"over": "Over", "runs_total": "Average Runs"})
-    fig.update_traces(marker_color=accent)
-    fig.update_layout(plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
+    over_totals = (
+        venue_deliveries.groupby(["match_id", "innings", "over"])["runs_total"].sum().reset_index()
+    )
+    by_over = over_totals.groupby("over")["runs_total"].mean().reset_index()
+    by_over["over_label"] = by_over["over"] + 1
+
+    fig = go.Figure()
+    fig.add_trace(
+        go.Scatter(
+            x=by_over["over_label"], y=by_over["runs_total"], mode="lines+markers",
+            line=dict(color=accent, width=3, shape="spline"),
+            marker=dict(size=6, color=accent),
+            fill="tozeroy", fillcolor=f"{accent}22",
+        )
+    )
+    fig.update_layout(
+        xaxis_title="Over", yaxis_title="Average runs in that over",
+        plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="#B8C0E0"), xaxis=dict(dtick=1, gridcolor="#232B55"), yaxis=dict(gridcolor="#232B55"),
+    )
     st.plotly_chart(fig, width="stretch")
 
 st.divider()

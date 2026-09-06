@@ -15,6 +15,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from src.analytics.awards import compute_season_awards
 from src.analytics.batting import (
     compute_batting_percentiles,
     compute_batting_stats,
@@ -104,6 +105,7 @@ def main() -> None:
     batting_stats = batting_stats.merge(fielding_stats, on="player_id", how="left")
     batting_stats["catches"] = batting_stats["catches"].fillna(0).astype(int)
     batting_percentiles = compute_batting_percentiles(batting_stats)
+    season_awards = compute_season_awards(matches, deliveries)
     team_stats = compute_team_stats(matches)
     venue_stats = compute_venue_stats(matches, deliveries)
     head_to_head = compute_head_to_head(matches)
@@ -129,6 +131,7 @@ def main() -> None:
         "matches_bi.csv": matches_bi,
         "overview_kpis.csv": overview_kpis,
         "batting_percentiles.csv": batting_percentiles,
+        "season_awards.csv": season_awards,
     }
     for filename, df in outputs.items():
         df.to_csv(PROCESSED_DIR / filename, index=False)

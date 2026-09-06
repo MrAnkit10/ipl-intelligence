@@ -6,7 +6,7 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
 import pandas as pd
-import plotly.express as px
+import plotly.graph_objects as go
 import streamlit as st
 
 from app.components import chart_card, inject_theme_css, render_matchup_banner, render_page_title
@@ -76,14 +76,30 @@ else:
         scoring_balls = faced.loc[~own_dismissal, "runs_batter"]
         outcome_counts = scoring_balls.value_counts().reindex([0, 1, 2, 3, 4, 6], fill_value=0)
         outcome_counts["W"] = int(own_dismissal.sum())
-        outcome_df = pd.DataFrame(
-            {"outcome": ["Dot", "1 Run", "2 Runs", "3 Runs", "Four", "Six", "Wicket"], "count": outcome_counts.values}
+        outcome_labels = ["Dot", "1 Run", "2 Runs", "3 Runs", "Four", "Six", "Wicket"]
+        outcome_colors = ["#4B5372", "#3B82F6", "#60A5FA", "#93C5FD", "#22C55E", "#A855F7", "#EF4444"]
+        outcome_pct = outcome_counts.values / balls_faced * 100
+
+        fig = go.Figure()
+        cumulative = 0
+        for label, pct, oc in zip(outcome_labels, outcome_pct, outcome_colors):
+            fig.add_trace(
+                go.Bar(
+                    y=["Result"], x=[pct], orientation="h", name=label,
+                    marker=dict(color=oc, line=dict(color="#0A0E27", width=1)),
+                    text=f"{label} {pct:.0f}%" if pct >= 5 else "",
+                    textposition="inside", insidetextanchor="middle",
+                    textfont=dict(color="white", size=12, weight=700),
+                    hovertext=f"{label}: {pct:.1f}% of balls", hoverinfo="text",
+                )
+            )
+            cumulative += pct
+        fig.update_layout(
+            barmode="stack", plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            height=160, margin=dict(l=10, r=10, t=10, b=10), showlegend=True,
+            legend=dict(orientation="h", yanchor="top", y=-0.25, font=dict(color="#B8C0E0")),
+            xaxis=dict(visible=False, range=[0, 100]), yaxis=dict(visible=False),
         )
-        outcome_df["pct"] = outcome_df["count"] / balls_faced * 100
-        outcome_colors = ["#8892C0", "#3B82F6", "#3B82F6", "#3B82F6", "#22C55E", "#22C55E", "#EF4444"]
-        fig = px.bar(outcome_df, x="outcome", y="pct", text="pct")
-        fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside", marker_color=outcome_colors)
-        fig.update_layout(plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)", xaxis_title="", yaxis_title="% of balls")
         st.plotly_chart(fig, width="stretch")
 
     with st.expander("Ball-by-ball history"):

@@ -131,6 +131,14 @@ def load_batting_percentiles() -> pd.DataFrame:
 
 
 @st.cache_data
+def load_season_awards() -> pd.DataFrame:
+    path = PROCESSED_DIR / "season_awards.csv"
+    if not path.exists():
+        return pd.DataFrame()
+    return pd.read_csv(path)
+
+
+@st.cache_data
 def load_dismissal_breakdown() -> pd.DataFrame:
     path = PROCESSED_DIR / "dismissal_breakdown.csv"
     if not path.exists():

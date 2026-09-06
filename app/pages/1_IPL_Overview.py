@@ -7,6 +7,7 @@ if str(ROOT_DIR) not in sys.path:
 
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import streamlit as st
 
 from app.components import chart_card, inject_theme_css, render_page_title, render_stat_card
@@ -119,12 +120,46 @@ with col2:
 st.divider()
 with chart_card("Matches per Season", "Tournament size over time"):
     season_counts = matches.groupby("season_year").size().reset_index(name="matches")
-    fig4 = px.bar(
-        season_counts, x="season_year", y="matches", labels={"season_year": "Season", "matches": "Matches"},
+    fig4 = go.Figure(
+        go.Scatter(
+            x=season_counts["season_year"], y=season_counts["matches"], mode="lines+markers",
+            line=dict(color="#3B82F6", width=3, shape="spline"),
+            marker=dict(size=8, color="#3B82F6", line=dict(color="#0A0E27", width=1.5)),
+            fill="tozeroy", fillcolor="rgba(59,130,246,0.18)",
+        )
     )
-    fig4.update_traces(marker_color="#3B82F6")
-    fig4.update_layout(plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
+    fig4.update_layout(
+        plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)", font=dict(color="#B8C0E0"),
+        xaxis=dict(title="Season", dtick=1, gridcolor="#232B55"), yaxis=dict(title="Matches", gridcolor="#232B55"),
+    )
     st.plotly_chart(fig4, width="stretch")
+
+st.divider()
+lb_col1, lb_col2 = st.columns(2)
+with lb_col1:
+    with chart_card("Most Runs — Full Leaderboard", "Every player, ranked"):
+        runs_lb = batting_stats[["player_name", "current_team", "innings", "runs", "batting_average", "strike_rate"]].copy()
+        runs_lb.insert(0, "Rank", range(1, len(runs_lb) + 1))
+        st.dataframe(
+            runs_lb.rename(columns={
+                "player_name": "Player", "current_team": "Team", "innings": "Inns",
+                "runs": "Runs", "batting_average": "Avg", "strike_rate": "SR",
+            }),
+            width="stretch", hide_index=True, height=420,
+        )
+with lb_col2:
+    with chart_card("Most Wickets — Full Leaderboard", "Every player, ranked"):
+        wickets_lb = bowling_stats.sort_values("wickets", ascending=False)[
+            ["player_name", "current_team", "wickets", "economy", "bowling_average"]
+        ].copy()
+        wickets_lb.insert(0, "Rank", range(1, len(wickets_lb) + 1))
+        st.dataframe(
+            wickets_lb.rename(columns={
+                "player_name": "Player", "current_team": "Team", "wickets": "Wkts",
+                "economy": "Econ", "bowling_average": "Avg",
+            }),
+            width="stretch", hide_index=True, height=420,
+        )
 
 st.divider()
 with chart_card("Full Team Record"):

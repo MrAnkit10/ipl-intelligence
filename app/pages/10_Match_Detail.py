@@ -45,7 +45,8 @@ if len(innings) >= 2:
         + (f"won by {int(match_row['win_by_runs'])} runs" if pd.notna(match_row["win_by_runs"]) else "")
         + (f"won by {int(match_row['win_by_wickets'])} wickets" if pd.notna(match_row["win_by_wickets"]) else "")
     )
-    subtitle = f"{result_text} · {match_row['venue']} · {match_row['date'].strftime('%d %b %Y')}"
+    potm = f" · Player of the Match: {match_row['player_of_match']}" if pd.notna(match_row.get("player_of_match")) else ""
+    subtitle = f"{result_text} · {match_row['venue']} · {match_row['date'].strftime('%d %b %Y')}{potm}"
     render_match_banner(
         innings[0]["batting_team"], team_color(innings[0]["batting_team"]),
         f"{innings[0]['total_runs']}/{innings[0]['total_wickets']} ({innings[0]['overs']})",

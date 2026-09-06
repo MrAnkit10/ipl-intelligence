@@ -23,6 +23,7 @@ from app.data_loader import (
 from src.analytics.batting import GROUP_COLORS, PERCENTILE_METRICS
 
 TRANSPARENT_LAYOUT = dict(plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
+PHASE_COLORS = ["#3B82F6", "#EAB308", "#EF4444"]
 
 st.set_page_config(page_title="Player Analytics | IPL Intelligence", page_icon="🧑", layout="wide")
 inject_theme_css()
@@ -61,31 +62,48 @@ render_html(
     """
 )
 
+# Role and career span are computed from every appearance (batting or
+# bowling) so they show correctly for bowlers too, not just batters —
+# batting_stats' debut/highest-score columns only cover batting innings.
+# Bowling type (pace/spin, left/right-arm) isn't derivable from Cricsheet
+# ball-by-ball data or the player register, so it's never guessed at here.
+has_bat = not bat_row.empty
+has_bowl = not bowl_row.empty
+bat_wickets_ok = has_bowl and bowl_row.iloc[0]["wickets"] >= 20
+bat_innings_ok = has_bat and bat_row.iloc[0]["innings"] >= 20
+if bat_innings_ok and bat_wickets_ok:
+    role = "All-rounder"
+elif has_bat:
+    role = "Batter"
+elif has_bowl:
+    role = "Bowler"
+else:
+    role = "Player"
+
+player_apps = deliveries[
+    ((deliveries["batter_id"] == player_id) | (deliveries["bowler_id"] == player_id)) & (~deliveries["is_super_over"])
+]
+debut = player_apps["date"].min() if not player_apps.empty else None
+last_played = player_apps["date"].max() if not player_apps.empty else None
+matches_played = int(player_apps["match_id"].nunique()) if not player_apps.empty else 0
+seasons_span = f"{debut.year}–{last_played.year}" if debut is not None and last_played is not None else "—"
+
+render_html(
+    f"""
+    <div style="display:flex;gap:18px;align-items:center;margin:-6px 0 14px 0;flex-wrap:wrap;">
+        <span style="color:white;background:{color};padding:3px 12px;border-radius:20px;
+                    font-size:12px;font-weight:800;font-family:sans-serif;letter-spacing:0.02em;">{role.upper()}</span>
+        <span style="color:#8892C0;font-size:12px;font-family:sans-serif;">{seasons_span} · {matches_played} matches</span>
+        <span style="color:#8892C0;font-size:12px;font-family:sans-serif;">
+            Debut {debut.strftime('%b %d, %Y') if debut is not None else '—'}
+            &nbsp;·&nbsp; Last played {last_played.strftime('%b %d, %Y') if last_played is not None else '—'}
+        </span>
+    </div>
+    """
+)
+
 if not bat_row.empty:
     row = bat_row.iloc[0]
-
-    role = "Batter"
-    if not bowl_row.empty and bowl_row.iloc[0]["wickets"] >= 20:
-        role = "All-rounder"
-
-    debut = pd.to_datetime(row["debut_date"]) if pd.notna(row.get("debut_date")) else None
-    last_played = pd.to_datetime(row["last_played_date"]) if pd.notna(row.get("last_played_date")) else None
-    seasons_span = f"{debut.year}–{last_played.year}" if debut is not None and last_played is not None else "—"
-    matches_played = int(row["matches_played"]) if pd.notna(row.get("matches_played")) else int(row["innings"])
-
-    render_html(
-        f"""
-        <div style="display:flex;gap:18px;align-items:center;margin:-6px 0 14px 0;flex-wrap:wrap;">
-            <span style="color:white;background:{color};padding:3px 12px;border-radius:20px;
-                        font-size:12px;font-weight:800;font-family:sans-serif;letter-spacing:0.02em;">{role.upper()}</span>
-            <span style="color:#8892C0;font-size:12px;font-family:sans-serif;">{seasons_span} · {matches_played} matches</span>
-            <span style="color:#8892C0;font-size:12px;font-family:sans-serif;">
-                Debut {debut.strftime('%b %d, %Y') if debut is not None else '—'}
-                &nbsp;·&nbsp; Last played {last_played.strftime('%b %d, %Y') if last_played is not None else '—'}
-            </span>
-        </div>
-        """
-    )
 
     st.subheader("Batting")
     cols = st.columns(8)
@@ -246,9 +264,14 @@ if not bat_row.empty:
     ).dropna()
     if not phase_df.empty:
         with chart_card("Strike Rate by Phase", "Powerplay / Middle / Death"):
-            fig = px.bar(phase_df, x="phase", y="strike_rate", text="strike_rate", color_discrete_sequence=[color])
-            fig.update_traces(texttemplate="%{text:.1f}", textposition="outside", marker_color=color)
-            fig.update_layout(**TRANSPARENT_LAYOUT)
+            fig = go.Figure(
+                go.Bar(
+                    x=phase_df["strike_rate"], y=phase_df["phase"], orientation="h",
+                    marker_color=PHASE_COLORS[: len(phase_df)],
+                    text=[f"{v:.1f}" for v in phase_df["strike_rate"]], textposition="outside",
+                )
+            )
+            fig.update_layout(**TRANSPARENT_LAYOUT, height=190, margin=dict(l=10, r=30, t=10, b=10), font=dict(color="#B8C0E0"), xaxis_title="", yaxis_title="")
             st.plotly_chart(fig, width="stretch")
 
     player_deliveries = deliveries[
@@ -260,9 +283,20 @@ if not bat_row.empty:
     if len(innings_runs) > 0:
         with chart_card("Recent Form", "Runs in the last 15 innings"):
             recent = innings_runs.tail(15)
-            fig_form = px.bar(recent, x="date", y="runs_batter", color_discrete_sequence=[color])
-            fig_form.update_traces(marker_color=color)
-            fig_form.update_layout(**TRANSPARENT_LAYOUT)
+            fig_form = go.Figure(
+                go.Scatter(
+                    x=recent["date"], y=recent["runs_batter"], mode="lines+markers",
+                    line=dict(color=color, width=2.5, shape="spline"),
+                    marker=dict(size=7, color=color, line=dict(color="#0A0E27", width=1)),
+                    fill="tozeroy", fillcolor=f"{color}22",
+                )
+            )
+            avg_line = recent["runs_batter"].mean()
+            fig_form.add_hline(y=avg_line, line_dash="dot", line_color="#8892C0", annotation_text="avg", annotation_font_color="#8892C0")
+            fig_form.update_layout(
+                **TRANSPARENT_LAYOUT, height=240, margin=dict(l=10, r=10, t=10, b=10),
+                font=dict(color="#B8C0E0"), xaxis_title="", yaxis_title="Runs",
+            )
             st.plotly_chart(fig_form, width="stretch")
 
 if not bowl_row.empty:
@@ -287,9 +321,14 @@ if not bowl_row.empty:
     ).dropna()
     if not phase_df.empty:
         with chart_card("Economy by Phase", "Powerplay / Middle / Death"):
-            fig = px.bar(phase_df, x="phase", y="economy", text="economy", color_discrete_sequence=[color])
-            fig.update_traces(texttemplate="%{text:.2f}", textposition="outside", marker_color=color)
-            fig.update_layout(**TRANSPARENT_LAYOUT)
+            fig = go.Figure(
+                go.Bar(
+                    x=phase_df["economy"], y=phase_df["phase"], orientation="h",
+                    marker_color=PHASE_COLORS[: len(phase_df)],
+                    text=[f"{v:.2f}" for v in phase_df["economy"]], textposition="outside",
+                )
+            )
+            fig.update_layout(**TRANSPARENT_LAYOUT, height=190, margin=dict(l=10, r=30, t=10, b=10), font=dict(color="#B8C0E0"), xaxis_title="", yaxis_title="")
             st.plotly_chart(fig, width="stretch")
 
 if bat_row.empty and bowl_row.empty:
