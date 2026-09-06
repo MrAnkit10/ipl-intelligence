@@ -68,6 +68,34 @@ def load_venue_stats() -> pd.DataFrame:
     return pd.read_csv(PROCESSED_DIR / "venue_stats.csv")
 
 
+@st.cache_data
+def load_player_photos() -> dict:
+    """player_id -> photo_url, only for players a real photo was found for."""
+    path = PROCESSED_DIR / "player_photos.csv"
+    if not path.exists():
+        return {}
+    df = pd.read_csv(path).dropna(subset=["photo_url"])
+    return dict(zip(df["player_id"], df["photo_url"]))
+
+
+@st.cache_data
+def load_venue_photos() -> dict:
+    """venue -> photo_url, only for venues a real photo was found for."""
+    path = PROCESSED_DIR / "venue_photos.csv"
+    if not path.exists():
+        return {}
+    df = pd.read_csv(path).dropna(subset=["photo_url"])
+    return dict(zip(df["venue"], df["photo_url"]))
+
+
+@st.cache_data
+def load_dismissal_breakdown() -> pd.DataFrame:
+    path = PROCESSED_DIR / "dismissal_breakdown.csv"
+    if not path.exists():
+        return pd.DataFrame(columns=["player_id", "dismissal_kind", "count"])
+    return pd.read_csv(path)
+
+
 @st.cache_resource
 def load_win_probability_model():
     from src.models.predict import WinProbabilityModel

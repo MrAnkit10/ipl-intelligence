@@ -15,7 +15,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from src.analytics.batting import compute_batting_stats
+from src.analytics.batting import compute_batting_stats, compute_dismissal_breakdown
 from src.analytics.bowling import compute_bowling_stats
 from src.analytics.overview import compute_overview
 from src.analytics.team_stats import (
@@ -99,6 +99,7 @@ def main() -> None:
     head_to_head = compute_head_to_head(matches)
     season_trends = compute_season_trends(matches, deliveries)
     phase_trends = compute_phase_trends(deliveries)
+    dismissal_breakdown = compute_dismissal_breakdown(deliveries)
     matches_bi = build_matches_bi(matches)
     overview_kpis = pd.DataFrame([compute_overview(matches, deliveries, batting_stats, bowling_stats)])
 
@@ -114,6 +115,7 @@ def main() -> None:
         "head_to_head.csv": head_to_head,
         "season_trends.csv": season_trends,
         "phase_trends.csv": phase_trends,
+        "dismissal_breakdown.csv": dismissal_breakdown,
         "matches_bi.csv": matches_bi,
         "overview_kpis.csv": overview_kpis,
     }

@@ -33,6 +33,9 @@ models/*.joblib
 !data/processed/bowling_stats.csv
 !data/processed/team_stats.csv
 !data/processed/venue_stats.csv
+!data/processed/player_photos.csv
+!data/processed/venue_photos.csv
+!data/processed/dismissal_breakdown.csv
 !data/features/win_prediction_features.parquet
 !models/win_probability.pkl
 !models/player_performance.pkl

@@ -9,7 +9,8 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from app.data_loader import load_deliveries
+from app.components import render_avatar
+from app.data_loader import load_deliveries, load_player_photos
 
 st.set_page_config(page_title="Batter vs Bowler | IPL Intelligence", page_icon="⚔️", layout="wide")
 st.title("⚔️ Batter vs Bowler Matchup")
@@ -21,6 +22,10 @@ st.caption(
 
 deliveries = load_deliveries()
 main = deliveries[~deliveries["is_super_over"]]
+player_photos = load_player_photos()
+
+batter_name_to_id = dict(zip(main["batter"], main["batter_id"]))
+bowler_name_to_id = dict(zip(main["bowler"], main["bowler_id"]))
 
 batters = sorted(main["batter"].unique())
 bowlers = sorted(main["bowler"].unique())
@@ -28,6 +33,12 @@ bowlers = sorted(main["bowler"].unique())
 col1, col2 = st.columns(2)
 batter = col1.selectbox("Batter", batters, index=batters.index("V Kohli") if "V Kohli" in batters else 0)
 bowler = col2.selectbox("Bowler", bowlers, index=bowlers.index("JJ Bumrah") if "JJ Bumrah" in bowlers else 0)
+
+photo_col1, photo_col2 = st.columns(2)
+with photo_col1:
+    render_avatar(batter, player_photos.get(batter_name_to_id.get(batter)), size=90)
+with photo_col2:
+    render_avatar(bowler, player_photos.get(bowler_name_to_id.get(bowler)), size=90)
 
 matchup = main[(main["batter"] == batter) & (main["bowler"] == bowler)]
 faced = matchup[matchup["extra_wides"] == 0]

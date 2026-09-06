@@ -7,7 +7,8 @@ if str(ROOT_DIR) not in sys.path:
 
 import streamlit as st
 
-from app.data_loader import load_batting_stats, load_bowling_stats, load_deliveries, load_matches
+from app.components import render_avatar
+from app.data_loader import load_batting_stats, load_bowling_stats, load_deliveries, load_matches, load_player_photos
 from src.analytics.overview import compute_overview
 
 st.set_page_config(page_title="IPL Intelligence", page_icon="🏏", layout="wide")
@@ -53,10 +54,12 @@ with nav_col3:
 st.divider()
 
 st.subheader("Featured Players")
+player_photos = load_player_photos()
 top5 = batting_stats.head(5)
 cols = st.columns(5)
 for col, (_, row) in zip(cols, top5.iterrows()):
     with col:
+        render_avatar(row["player_name"], player_photos.get(row["player_id"]), size=90)
         st.markdown(f"**{row['player_name']}**")
         st.caption(f"{row['runs']:,} runs · SR {row['strike_rate']:.1f}")
 

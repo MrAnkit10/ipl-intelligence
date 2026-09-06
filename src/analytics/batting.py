@@ -28,6 +28,22 @@ def _phase_strike_rates(deliveries: pd.DataFrame) -> pd.DataFrame:
     return wide.reset_index()
 
 
+def compute_dismissal_breakdown(deliveries: pd.DataFrame) -> pd.DataFrame:
+    """Long-format table: player_id, dismissal_kind, count — how a player
+    has been out across their career. Kept separate from compute_batting_stats
+    rather than pivoted into wide columns, since most players only have 2-4
+    of the ~9 dismissal kinds and a wide table would be mostly empty cells."""
+    main = deliveries[~deliveries["is_super_over"]]
+    breakdown = (
+        main.dropna(subset=["player_dismissed_id"])
+        .groupby(["player_dismissed_id", "dismissal_kind"])
+        .size()
+        .reset_index(name="count")
+        .rename(columns={"player_dismissed_id": "player_id"})
+    )
+    return breakdown.sort_values(["player_id", "count"], ascending=[True, False]).reset_index(drop=True)
+
+
 def compute_batting_stats(deliveries: pd.DataFrame) -> pd.DataFrame:
     """One row per player_id with career batting figures.
 
@@ -48,9 +64,16 @@ def compute_batting_stats(deliveries: pd.DataFrame) -> pd.DataFrame:
 
     runs = faced.groupby("batter_id")["runs_batter"].sum().rename("runs")
     balls_faced = faced.groupby("batter_id").size().rename("balls_faced")
-    fours = faced[faced["runs_batter"] == 4].groupby("batter_id").size().rename("fours")
-    sixes = faced[faced["runs_batter"] == 6].groupby("batter_id").size().rename("sixes")
     dots = faced[faced["runs_batter"] == 0].groupby("batter_id").size().rename("dot_balls")
+    ones = faced[faced["runs_batter"] == 1].groupby("batter_id").size().rename("ones")
+    twos = faced[faced["runs_batter"] == 2].groupby("batter_id").size().rename("twos")
+    threes = faced[faced["runs_batter"] == 3].groupby("batter_id").size().rename("threes")
+    fours = faced[faced["runs_batter"] == 4].groupby("batter_id").size().rename("fours")
+    # All-run 5s: rare (74 in the whole dataset) but real — usually an
+    # overthrow credited to the batter — and needed so ones..sixes
+    # reconciles exactly against total runs.
+    fives = faced[faced["runs_batter"] == 5].groupby("batter_id").size().rename("fives")
+    sixes = faced[faced["runs_batter"] == 6].groupby("batter_id").size().rename("sixes")
 
     dismissals = (
         main.dropna(subset=["player_dismissed_id"])
@@ -68,11 +91,15 @@ def compute_batting_stats(deliveries: pd.DataFrame) -> pd.DataFrame:
     names.name = "player_name"
 
     stats = pd.concat(
-        [names, innings_count, runs, balls_faced, fours, sixes, dots, dismissals, fifties, hundreds],
+        [names, innings_count, runs, balls_faced, dots, ones, twos, threes, fours, fives, sixes, dismissals, fifties, hundreds],
         axis=1,
     ).fillna(0)
 
-    for col in ["innings", "runs", "balls_faced", "fours", "sixes", "dot_balls", "dismissals", "fifties", "hundreds"]:
+    count_cols = [
+        "innings", "runs", "balls_faced", "dot_balls", "ones", "twos", "threes",
+        "fours", "fives", "sixes", "dismissals", "fifties", "hundreds",
+    ]
+    for col in count_cols:
         stats[col] = stats[col].astype(int)
 
     stats["batting_average"] = np.where(
@@ -86,6 +113,9 @@ def compute_batting_stats(deliveries: pd.DataFrame) -> pd.DataFrame:
     )
     stats["dot_ball_pct"] = np.where(
         stats["balls_faced"] > 0, stats["dot_balls"] / stats["balls_faced"] * 100, np.nan
+    )
+    stats["runs_from_boundaries_pct"] = np.where(
+        stats["runs"] > 0, (stats["fours"] * 4 + stats["sixes"] * 6) / stats["runs"] * 100, np.nan
     )
 
     stats = stats.reset_index().rename(columns={"index": "batter_id"})

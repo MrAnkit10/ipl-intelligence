@@ -67,6 +67,7 @@ python -m src.data.parse_cricsheet        # build matches/deliveries/players tab
 python -m src.data.validate_data          # sanity-check the parsed tables
 python -m src.analytics.build_stats_tables  # batting/bowling/team/venue stats
 python -m src.analytics.overview          # tournament headline numbers
+python -m src.data.fetch_photos           # player/venue photos from Wikimedia (a few minutes)
 python -m src.features.build_features     # win-probability feature table
 python -m src.models.train                # train, calibrate, evaluate
 python -m src.models.predict              # example live win-probability call
@@ -169,22 +170,44 @@ live win-probability page calls.
 streamlit run app/Home.py
 ```
 
-Seven pages, all reading from the Parquet/CSV tables and the trained model
+Eight pages, all reading from the Parquet/CSV tables and the trained models
 (no live API, no database dependency):
 
-- **Home** — headline tournament numbers, featured players, navigation
+- **Home** — headline tournament numbers, featured players (with photos), navigation
 - **IPL Overview** — team win %, batting-first vs chasing, toss impact, matches per season
-- **Player Analytics** — batting/bowling career stats, strike rate/economy by phase, recent form
-- **Batter vs Bowler** — historical head-to-head, outcome distribution per ball
-- **Venue Analytics** — scoring conditions, chasing vs defending record, scoring by over
+- **Player Analytics** — photo, batting/bowling career stats, run composition (1s/2s/3s/4s/5s/6s
+  breakdown of career runs), dismissal-type breakdown, strike rate/economy by phase, recent form
+- **Batter vs Bowler** — both players' photos, historical head-to-head, outcome distribution per ball
+- **Venue Analytics** — photo, scoring conditions, chasing vs defending record, scoring by over
 - **Live Win Probability** — replays a real historical run chase ball-by-ball through the
   trained model, with a full-match probability timeline annotated with wickets and sixes
   (blueprint Modules 2 and 3)
 - **Model Insights** — validation/test metrics, raw-vs-calibrated calibration curves, methodology
+- **Player Performance Predictor** — expected runs/strike rate/probability thresholds for
+  a player/opponent/venue combination
 
-All 7 pages are checked with Streamlit's `AppTest` headless runner (including
+All 8 pages are checked with Streamlit's `AppTest` headless runner (including
 widget interactions — changing the selected match/player/matchup) as part of
 verifying this works, not just that it imports.
+
+### Player & Venue Photos
+
+Sourced from Wikimedia via `python -m src.data.fetch_photos`. Players are
+matched by Wikidata property P2697 ("Cricinfo player ID") against the
+`key_cricinfo` id already in `players.parquet` — an *exact* id match, not
+name search. That distinction matters: an earlier name-search version of
+this script (searching "JR Hazlewood cricketer" and checking the word
+"cricket" appears on the result) confidently attached **Steve Smith's**
+photo to Josh Hazlewood and the **IPL tournament logo** to Marcus Stoinis,
+because initials-only names search ambiguously and "cricket" appears on
+nearly every cricket-related Wikipedia page. An exact id join can't make
+that mistake — a player with no matching Wikidata claim just gets no
+photo, never a wrong one. Coverage: 348/805 players overall, but 45/50
+(90%) of the top run-scorers — the players people actually look up.
+Venues (no equivalent id available) use name search with a stricter
+check — the venue's own distinguishing word must appear in the matched
+page title — reaching 24/36 (67%). Everywhere a photo isn't found, the app
+shows a generated colored-initials avatar instead of guessing.
 
 ## Player Performance Predictor
 

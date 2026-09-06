@@ -1,0 +1,2182 @@
+player_id,dismissal_kind,count
+00ea847a,caught,84
+00ea847a,bowled,22
+00ea847a,lbw,4
+00ea847a,run out,4
+00ea847a,caught and bowled,3
+00ea847a,stumped,3
+0184dc35,caught,47
+0184dc35,bowled,16
+0184dc35,run out,6
+0184dc35,caught and bowled,5
+0184dc35,lbw,2
+0184dc35,stumped,1
+025c4400,caught,1
+0264c10e,caught and bowled,1
+0264c10e,run out,1
+034b4b7d,caught,1
+034b4b7d,run out,1
+03806cf8,run out,1
+0404d43c,caught,1
+0494fa6e,caught,4
+0494fa6e,bowled,1
+0494fa6e,run out,1
+04a418e8,caught,53
+04a418e8,bowled,13
+04a418e8,lbw,3
+04a418e8,run out,3
+04a418e8,hit wicket,1
+05c2ca46,caught,5
+05c2ca46,stumped,3
+05c2ca46,bowled,2
+05c2ca46,run out,1
+0604ef16,caught,5
+0604ef16,run out,2
+063b3673,bowled,4
+063b3673,caught,3
+063b3673,caught and bowled,2
+063b3673,run out,1
+08548b13,caught,3
+08548b13,retired hurt,1
+0890552f,caught,13
+0890552f,bowled,4
+0890552f,hit wicket,1
+0890552f,stumped,1
+0994d0ae,caught,35
+0994d0ae,bowled,9
+0994d0ae,lbw,2
+0994d0ae,run out,1
+0a3d54b9,caught,2
+0a3d54b9,run out,2
+0a3d54b9,bowled,1
+0a476045,caught,112
+0a476045,bowled,40
+0a476045,run out,16
+0a476045,lbw,13
+0a476045,stumped,8
+0a476045,caught and bowled,3
+0a476045,retired hurt,1
+0a4ebc61,bowled,1
+0a4ebc61,run out,1
+0a509d6b,caught,33
+0a509d6b,bowled,4
+0a509d6b,caught and bowled,1
+0a509d6b,lbw,1
+0a509d6b,run out,1
+0a509d6b,stumped,1
+0a67aec0,caught,2
+0a67aec0,caught and bowled,1
+0a8fce53,bowled,1
+0a8fce53,caught,1
+0aadc906,caught,6
+0aadc906,bowled,1
+0aadc906,caught and bowled,1
+0b60eb09,caught,1
+0bacade8,caught,13
+0bacade8,lbw,3
+0bacade8,bowled,1
+0c2730df,bowled,1
+0c2730df,caught,1
+0c2730df,run out,1
+0c94f480,caught,13
+0c94f480,bowled,6
+0c94f480,stumped,1
+0c9652b0,caught,2
+0c9652b0,bowled,1
+0d232ffd,caught,1
+0d232ffd,hit wicket,1
+0dc00542,caught,7
+0dc00542,lbw,1
+0ebfb1ad,caught,17
+0ebfb1ad,bowled,3
+0ebfb1ad,lbw,3
+0ebfb1ad,stumped,1
+0ed0cdbf,run out,1
+0f12f9df,caught,17
+0f12f9df,bowled,4
+0f12f9df,run out,1
+0f721006,caught,23
+0f721006,run out,2
+0f721006,lbw,1
+0fa5042b,run out,3
+0fa5042b,caught,2
+10a91f35,caught,1
+11614d87,caught,2
+11614d87,lbw,2
+119678fd,caught,18
+119678fd,run out,4
+119678fd,bowled,2
+119678fd,caught and bowled,1
+119678fd,lbw,1
+11df3dc8,caught,6
+11df3dc8,run out,2
+11df3dc8,stumped,2
+11df3dc8,bowled,1
+11df3dc8,lbw,1
+12314277,caught,4
+12314277,bowled,2
+12314277,lbw,1
+12b610c2,caught,36
+12b610c2,bowled,9
+12b610c2,run out,2
+12b610c2,caught and bowled,1
+12eddf28,caught,9
+12eddf28,bowled,2
+12eddf28,lbw,1
+1399b39c,caught,6
+1399b39c,bowled,1
+1399b39c,caught and bowled,1
+1399b39c,lbw,1
+13c35c9e,caught,7
+13c35c9e,bowled,3
+13c35c9e,run out,3
+13fc5c6d,bowled,1
+14f96089,caught,2
+14f96089,run out,2
+14f96089,bowled,1
+16043342,caught,3
+16043342,bowled,1
+16043342,caught and bowled,1
+1647bd37,bowled,1
+16dfcc19,caught,2
+16dfcc19,run out,1
+172dff15,caught,2
+172dff15,run out,1
+1763bc6c,caught and bowled,1
+18c78b11,bowled,4
+18c78b11,caught,1
+18c78b11,stumped,1
+18e6906e,caught,1
+1a0c3177,caught,2
+1a156c88,caught,4
+1a156c88,run out,2
+1a156c88,bowled,1
+1a2676c5,caught,2
+1a2676c5,run out,1
+1abb78f8,caught,19
+1abb78f8,run out,5
+1abb78f8,lbw,4
+1abb78f8,bowled,2
+1ac746c8,caught,5
+1ac746c8,caught and bowled,2
+1ac746c8,bowled,1
+1ac746c8,lbw,1
+1ac746c8,retired out,1
+1b7b0fa7,caught,1
+1be70c88,caught,2
+1c17e270,caught,124
+1c17e270,lbw,18
+1c17e270,bowled,15
+1c17e270,run out,9
+1c17e270,stumped,8
+1c17e270,caught and bowled,6
+1c2a64cd,caught,8
+1c2a64cd,bowled,5
+1c2a64cd,run out,2
+1c84109e,caught,4
+1c84109e,bowled,1
+1c84109e,caught and bowled,1
+1c914163,caught,84
+1c914163,bowled,10
+1c914163,run out,6
+1c914163,lbw,5
+1c914163,stumped,3
+1c914163,caught and bowled,2
+1c914163,hit wicket,1
+1da489ff,caught,1
+1dc12ab9,caught,115
+1dc12ab9,bowled,16
+1dc12ab9,run out,15
+1dc12ab9,caught and bowled,9
+1dc12ab9,stumped,8
+1dc12ab9,lbw,7
+1e66c162,caught,8
+1e66c162,run out,4
+1e66c162,bowled,2
+1e66c162,caught and bowled,1
+1e66c162,lbw,1
+1ee08e9a,caught,2
+1ee08e9a,bowled,1
+1efb8a28,caught,6
+1efb8a28,bowled,1
+1fc6ef83,caught,6
+1fc6ef83,bowled,1
+1fc6ef83,run out,1
+2049f3a0,bowled,1
+20a941bb,bowled,1
+21d4e29b,caught,3
+21d4e29b,bowled,1
+235c2bb6,caught,35
+235c2bb6,bowled,12
+235c2bb6,lbw,1
+235c2bb6,run out,1
+235c2bb6,stumped,1
+23ac69e6,caught,4
+23ac69e6,lbw,2
+23ac69e6,bowled,1
+23cca426,caught,2
+23cca426,caught and bowled,1
+23eeb873,caught,7
+23eeb873,stumped,2
+23eeb873,lbw,1
+244048f6,caught,3
+244048f6,run out,3
+245c97cb,caught,3
+245c97cb,bowled,1
+2461eef2,caught,6
+2461eef2,bowled,2
+2461eef2,run out,1
+2461eef2,stumped,1
+2498e163,caught,13
+2498e163,lbw,2
+2498e163,run out,1
+249d60c9,caught,1
+249d60c9,stumped,1
+24d94623,caught,7
+2503e881,run out,1
+25228673,bowled,1
+25228673,caught,1
+25eeb281,caught,18
+25eeb281,bowled,3
+25eeb281,run out,1
+25f7b7d6,bowled,1
+25f7b7d6,caught,1
+26989d80,caught,16
+26989d80,lbw,4
+26989d80,run out,3
+26989d80,bowled,1
+26989d80,caught and bowled,1
+26a85969,bowled,3
+26a85969,caught,3
+26a85969,lbw,2
+26a85969,run out,2
+26a85969,stumped,1
+26d041c4,caught,6
+26d041c4,bowled,1
+26d76ad9,caught,2
+26e5cabf,caught,30
+26e5cabf,bowled,11
+26e5cabf,lbw,7
+26e5cabf,run out,6
+26e5cabf,stumped,4
+26e5cabf,caught and bowled,1
+26ff4c29,run out,2
+26ff4c29,caught,1
+271f83cd,caught,104
+271f83cd,bowled,13
+271f83cd,lbw,8
+271f83cd,run out,5
+271f83cd,caught and bowled,4
+271f83cd,stumped,2
+2728e7e9,caught,4
+2728e7e9,run out,4
+2728e7e9,bowled,2
+2728e7e9,stumped,1
+272d796e,caught,2
+272d796e,bowled,1
+27af6414,bowled,3
+27af6414,caught,3
+2815fe50,caught,8
+2815fe50,run out,3
+2815fe50,bowled,2
+287686fd,caught,3
+28c78fb3,caught,2
+28c78fb3,caught and bowled,2
+28c78fb3,run out,2
+28c78fb3,bowled,1
+297b26da,caught,4
+29d72eb2,caught,1
+29d72eb2,run out,1
+29e95537,caught,114
+29e95537,bowled,22
+29e95537,lbw,19
+29e95537,caught and bowled,9
+29e95537,run out,8
+29e95537,stumped,6
+2a2e6343,caught,17
+2a2e6343,bowled,5
+2a2e6343,lbw,4
+2a2e6343,run out,4
+2a2e6343,stumped,1
+2a72fd4f,run out,2
+2a72fd4f,caught,1
+2a72fd4f,lbw,1
+2af1b6d2,bowled,1
+2b6e6dec,caught,53
+2b6e6dec,bowled,12
+2b6e6dec,lbw,4
+2b6e6dec,stumped,3
+2b6e6dec,caught and bowled,2
+2b6e6dec,run out,2
+2bb09eb2,caught,1
+2be41edb,caught,10
+2be41edb,lbw,2
+2c25d4f5,caught,54
+2c25d4f5,bowled,24
+2c25d4f5,lbw,4
+2c25d4f5,caught and bowled,2
+2c25d4f5,run out,1
+2c76b512,run out,1
+2cdce1be,caught,3
+2cdce1be,bowled,1
+2cdce1be,caught and bowled,1
+2cdce1be,run out,1
+2cffab74,caught,1
+2d140b79,caught,3
+2d140b79,lbw,1
+2e11c706,caught,6
+2e11c706,bowled,2
+2e11c706,lbw,1
+2e11c706,run out,1
+2e11c706,stumped,1
+2e171977,caught,62
+2e171977,bowled,16
+2e171977,run out,9
+2e171977,lbw,5
+2e171977,stumped,3
+2e171977,caught and bowled,1
+2e171977,retired hurt,1
+2e81a32d,caught,19
+2e81a32d,bowled,11
+2e81a32d,run out,5
+2e81a32d,lbw,2
+2e81a32d,caught and bowled,1
+2e8994e7,caught,30
+2e8994e7,bowled,10
+2e8994e7,run out,6
+2e8994e7,caught and bowled,3
+2e8994e7,lbw,1
+2e8994e7,stumped,1
+2ed569a0,caught,10
+2ed569a0,bowled,2
+2ed569a0,lbw,2
+2ed569a0,run out,2
+2eeb4370,caught,1
+2f49c897,caught,7
+2f49c897,lbw,2
+2f49c897,run out,2
+2f49c897,bowled,1
+2f9d0389,caught,2
+2f9d0389,run out,1
+30a2649b,caught,7
+30a2649b,lbw,1
+30a2649b,run out,1
+30a2649b,stumped,1
+30a45b23,caught,45
+30a45b23,bowled,17
+30a45b23,run out,4
+30a45b23,caught and bowled,3
+30a45b23,lbw,3
+30df8c66,bowled,2
+30df8c66,lbw,1
+30e37810,caught,3
+30e37810,run out,1
+3204c99f,caught,3
+3204c99f,bowled,2
+3204c99f,caught and bowled,1
+32198ae0,caught,20
+32198ae0,bowled,5
+32198ae0,stumped,5
+32198ae0,caught and bowled,3
+32198ae0,lbw,2
+32198ae0,run out,1
+3241e3fd,caught,57
+3241e3fd,bowled,10
+3241e3fd,lbw,7
+3241e3fd,run out,4
+3241e3fd,caught and bowled,2
+327b58d3,bowled,1
+327b58d3,caught,1
+327b58d3,lbw,1
+327b58d3,run out,1
+331ea488,caught,3
+331ea488,run out,2
+331ea488,stumped,1
+3355b542,caught,97
+3355b542,bowled,15
+3355b542,run out,12
+3355b542,stumped,7
+3355b542,caught and bowled,3
+3355b542,lbw,2
+33a364a6,caught,17
+33a364a6,bowled,5
+33a364a6,run out,5
+33a364a6,caught and bowled,2
+33a364a6,stumped,1
+33cb3411,bowled,1
+33ffc3dd,caught,1
+350bb1b1,bowled,2
+350bb1b1,caught,2
+35205dfc,caught,48
+35205dfc,bowled,18
+35205dfc,lbw,12
+35205dfc,run out,5
+35205dfc,caught and bowled,1
+3576e47e,caught,31
+3576e47e,lbw,4
+3576e47e,run out,4
+3576e47e,caught and bowled,3
+3576e47e,stumped,3
+3576e47e,bowled,2
+35f173a0,bowled,1
+36d33dd0,caught,2
+36d33dd0,bowled,1
+36d33dd0,run out,1
+372455c4,caught,78
+372455c4,bowled,16
+372455c4,lbw,7
+372455c4,caught and bowled,5
+372455c4,run out,3
+372455c4,stumped,1
+378daa89,caught,7
+378daa89,bowled,2
+38f2c66c,run out,1
+39086549,caught,2
+39086549,lbw,1
+39086549,stumped,1
+39a2dfa8,caught,39
+39a2dfa8,bowled,6
+39a2dfa8,run out,6
+39a2dfa8,lbw,4
+39ed0d2f,caught,2
+39ed0d2f,caught and bowled,1
+39f01cdb,caught,12
+39f01cdb,bowled,8
+39f01cdb,stumped,3
+39f01cdb,lbw,2
+39f01cdb,run out,2
+39f01cdb,retired hurt,1
+39f82db3,caught,3
+39f82db3,run out,1
+3a02626a,caught,3
+3a02626a,bowled,1
+3a02626a,stumped,1
+3a60e0b5,caught,5
+3a60e0b5,run out,3
+3a60e0b5,bowled,2
+3ae3f034,bowled,2
+3ae3f034,caught,2
+3ae3f034,lbw,1
+3b53243a,bowled,1
+3b53243a,run out,1
+3c28853f,caught,1
+3c55c703,caught,7
+3c55c703,bowled,1
+3c55c703,caught and bowled,1
+3c6ffae8,caught,76
+3c6ffae8,bowled,11
+3c6ffae8,run out,11
+3c6ffae8,lbw,5
+3c6ffae8,caught and bowled,4
+3c6ffae8,stumped,2
+3c6ffae8,obstructing the field,1
+3cea23da,caught,4
+3cea23da,caught and bowled,1
+3d284ca3,caught,25
+3d284ca3,bowled,7
+3d284ca3,caught and bowled,3
+3d284ca3,run out,1
+3d284ca3,stumped,1
+3d7e087f,bowled,4
+3d7e087f,caught,3
+3d8feaf8,caught,40
+3d8feaf8,bowled,11
+3d8feaf8,run out,5
+3d8feaf8,caught and bowled,2
+3d8feaf8,lbw,2
+3dba85c2,caught,3
+3dba85c2,bowled,1
+3dba85c2,lbw,1
+3dba85c2,run out,1
+3eac9d95,caught,5
+3eac9d95,bowled,2
+3eac9d95,caught and bowled,1
+3edb58fc,caught,4
+3edb58fc,bowled,3
+3edb58fc,run out,2
+3fb19989,caught,7
+3fb19989,run out,3
+3fb19989,bowled,2
+3fca55af,caught,12
+3fca55af,bowled,3
+3fca55af,run out,3
+3fca55af,lbw,2
+3ff033bb,caught,6
+3ff033bb,run out,1
+40caa465,caught,2
+40caa465,run out,1
+4125d931,caught,2
+4125d931,run out,1
+4125d931,stumped,1
+4180d897,run out,1
+41eb4a4f,caught,13
+41eb4a4f,bowled,10
+41eb4a4f,run out,4
+41eb4a4f,stumped,1
+4329fbb5,caught,70
+4329fbb5,bowled,35
+4329fbb5,run out,9
+4329fbb5,lbw,6
+4329fbb5,stumped,4
+4329fbb5,caught and bowled,1
+441c72ae,caught,1
+44a89551,caught,7
+44aac2f0,caught,1
+44afbf2d,bowled,2
+44afbf2d,caught,1
+45a43fe2,caught,59
+45a43fe2,bowled,8
+45a43fe2,run out,3
+45a43fe2,lbw,2
+45a43fe2,stumped,2
+45c2196c,caught,1
+45eda7c8,caught,21
+45eda7c8,bowled,9
+45eda7c8,caught and bowled,4
+45eda7c8,lbw,3
+45eda7c8,run out,2
+462411b3,caught,5
+462411b3,run out,2
+462411b3,bowled,1
+465aa633,run out,1
+4663bd23,caught,3
+4663bd23,bowled,2
+4663bd23,run out,1
+46a9bea1,caught,4
+470f446b,caught,18
+470f446b,bowled,3
+470f446b,lbw,1
+470f446b,stumped,1
+4885bbe6,caught,3
+4885bbe6,run out,1
+48a1d7b7,caught,45
+48a1d7b7,bowled,5
+48a1d7b7,run out,4
+48a1d7b7,caught and bowled,1
+48a1d7b7,lbw,1
+48a1d7b7,stumped,1
+48fd7349,caught,29
+48fd7349,bowled,15
+48fd7349,run out,4
+48fd7349,lbw,2
+48fd7349,stumped,1
+495d42a5,caught,43
+495d42a5,run out,8
+495d42a5,bowled,7
+495d42a5,caught and bowled,2
+495d42a5,stumped,2
+495d42a5,lbw,1
+495d42a5,retired out,1
+4a8a2e3b,caught,98
+4a8a2e3b,bowled,20
+4a8a2e3b,run out,10
+4a8a2e3b,lbw,7
+4a8a2e3b,caught and bowled,4
+4a8a2e3b,stumped,3
+4ae1755b,bowled,4
+4ae1755b,caught,3
+4ae1755b,lbw,1
+4ae1755b,stumped,1
+4b57e452,caught,52
+4b57e452,bowled,19
+4b57e452,run out,12
+4b57e452,lbw,10
+4b57e452,stumped,5
+4b57e452,caught and bowled,3
+4ba44e19,caught,2
+4ba44e19,run out,2
+4ba44e19,bowled,1
+4ba44e19,lbw,1
+4c4fa80b,run out,1
+4c5d73db,caught,4
+4c5d73db,run out,1
+4c5d73db,stumped,1
+4d5a1617,caught,2
+4d5a1617,run out,1
+4d6d6280,caught,4
+4d6d6280,lbw,2
+4d6d6280,bowled,1
+4e04666c,caught,4
+4e04666c,bowled,2
+4e04666c,lbw,2
+4ec07775,caught,6
+4ec07775,lbw,5
+4ec07775,run out,2
+4ec07775,bowled,1
+4f629497,bowled,1
+5056011d,caught,16
+5056011d,bowled,4
+5056011d,run out,4
+5056011d,stumped,2
+5056011d,lbw,1
+508a1ea7,caught,35
+508a1ea7,bowled,16
+508a1ea7,caught and bowled,3
+508a1ea7,lbw,3
+508a1ea7,run out,3
+508a1ea7,stumped,2
+50c6bc2b,caught,25
+50c6bc2b,bowled,7
+50c6bc2b,lbw,5
+50c6bc2b,stumped,3
+50c6bc2b,caught and bowled,1
+50c6bc2b,run out,1
+51a3c5ef,caught,6
+51a3c5ef,run out,3
+51a3c5ef,bowled,2
+51a3c5ef,lbw,1
+51a3c5ef,stumped,1
+529eb9e0,run out,1
+53f27a35,caught,2
+53f27a35,bowled,1
+53f27a35,lbw,1
+53f27a35,run out,1
+53fe6ee4,lbw,2
+541f85c9,caught,15
+541f85c9,bowled,2
+541f85c9,run out,2
+541f85c9,caught and bowled,1
+5451a2c1,caught,10
+5451a2c1,bowled,4
+5451a2c1,lbw,1
+548516a6,lbw,1
+54e52590,caught,2
+557153ca,caught,7
+557153ca,bowled,1
+557153ca,stumped,1
+5574750c,caught,18
+5574750c,run out,3
+5574750c,bowled,2
+5574750c,caught and bowled,1
+5574750c,lbw,1
+5673a3fc,caught,1
+56ab442f,caught,6
+56ab442f,bowled,3
+56ab442f,lbw,1
+56ab442f,run out,1
+5724e517,bowled,1
+5748e866,bowled,1
+5748e866,caught,1
+5750bcb4,caught,1
+57ca01b3,caught,3
+57ca01b3,lbw,1
+57ee1fde,caught,4
+57ee1fde,run out,2
+57ee1fde,lbw,1
+57efa3be,caught,4
+57efa3be,bowled,2
+57efa3be,lbw,1
+59559bc2,caught,4
+59559bc2,run out,1
+5afd4539,caught,18
+5afd4539,bowled,9
+5afd4539,run out,5
+5afd4539,stumped,4
+5afd4539,lbw,2
+5b040b81,bowled,2
+5b040b81,caught and bowled,1
+5b040b81,stumped,1
+5b7ab5a9,run out,3
+5b7ab5a9,bowled,2
+5b7ab5a9,caught,1
+5b8c830e,caught,59
+5b8c830e,bowled,7
+5b8c830e,caught and bowled,6
+5b8c830e,run out,6
+5b8c830e,lbw,3
+5b8c830e,stumped,3
+5b8c830e,retired hurt,2
+5b8c830e,hit wicket,1
+5bb1a1c4,bowled,2
+5bb1a1c4,caught,2
+5bb1a1c4,caught and bowled,1
+5bb1a1c4,run out,1
+5bb5a915,caught,6
+5bb5a915,bowled,3
+5bb5a915,run out,1
+5bb5a915,stumped,1
+5bdcdb72,caught,24
+5bdcdb72,bowled,11
+5bdcdb72,run out,4
+5bdcdb72,lbw,3
+5bdcdb72,stumped,1
+5d096f3d,bowled,2
+5d096f3d,run out,1
+5d1e7582,hit wicket,1
+5d2eea49,caught,3
+5d2eea49,bowled,2
+5d2eea49,caught and bowled,1
+5d2eea49,run out,1
+5d9a1a73,caught,6
+5d9a1a73,bowled,4
+5d9a1a73,run out,4
+5f26df4f,bowled,1
+5f4e9e8f,bowled,1
+5f547c8b,caught,28
+5f547c8b,caught and bowled,6
+5f547c8b,bowled,4
+5f547c8b,run out,4
+5f547c8b,lbw,3
+5f547c8b,hit wicket,1
+5f5d3ad4,run out,1
+5fa06777,caught,31
+5fa06777,run out,9
+5fa06777,bowled,8
+5fa06777,stumped,3
+5fa06777,caught and bowled,1
+5fa06777,lbw,1
+5ffc0565,caught,3
+5ffc0565,run out,2
+5ffc0565,bowled,1
+5ffc0565,caught and bowled,1
+5ffc0565,stumped,1
+60500956,caught,3
+60500956,run out,2
+605b7efa,caught,5
+605b7efa,lbw,1
+605b7efa,run out,1
+60aa2db3,caught,1
+60aa2db3,run out,1
+611926bc,caught,1
+6165bca6,bowled,2
+619aa81f,caught,7
+619aa81f,run out,1
+626c5379,caught,9
+626c5379,bowled,3
+626c5379,run out,3
+626c5379,lbw,1
+626c5379,stumped,1
+62af8546,caught,10
+62af8546,bowled,3
+62af8546,run out,2
+62af8546,caught and bowled,1
+641ac5ff,caught,2
+64a4c383,bowled,1
+64a4c383,caught,1
+64c34cd0,caught,3
+64c34cd0,bowled,1
+64d43928,caught,2
+64d43928,bowled,1
+650d5e49,caught,14
+650d5e49,lbw,6
+650d5e49,bowled,3
+650d5e49,caught and bowled,1
+650d5e49,run out,1
+6581d753,bowled,1
+6581d753,stumped,1
+662c47a6,caught,8
+662c47a6,bowled,3
+662c47a6,lbw,2
+662c47a6,run out,1
+663b5e34,caught,3
+66b30f71,caught,4
+66b30f71,bowled,3
+66b30f71,run out,2
+66b30f71,lbw,1
+66cf56a5,caught,4
+66cf56a5,bowled,1
+670709ec,caught,1
+670709ec,run out,1
+6821ac10,caught,1
+6821ac10,lbw,1
+68c56d09,run out,3
+68c56d09,caught,1
+68c56d09,lbw,1
+69762509,bowled,1
+69be866a,caught,3
+69be866a,bowled,1
+69d03465,caught,2
+6a26221c,caught,38
+6a26221c,bowled,11
+6a26221c,lbw,3
+6a26221c,stumped,2
+6a26221c,run out,1
+6aed7e79,caught,1
+6aed7e79,run out,1
+6afb26d6,caught,7
+6afb26d6,lbw,3
+6afb26d6,bowled,2
+6afb26d6,run out,2
+6afb26d6,stumped,2
+6b19d823,caught,10
+6b19d823,run out,10
+6b19d823,bowled,9
+6b19d823,caught and bowled,1
+6b19d823,lbw,1
+6b19d823,obstructing the field,1
+6b2ff18f,caught,8
+6b2ff18f,bowled,1
+6b2ff18f,lbw,1
+6b71e6cf,caught,40
+6b71e6cf,bowled,14
+6b71e6cf,caught and bowled,4
+6b71e6cf,stumped,3
+6b71e6cf,lbw,2
+6b71e6cf,run out,2
+6b8eb6e5,bowled,1
+6b8eb6e5,caught,1
+6b8eb6e5,lbw,1
+6b8eb6e5,run out,1
+6c19c6e5,caught,56
+6c19c6e5,bowled,12
+6c19c6e5,caught and bowled,6
+6c19c6e5,lbw,2
+6c19c6e5,run out,1
+6c6591ab,caught,5
+6c6591ab,run out,4
+6c6591ab,bowled,3
+6c882e9a,caught,9
+6c882e9a,bowled,1
+6c882e9a,lbw,1
+6c882e9a,retired hurt,1
+6c882e9a,run out,1
+6dbcf855,bowled,1
+6dbcf855,caught,1
+6eb146d2,caught,12
+6eb146d2,bowled,4
+6eb146d2,caught and bowled,2
+6eb146d2,lbw,2
+6eb146d2,run out,2
+6eb146d2,stumped,2
+6ec424a9,caught,1
+6ef60d3a,caught,1
+6f49cc6e,bowled,1
+7023d182,caught,2
+7050a1e7,bowled,4
+7050a1e7,caught,4
+7050a1e7,lbw,3
+7050a1e7,run out,2
+7050a1e7,caught and bowled,1
+709b0bac,caught,36
+709b0bac,bowled,4
+709b0bac,run out,4
+709b0bac,lbw,3
+709b0bac,stumped,3
+709b0bac,caught and bowled,1
+709b0bac,hit wicket,1
+70d205c9,caught,92
+70d205c9,bowled,29
+70d205c9,run out,15
+70d205c9,caught and bowled,7
+70d205c9,stumped,7
+70d205c9,lbw,4
+70d205c9,retired hurt,1
+710dd98c,caught,2
+710dd98c,bowled,1
+7210d461,caught,1
+7210d461,caught and bowled,1
+7210d461,lbw,1
+725529bc,caught,37
+725529bc,bowled,9
+725529bc,lbw,2
+725529bc,run out,2
+725529bc,stumped,2
+725529bc,caught and bowled,1
+72861603,caught,20
+72861603,bowled,2
+72861603,stumped,2
+72861603,caught and bowled,1
+72861603,lbw,1
+73ad96ed,caught,52
+73ad96ed,run out,10
+73ad96ed,bowled,8
+73ad96ed,lbw,6
+73ad96ed,stumped,5
+73ad96ed,caught and bowled,3
+73ad96ed,hit wicket,1
+73c18486,caught,9
+73c18486,bowled,4
+740742ef,caught,174
+740742ef,bowled,30
+740742ef,lbw,17
+740742ef,run out,11
+740742ef,caught and bowled,10
+740742ef,stumped,3
+740742ef,retired hurt,1
+75224f22,bowled,2
+75224f22,caught,1
+75224f22,lbw,1
+75224f22,run out,1
+752f7486,caught,89
+752f7486,bowled,15
+752f7486,run out,7
+752f7486,lbw,3
+752f7486,caught and bowled,2
+752f7486,stumped,2
+756389bd,caught,8
+759ac88f,caught,10
+759ac88f,run out,5
+759ac88f,bowled,3
+75de770f,caught,2
+75de770f,run out,1
+76388dc8,bowled,3
+76388dc8,caught,1
+76388dc8,lbw,1
+765a4731,run out,1
+77255a9e,caught,63
+77255a9e,bowled,11
+77255a9e,caught and bowled,5
+77255a9e,run out,5
+77255a9e,lbw,3
+77255a9e,retired hurt,1
+77b1aa15,caught,2
+77b1aa15,run out,2
+77b1aa15,bowled,1
+77b1aa15,caught and bowled,1
+78eb4223,bowled,1
+798cc28e,caught,1
+7a8bd078,caught,10
+7a8bd078,run out,2
+7a8bd078,bowled,1
+7a8bd078,stumped,1
+7b44eb3e,caught,5
+7b44eb3e,bowled,1
+7b679de5,caught,6
+7b679de5,lbw,2
+7b679de5,run out,1
+7bb62642,caught,2
+7bb62642,bowled,1
+7bb62642,caught and bowled,1
+7bf96684,caught,5
+7bf96684,run out,5
+7bf96684,bowled,3
+7bf96684,stumped,2
+7c3b3b78,bowled,2
+7c3b3b78,caught,1
+7c3b3b78,run out,1
+7c3c0337,caught,1
+7c503806,caught,9
+7c503806,bowled,4
+7c503806,lbw,3
+7c503806,caught and bowled,2
+7c503806,run out,2
+7c7d63a2,caught,5
+7c7d63a2,bowled,2
+7c7d63a2,lbw,1
+7c7d63a2,run out,1
+7ca5e05d,caught,13
+7ca5e05d,lbw,3
+7ca5e05d,bowled,1
+7ca5e05d,run out,1
+7d3720ba,caught,1
+7d3937ed,bowled,1
+7d3937ed,lbw,1
+7d3937ed,retired hurt,1
+7d415ea5,caught,5
+7d415ea5,caught and bowled,1
+7d415ea5,lbw,1
+7d415ea5,run out,1
+7d415ea5,stumped,1
+7d92277a,caught,2
+7d92277a,bowled,1
+7daedf2f,caught,2
+7daedf2f,bowled,1
+7daedf2f,run out,1
+7daedf2f,stumped,1
+7dc35884,caught,23
+7dc35884,bowled,10
+7dc35884,run out,4
+7dc35884,lbw,2
+7dc35884,caught and bowled,1
+7dcb9bc9,caught,21
+7dcb9bc9,run out,6
+7dcb9bc9,bowled,5
+7dcb9bc9,lbw,3
+7dcb9bc9,stumped,3
+7eae4418,caught,4
+7eae4418,lbw,2
+7eae4418,hit wicket,1
+7f048519,bowled,1
+7f048519,caught,1
+800d2d97,caught,35
+800d2d97,bowled,6
+800d2d97,lbw,5
+800d2d97,caught and bowled,1
+800d2d97,stumped,1
+808f425a,caught,18
+808f425a,bowled,6
+808f425a,caught and bowled,1
+81049310,run out,2
+81049310,caught,1
+81049310,caught and bowled,1
+81c08fa3,lbw,1
+81c08fa3,run out,1
+81c36ee9,caught,11
+81c36ee9,bowled,4
+8291f939,caught,15
+8291f939,bowled,3
+8291f939,caught and bowled,2
+8291f939,run out,1
+83c3e8e3,caught,1
+844e79d1,caught,15
+844e79d1,bowled,5
+844e79d1,lbw,2
+844e79d1,caught and bowled,1
+844e79d1,stumped,1
+84d9c311,caught,13
+84d9c311,run out,3
+84d9c311,bowled,1
+84d9c311,lbw,1
+84d9c311,stumped,1
+855a210c,caught,17
+855a210c,bowled,4
+855a210c,run out,2
+855a210c,caught and bowled,1
+85aae393,caught,1
+85aae393,run out,1
+85b3fab2,caught,14
+85b3fab2,bowled,4
+85b3fab2,run out,4
+85b3fab2,lbw,3
+85e0cf10,run out,2
+85e0cf10,caught,1
+85ec8e33,caught,84
+85ec8e33,bowled,17
+85ec8e33,lbw,7
+85ec8e33,run out,4
+85ec8e33,stumped,4
+85ec8e33,caught and bowled,2
+864c199e,caught,4
+86dc8f2e,caught,60
+86dc8f2e,bowled,16
+86dc8f2e,run out,5
+86dc8f2e,lbw,3
+86dc8f2e,caught and bowled,1
+871e9faf,bowled,1
+872b03f7,caught,32
+872b03f7,bowled,4
+872b03f7,run out,4
+872b03f7,stumped,4
+872b03f7,hit wicket,1
+872b03f7,lbw,1
+87e562a9,caught,44
+87e562a9,bowled,12
+87e562a9,lbw,6
+87e562a9,caught and bowled,4
+87e562a9,run out,2
+87e562a9,stumped,1
+881a9bdd,caught,3
+88fccd6c,bowled,4
+88fccd6c,caught,4
+890946a0,caught,54
+890946a0,bowled,9
+890946a0,run out,6
+890946a0,stumped,3
+890946a0,lbw,2
+890946a0,caught and bowled,1
+896d78ad,caught,20
+896d78ad,bowled,4
+896d78ad,run out,4
+896d78ad,lbw,2
+896d78ad,stumped,1
+8998a68f,caught,2
+89f64c19,caught,16
+89f64c19,bowled,6
+89f64c19,lbw,3
+89f64c19,caught and bowled,1
+89f64c19,run out,1
+8a668774,caught,1
+8a668774,run out,1
+8abdf100,caught,11
+8abdf100,bowled,4
+8abdf100,run out,3
+8abdf100,stumped,3
+8abdf100,lbw,1
+8ac93ca2,caught,1
+8b3e9c7c,caught,54
+8b3e9c7c,bowled,12
+8b3e9c7c,caught and bowled,5
+8b3e9c7c,run out,4
+8b3e9c7c,lbw,3
+8b3e9c7c,stumped,1
+8b5b6769,caught,33
+8b5b6769,bowled,7
+8b5b6769,run out,7
+8b5b6769,lbw,6
+8b5b6769,retired hurt,2
+8ba8195d,caught,70
+8ba8195d,bowled,15
+8ba8195d,run out,7
+8ba8195d,lbw,4
+8ba8195d,caught and bowled,2
+8ba8195d,stumped,1
+8cf9814c,caught,11
+8cf9814c,bowled,3
+8cf9814c,run out,3
+8cf9814c,lbw,1
+8cf9814c,stumped,1
+8d2c70ad,run out,8
+8d2c70ad,caught,4
+8d2c70ad,bowled,3
+8d2c70ad,lbw,3
+8d92a2c3,bowled,1
+8d92a2c3,caught,1
+8e514b4c,caught,28
+8e514b4c,bowled,6
+8e514b4c,caught and bowled,4
+8e514b4c,run out,4
+8e514b4c,lbw,2
+8ee36b18,caught,7
+8ee36b18,lbw,2
+8ee36b18,stumped,1
+8f6dd463,caught,10
+8fd1a8f5,bowled,8
+8fd1a8f5,caught,8
+8fd1a8f5,run out,3
+8fd1a8f5,lbw,2
+8fd1a8f5,caught and bowled,1
+90de905a,caught,14
+90de905a,run out,3
+90de905a,lbw,1
+90edaaa9,bowled,3
+90edaaa9,caught,1
+9170ff49,caught,1
+9170ff49,caught and bowled,1
+919a3be2,caught,82
+919a3be2,bowled,16
+919a3be2,run out,9
+919a3be2,lbw,5
+919a3be2,stumped,2
+919a3be2,caught and bowled,1
+91a4a398,caught,6
+91a4a398,bowled,5
+91a4a398,run out,2
+91a4a398,caught and bowled,1
+91b9300b,bowled,1
+91ffa6c6,caught,17
+91ffa6c6,bowled,7
+91ffa6c6,run out,2
+91ffa6c6,caught and bowled,1
+91ffa6c6,stumped,1
+9219eff0,caught,7
+9219eff0,caught and bowled,1
+9219eff0,run out,1
+926c7443,caught,3
+926c7443,bowled,1
+92aeac25,caught,3
+92aeac25,bowled,2
+92aeac25,lbw,1
+9385de2e,caught,6
+9385de2e,run out,2
+9385de2e,bowled,1
+9385de2e,stumped,1
+93a17209,bowled,1
+93a17209,caught,1
+93b4fc78,caught,80
+93b4fc78,bowled,32
+93b4fc78,lbw,9
+93b4fc78,run out,7
+93b4fc78,caught and bowled,6
+93b4fc78,stumped,2
+9418198b,caught,48
+9418198b,lbw,6
+9418198b,bowled,5
+9418198b,run out,2
+9418198b,caught and bowled,1
+9418198b,stumped,1
+94253925,caught,17
+94253925,bowled,1
+94253925,run out,1
+94253925,stumped,1
+944533a5,caught,44
+944533a5,bowled,15
+944533a5,lbw,8
+944533a5,run out,3
+944533a5,stumped,2
+944533a5,caught and bowled,1
+94bc776b,caught,1
+94d7f855,caught,9
+94d7f855,bowled,3
+94d7f855,run out,2
+94d7f855,lbw,1
+94d7f855,stumped,1
+94eac556,caught,1
+957532de,bowled,1
+957532de,caught,1
+957532de,lbw,1
+957532de,run out,1
+95a2ea61,caught,4
+95a2ea61,lbw,2
+95a2ea61,bowled,1
+95a2ea61,stumped,1
+9601c534,bowled,1
+96fd40ae,caught,5
+96fd40ae,bowled,1
+96fd40ae,run out,1
+970ddd24,caught,7
+983f2f61,caught,3
+983f2f61,bowled,1
+983f2f61,lbw,1
+9868bc75,caught,1
+9868bc75,caught and bowled,1
+9868bc75,run out,1
+989889ff,caught,9
+989889ff,bowled,3
+989889ff,lbw,1
+989889ff,stumped,1
+98ae73b1,caught,32
+98ae73b1,bowled,12
+98ae73b1,run out,8
+98ae73b1,lbw,2
+98ae73b1,stumped,2
+9948e262,bowled,1
+9948e262,caught,1
+99b75528,caught,68
+99b75528,bowled,27
+99b75528,lbw,9
+99b75528,run out,5
+99b75528,stumped,5
+99b75528,caught and bowled,3
+99d63244,caught,30
+99d63244,bowled,7
+99d63244,run out,7
+99d63244,lbw,6
+99d63244,caught and bowled,2
+99d63244,stumped,2
+99ed60f8,caught,1
+9a0146b3,run out,1
+9a158001,caught,9
+9a158001,lbw,3
+9a158001,run out,3
+9a158001,bowled,2
+9a158001,caught and bowled,1
+9a158001,stumped,1
+9a46c4e5,caught,7
+9a46c4e5,bowled,3
+9a46c4e5,caught and bowled,1
+9a963804,caught,1
+9ab63e7b,caught,6
+9ab63e7b,bowled,1
+9b4935c8,caught and bowled,2
+9b4935c8,caught,1
+9b4935c8,lbw,1
+9b4935c8,run out,1
+9b4935c8,stumped,1
+9b6e1b3f,caught,13
+9b6e1b3f,caught and bowled,1
+9b6e1b3f,run out,1
+9caf69a1,caught,18
+9caf69a1,bowled,2
+9caf69a1,run out,2
+9d430b40,caught,66
+9d430b40,bowled,22
+9d430b40,run out,8
+9d430b40,lbw,3
+9d430b40,stumped,3
+9d430b40,caught and bowled,2
+9d80c5e1,caught,6
+9d80c5e1,bowled,3
+9d80c5e1,caught and bowled,3
+9d80c5e1,run out,2
+9e6032fa,caught,1
+9e6032fa,lbw,1
+9e7225b0,caught,2
+9e7225b0,lbw,1
+9eb1455b,bowled,3
+9eb1455b,caught,1
+9f77963a,caught,1
+9f961c14,bowled,1
+9f961c14,caught,1
+9f961c14,caught and bowled,1
+9f961c14,run out,1
+9fc0ef64,bowled,3
+9fc0ef64,caught,3
+9fc0ef64,lbw,1
+9fc0ef64,run out,1
+9ff100a6,caught,1
+a12e1d51,run out,6
+a12e1d51,bowled,5
+a12e1d51,caught,5
+a1d053dd,bowled,1
+a1f1829d,caught,7
+a1f1829d,run out,4
+a1f1829d,bowled,2
+a1f1829d,lbw,1
+a1f1829d,stumped,1
+a24be938,caught,39
+a24be938,bowled,8
+a24be938,lbw,3
+a24be938,caught and bowled,1
+a24be938,run out,1
+a24be938,stumped,1
+a2870fb7,bowled,2
+a2870fb7,caught,2
+a2f46292,bowled,3
+a2f46292,caught,1
+a2f46292,run out,1
+a316d663,caught,2
+a343262c,lbw,1
+a386e91b,caught,2
+a386e91b,run out,2
+a386e91b,lbw,1
+a3b0600d,caught,12
+a3b0600d,run out,2
+a3b0600d,lbw,1
+a457cfb5,run out,1
+a45a5e8d,caught,21
+a45a5e8d,run out,8
+a45a5e8d,lbw,5
+a45a5e8d,bowled,4
+a4cc73aa,caught,113
+a4cc73aa,bowled,22
+a4cc73aa,run out,9
+a4cc73aa,lbw,8
+a4cc73aa,stumped,6
+a4cc73aa,caught and bowled,5
+a4cc73aa,retired hurt,1
+a4e37e47,caught,47
+a4e37e47,bowled,14
+a4e37e47,lbw,3
+a4e37e47,run out,3
+a4e37e47,caught and bowled,1
+a757b0d8,caught,84
+a757b0d8,bowled,20
+a757b0d8,lbw,8
+a757b0d8,run out,6
+a757b0d8,stumped,1
+a76d10ba,caught,1
+a7c226e1,bowled,1
+a818c1be,bowled,3
+a818c1be,caught,3
+a818c1be,run out,3
+a818c1be,caught and bowled,1
+a84468fe,bowled,6
+a84468fe,caught,1
+a90e53ec,caught,5
+a90e53ec,bowled,3
+a90e53ec,lbw,1
+a97c8ec2,caught,8
+a97c8ec2,bowled,3
+a97c8ec2,run out,2
+a97c8ec2,caught and bowled,1
+a97c8ec2,lbw,1
+a9da7784,caught,1
+a9fd84fb,bowled,1
+a9fd84fb,caught,1
+a9fd84fb,lbw,1
+aa5d8c9e,caught,1
+aa8d28ae,caught,4
+aa8d28ae,lbw,1
+aaa1b522,caught,22
+aaa1b522,bowled,3
+aaa1b522,run out,3
+aaa1b522,caught and bowled,2
+aaa1b522,lbw,2
+aad0c365,caught,24
+aad0c365,bowled,2
+aad0c365,lbw,1
+ab89348d,caught,4
+ab89348d,bowled,3
+ab89348d,run out,2
+ab89348d,stumped,1
+abb83e27,caught,29
+abb83e27,bowled,12
+abb83e27,lbw,4
+abb83e27,run out,2
+abb83e27,hit wicket,1
+abfeb126,caught,2
+abfeb126,caught and bowled,2
+abfeb126,run out,2
+abfeb126,bowled,1
+ac5ae4af,caught,3
+acc1aeda,caught,4
+acc1aeda,bowled,1
+acc1aeda,hit wicket,1
+acdc62f5,bowled,3
+acdc62f5,caught,3
+acdc62f5,run out,1
+acee4cc4,caught,2
+acee4cc4,bowled,1
+acee4cc4,run out,1
+ad3b6e95,caught,23
+ad3b6e95,bowled,5
+ad3b6e95,stumped,2
+ad427b5c,caught,7
+ad427b5c,bowled,5
+ad427b5c,lbw,3
+ad427b5c,run out,1
+ad9c32a2,bowled,1
+ada15e88,caught,1
+addbde6c,caught,5
+addbde6c,caught and bowled,2
+addbde6c,lbw,2
+addbde6c,bowled,1
+addfb70e,bowled,2
+addfb70e,stumped,1
+ae091d39,caught,11
+ae091d39,run out,6
+ae091d39,bowled,1
+ae091d39,hit wicket,1
+ae091d39,lbw,1
+ae78bc32,bowled,4
+ae78bc32,caught,4
+ae78bc32,run out,2
+aedc3b7c,caught,2
+aedc3b7c,bowled,1
+aedc3b7c,lbw,1
+af2c687b,caught,5
+af2c687b,run out,3
+af2c687b,bowled,2
+af2c687b,lbw,2
+af7dadf7,caught,3
+af7dadf7,bowled,1
+af7dadf7,lbw,1
+af7dadf7,run out,1
+afa7e784,caught,6
+afa7e784,bowled,4
+afa7e784,lbw,3
+afa7e784,run out,1
+b0482a1d,caught,33
+b0482a1d,bowled,8
+b0482a1d,run out,6
+b0482a1d,lbw,3
+b0482a1d,caught and bowled,1
+b0482a1d,retired out,1
+b0946605,caught,1
+b0c772ee,caught,1
+b0f2baf4,bowled,1
+b0f2baf4,caught,1
+b1451597,caught,16
+b1451597,bowled,6
+b1451597,lbw,2
+b1451597,run out,2
+b1451597,stumped,1
+b17e2f24,caught,92
+b17e2f24,bowled,19
+b17e2f24,lbw,8
+b17e2f24,run out,4
+b17e2f24,stumped,2
+b17e2f24,caught and bowled,1
+b1ad996b,caught,1
+b2570b38,caught,3
+b2570b38,bowled,1
+b2570b38,lbw,1
+b274dbbd,caught,2
+b2a79f17,bowled,1
+b2a79f17,caught,1
+b2ae53f5,caught,1
+b2ae53f5,run out,1
+b2b4f545,caught,12
+b2b4f545,retired out,1
+b2b50355,caught,3
+b2b50355,lbw,2
+b2b50355,run out,2
+b2b50355,bowled,1
+b410bd3d,bowled,1
+b4b99816,caught,76
+b4b99816,bowled,13
+b4b99816,run out,10
+b4b99816,lbw,8
+b4b99816,stumped,5
+b4b99816,caught and bowled,2
+b4f5c2d9,bowled,2
+b4f5c2d9,caught,2
+b52ffbbd,caught,2
+b552a935,bowled,1
+b552a935,run out,1
+b56dc5f7,bowled,1
+b5797845,caught,28
+b5797845,bowled,3
+b57f8a9a,caught,23
+b57f8a9a,bowled,9
+b57f8a9a,lbw,6
+b57f8a9a,run out,2
+b57f8a9a,stumped,2
+b5da6c24,caught,71
+b5da6c24,bowled,22
+b5da6c24,lbw,12
+b5da6c24,run out,10
+b5da6c24,stumped,6
+b5da6c24,caught and bowled,5
+b61a3e1a,caught,24
+b61a3e1a,bowled,6
+b61a3e1a,lbw,5
+b61a3e1a,caught and bowled,2
+b61a3e1a,run out,2
+b61a3e1a,stumped,1
+b63ab531,caught,5
+b63ab531,bowled,4
+b63ab531,caught and bowled,1
+b63ab531,run out,1
+b63e358a,caught,4
+b681e71e,caught,76
+b681e71e,bowled,26
+b681e71e,lbw,8
+b681e71e,run out,5
+b681e71e,caught and bowled,3
+b69e69ed,run out,1
+b720a5d6,caught,9
+b720a5d6,bowled,5
+b720a5d6,lbw,2
+b720a5d6,caught and bowled,1
+b720a5d6,run out,1
+b720a5d6,stumped,1
+b8527c3d,caught,4
+b8527c3d,run out,1
+b8a55852,caught,62
+b8a55852,bowled,17
+b8a55852,lbw,16
+b8a55852,run out,5
+b8a55852,stumped,3
+b8a55852,caught and bowled,1
+b8d490fd,caught,44
+b8d490fd,bowled,24
+b8d490fd,lbw,7
+b8d490fd,run out,3
+b8d490fd,stumped,3
+b8d490fd,caught and bowled,2
+b8d490fd,retired hurt,1
+b970a03f,caught,2
+b970a03f,bowled,1
+b970a03f,lbw,1
+b9be6507,caught,4
+b9be6507,bowled,1
+ba5e1069,caught,8
+ba5e1069,bowled,2
+ba5e1069,caught and bowled,2
+ba5e1069,run out,2
+ba5e1069,stumped,2
+ba5e1069,lbw,1
+ba607b88,caught,157
+ba607b88,bowled,43
+ba607b88,lbw,12
+ba607b88,run out,9
+ba607b88,caught and bowled,5
+ba607b88,stumped,5
+ba6b2f91,bowled,1
+ba6b2f91,caught,1
+ba6b2f91,lbw,1
+bae11797,caught and bowled,1
+bafd0398,caught,2
+bafd0398,bowled,1
+bb18be76,bowled,6
+bb18be76,caught,6
+bb18be76,run out,5
+bb18be76,stumped,3
+bb345e0b,caught,80
+bb345e0b,bowled,27
+bb345e0b,run out,16
+bb345e0b,lbw,7
+bb345e0b,caught and bowled,4
+bb345e0b,stumped,2
+bb351c23,caught,34
+bb351c23,bowled,7
+bb351c23,run out,5
+bb351c23,stumped,5
+bb351c23,caught and bowled,2
+bb965e9a,caught,11
+bb965e9a,bowled,4
+bb965e9a,caught and bowled,2
+bb965e9a,run out,1
+bbd41817,caught,59
+bbd41817,bowled,20
+bbd41817,run out,9
+bbd41817,caught and bowled,3
+bbd41817,stumped,2
+bbd41817,lbw,1
+bcce309e,caught,4
+bcce309e,bowled,2
+bcce309e,run out,2
+bcf325d2,caught,22
+bcf325d2,bowled,7
+bcf325d2,lbw,4
+bcf325d2,run out,3
+bcf325d2,caught and bowled,1
+bcf325d2,stumped,1
+bd17b45f,caught,27
+bd17b45f,bowled,6
+bd17b45f,run out,6
+bd17b45f,lbw,3
+bd17b45f,stumped,3
+bd17b45f,caught and bowled,1
+bd54eef5,caught,7
+bd54eef5,lbw,1
+bd54eef5,run out,1
+bd77eb62,caught,14
+bd77eb62,bowled,7
+bd77eb62,run out,4
+bd77eb62,stumped,2
+bdadf7da,bowled,1
+be24ead0,caught,12
+be24ead0,bowled,3
+be24ead0,caught and bowled,1
+be869ccf,bowled,1
+bf74b130,caught,7
+bf74b130,bowled,2
+bf74b130,caught and bowled,1
+bff458c6,caught,2
+bff458c6,lbw,2
+bff458c6,stumped,1
+c03c6200,caught,10
+c03c6200,lbw,2
+c03c6200,bowled,1
+c03c6200,run out,1
+c03c6200,stumped,1
+c03e2850,caught,26
+c03e2850,bowled,9
+c03e2850,caught and bowled,5
+c03e2850,lbw,5
+c03e2850,run out,4
+c03f1114,caught,118
+c03f1114,bowled,26
+c03f1114,lbw,18
+c03f1114,run out,15
+c03f1114,stumped,4
+c03f1114,caught and bowled,3
+c05edf8e,bowled,5
+c05edf8e,caught,5
+c05edf8e,run out,2
+c0c411cb,caught,1
+c15e2193,caught,4
+c15e2193,run out,4
+c15e2193,lbw,2
+c16d4035,caught,19
+c16d4035,bowled,3
+c16d4035,stumped,2
+c16d4035,lbw,1
+c16d4035,run out,1
+c18496e1,caught,4
+c18496e1,run out,3
+c18496e1,bowled,1
+c1e53c3f,caught,3
+c24a2c5d,run out,1
+c2dd89ea,caught,1
+c33d8116,bowled,2
+c33d8116,caught,2
+c33d8116,run out,1
+c38d3503,caught,5
+c38d3503,bowled,3
+c38d3503,stumped,1
+c3a96caf,caught,52
+c3a96caf,bowled,17
+c3a96caf,stumped,5
+c3a96caf,run out,4
+c3a96caf,lbw,3
+c3a96caf,caught and bowled,1
+c3d1402f,caught,5
+c3d1402f,bowled,4
+c3d1402f,run out,4
+c3d1402f,caught and bowled,1
+c3d1402f,stumped,1
+c3d35165,caught,25
+c3d35165,bowled,10
+c3d35165,run out,4
+c3d35165,caught and bowled,1
+c404f58a,bowled,1
+c42aaf71,caught,14
+c42aaf71,bowled,6
+c42aaf71,run out,2
+c42aaf71,caught and bowled,1
+c4487b84,caught,78
+c4487b84,bowled,24
+c4487b84,run out,14
+c4487b84,lbw,6
+c4487b84,stumped,6
+c4487b84,caught and bowled,2
+c5aef772,caught,5
+c5aef772,lbw,3
+c5aef772,bowled,2
+c5aef772,caught and bowled,1
+c64c2443,caught,2
+c654af19,bowled,2
+c654af19,caught,2
+c654af19,lbw,2
+c654af19,run out,2
+c69a7b5c,caught,3
+c69a7b5c,bowled,2
+c69a7b5c,run out,2
+c69a7b5c,lbw,1
+c69a7b5c,stumped,1
+c740ea83,caught,40
+c740ea83,bowled,4
+c740ea83,lbw,2
+c740ea83,run out,2
+c7a995d3,bowled,2
+c7a995d3,caught,1
+c7a995d3,run out,1
+c8179c68,caught,1
+c8f5f961,caught,9
+c8f5f961,lbw,4
+c8f5f961,run out,2
+c8f5f961,bowled,1
+c96f6ac5,caught,1
+c995d726,caught,7
+c995d726,bowled,2
+c995d726,lbw,2
+c995d726,run out,1
+cad00a4d,caught,11
+cad00a4d,bowled,7
+cad00a4d,lbw,2
+caf69bf7,caught,6
+caf69bf7,lbw,2
+caf69bf7,bowled,1
+cbf58a86,caught,4
+cbf58a86,stumped,1
+cc1e8c68,bowled,9
+cc1e8c68,caught,7
+cc1e8c68,caught and bowled,2
+cc1e8c68,run out,2
+cc1e8c68,stumped,1
+cca50cd6,caught,4
+cca50cd6,run out,1
+cd8d2859,caught,1
+cd8d2859,run out,1
+ce4cc4d5,caught,1
+ce820073,caught,3
+ce820073,caught and bowled,1
+ce820073,lbw,1
+ce820073,run out,1
+cf59b3f0,caught,7
+cf59b3f0,bowled,2
+cf59b3f0,stumped,1
+cf73ad76,caught,10
+cf73ad76,bowled,1
+cfad138c,caught,3
+d014d5ac,caught,17
+d014d5ac,bowled,2
+d014d5ac,lbw,2
+d027ba9f,caught,40
+d027ba9f,bowled,8
+d027ba9f,lbw,4
+d027ba9f,run out,4
+d027ba9f,caught and bowled,2
+d027ba9f,stumped,2
+d0513f63,caught,22
+d0513f63,run out,5
+d0513f63,bowled,4
+d0513f63,caught and bowled,3
+d0513f63,lbw,1
+d0513f63,stumped,1
+d18f9182,caught,38
+d18f9182,run out,8
+d18f9182,bowled,6
+d18f9182,lbw,6
+d18f9182,stumped,3
+d18f9182,caught and bowled,2
+d1a60072,caught,22
+d1a60072,bowled,8
+d1a60072,run out,2
+d1a60072,lbw,1
+d1c36f5c,caught,12
+d1c36f5c,bowled,5
+d1c36f5c,caught and bowled,1
+d1c36f5c,stumped,1
+d1c94b25,bowled,2
+d2a6c0e6,caught,42
+d2a6c0e6,bowled,8
+d2a6c0e6,run out,8
+d2a6c0e6,lbw,3
+d2a6c0e6,stumped,1
+d2a989fc,run out,4
+d2a989fc,bowled,3
+d2a989fc,caught and bowled,1
+d2a989fc,lbw,1
+d2c2b2d5,caught,36
+d2c2b2d5,bowled,12
+d2c2b2d5,lbw,8
+d2c2b2d5,run out,6
+d2c2b2d5,stumped,3
+d2c2b2d5,caught and bowled,2
+d2c2b2d5,retired hurt,2
+d2d4bb0a,caught,4
+d2d4bb0a,bowled,1
+d3a3e82d,caught,1
+d3a3e82d,lbw,1
+d4eef961,caught,1
+d4f9dbd4,caught,12
+d4f9dbd4,bowled,4
+d4f9dbd4,run out,2
+d4f9dbd4,lbw,1
+d5130a30,caught,39
+d5130a30,bowled,3
+d5130a30,hit wicket,3
+d5130a30,lbw,3
+d5130a30,run out,2
+d5130a30,caught and bowled,1
+d5130a30,retired out,1
+d621b427,lbw,1
+d67d5f00,caught,58
+d67d5f00,bowled,20
+d67d5f00,lbw,7
+d67d5f00,run out,3
+d67d5f00,stumped,3
+d67d5f00,caught and bowled,1
+d68e7f48,caught,4
+d68e7f48,lbw,1
+d7017798,caught,20
+d7017798,lbw,2
+d7017798,run out,2
+d7017798,bowled,1
+d7017798,obstructing the field,1
+d718440b,caught,1
+d7423da1,caught,5
+d7423da1,bowled,2
+d7a57f75,caught,1
+d7b3a420,caught,1
+d7c6af50,bowled,4
+d7c6af50,run out,2
+d7c6af50,caught,1
+d7c6af50,caught and bowled,1
+d84378a4,caught,9
+d84378a4,bowled,3
+d84378a4,run out,2
+d84378a4,stumped,2
+d84378a4,caught and bowled,1
+d84378a4,lbw,1
+d8699ab7,caught,17
+d8699ab7,bowled,6
+d8699ab7,run out,3
+d8699ab7,stumped,2
+d8699ab7,caught and bowled,1
+d8699ab7,lbw,1
+d872f52a,run out,2
+d872f52a,lbw,1
+d872f52a,stumped,1
+d8b2f218,run out,1
+d8d67045,caught,1
+d8d67045,caught and bowled,1
+d9273ee7,caught,53
+d9273ee7,bowled,12
+d9273ee7,run out,5
+d9273ee7,lbw,3
+d9273ee7,stumped,3
+d9273ee7,caught and bowled,2
+d92e42f5,run out,1
+da934ee8,caught,21
+da934ee8,bowled,3
+da934ee8,lbw,2
+da934ee8,stumped,2
+da934ee8,caught and bowled,1
+db31895a,bowled,2
+db31895a,caught,2
+db31895a,run out,1
+db584dad,caught,81
+db584dad,bowled,25
+db584dad,lbw,10
+db584dad,caught and bowled,4
+db584dad,stumped,3
+db584dad,run out,2
+dbc50253,caught,2
+dbe50b21,caught,86
+dbe50b21,bowled,8
+dbe50b21,lbw,6
+dbe50b21,run out,3
+dbe50b21,caught and bowled,1
+dbe50b21,hit wicket,1
+dbe50b21,stumped,1
+dc4686e6,run out,1
+dc9dd038,caught,6
+dc9dd038,caught and bowled,1
+dc9dd038,lbw,1
+dc9dd038,run out,1
+dcce6f09,caught,104
+dcce6f09,bowled,29
+dcce6f09,run out,10
+dcce6f09,lbw,9
+dcce6f09,stumped,5
+dcce6f09,caught and bowled,4
+dcce6f09,hit wicket,1
+dce2019b,caught,2
+dcf81436,run out,2
+dcf81436,caught,1
+dcf81436,caught and bowled,1
+dd09ff8e,caught,6
+dd09ff8e,run out,3
+dd09ff8e,bowled,1
+dd7e9b3b,caught,2
+dd7e9b3b,lbw,1
+ddc0828d,caught,1
+ddc0828d,caught and bowled,1
+dddca1d6,caught,1
+dddca1d6,run out,1
+dded65e7,caught,4
+dded65e7,bowled,1
+de4b0555,caught,1
+de8cce37,caught,9
+de8cce37,run out,4
+de8cce37,bowled,2
+de8cce37,caught and bowled,2
+de8cce37,lbw,1
+de8cce37,retired hurt,1
+de8d3876,caught,3
+de8d3876,bowled,1
+de8d3876,caught and bowled,1
+dec8e038,caught,1
+dec8e038,run out,1
+ded9240e,caught,24
+ded9240e,bowled,5
+ded9240e,lbw,2
+ded9240e,caught and bowled,1
+ded9240e,run out,1
+df064e1a,caught,6
+df064e1a,bowled,3
+df064e1a,run out,2
+df064e1a,lbw,1
+df5a6881,caught,14
+df5a6881,bowled,5
+df5a6881,lbw,5
+df5a6881,retired out,1
+dfc4d8b5,caught,2
+dfc4d8b5,caught and bowled,1
+e0351c86,bowled,1
+e03b66ec,caught,1
+e03b66ec,run out,1
+e0407c01,bowled,1
+e087956b,caught,21
+e087956b,bowled,13
+e087956b,caught and bowled,4
+e148e6bd,caught,1
+e148e6bd,caught and bowled,1
+e1d1b294,caught,16
+e1d1b294,bowled,7
+e1d1b294,lbw,3
+e1d1b294,run out,3
+e1d1b294,stumped,2
+e1d1b294,caught and bowled,1
+e249fdaa,caught,2
+e249fdaa,run out,2
+e249fdaa,lbw,1
+e249fdaa,stumped,1
+e2db2409,caught,5
+e2db2409,run out,3
+e2db2409,stumped,1
+e32d22f6,bowled,1
+e32d22f6,caught,1
+e342e5fb,caught,9
+e342e5fb,bowled,1
+e342e5fb,caught and bowled,1
+e342e5fb,lbw,1
+e342e5fb,run out,1
+e3851766,caught,1
+e38bce7a,caught,1
+e38bce7a,caught and bowled,1
+e48a4814,caught,1
+e4a0deae,caught,5
+e4a0deae,bowled,2
+e4a0deae,lbw,1
+e4cdf230,caught,5
+e4cdf230,caught and bowled,2
+e4cdf230,lbw,1
+e5437608,caught,3
+e62dd25d,caught,9
+e62dd25d,bowled,6
+e62dd25d,run out,4
+e62dd25d,stumped,1
+e66732f8,caught,17
+e66732f8,bowled,4
+e66732f8,caught and bowled,1
+e66732f8,lbw,1
+e66732f8,run out,1
+e798611a,caught,8
+e798611a,lbw,3
+e798611a,caught and bowled,1
+e798611a,run out,1
+e84ac20c,caught,1
+e84ac20c,caught and bowled,1
+e86754b2,caught,4
+e86754b2,bowled,1
+e938e1bc,bowled,15
+e938e1bc,caught,11
+e938e1bc,run out,10
+e938e1bc,caught and bowled,1
+e938e1bc,lbw,1
+e94915e6,caught,24
+e94915e6,bowled,8
+e94915e6,lbw,3
+e94915e6,caught and bowled,2
+e94915e6,run out,2
+e94915e6,stumped,1
+e96801ea,lbw,1
+ea0cdc12,bowled,1
+ea0cdc12,lbw,1
+eaa76d3c,caught,14
+eaa76d3c,bowled,10
+eaa76d3c,caught and bowled,1
+eaa76d3c,run out,1
+eaa76d3c,stumped,1
+eade4650,caught,9
+eade4650,lbw,2
+eade4650,bowled,1
+eade4650,caught and bowled,1
+ebcfef83,bowled,2
+ebcfef83,caught,1
+ece7b6b3,stumped,1
+ed5a5510,bowled,1
+edb3d4f8,bowled,3
+ee3dfa89,stumped,1
+ee7d0c82,caught,1
+eea6b7f1,caught,5
+eea6b7f1,bowled,2
+eea6b7f1,lbw,1
+eea6b7f1,run out,1
+eef2536f,bowled,2
+eef2536f,caught,1
+eef2536f,run out,1
+ef5da05c,stumped,1
+efc04be7,caught,7
+efc04be7,bowled,2
+efc04be7,caught and bowled,1
+efc04be7,run out,1
+f088b960,caught,24
+f088b960,bowled,4
+f088b960,lbw,2
+f088b960,stumped,2
+f088b960,run out,1
+f0af99a7,caught,7
+f0af99a7,bowled,2
+f0af99a7,caught and bowled,1
+f0af99a7,lbw,1
+f0af99a7,run out,1
+f0f628c7,caught,2
+f0f628c7,run out,2
+f0f628c7,bowled,1
+f0f628c7,lbw,1
+f10e94c4,caught,8
+f10e94c4,bowled,1
+f10e94c4,lbw,1
+f12fe2a1,bowled,1
+f12fe2a1,caught,1
+f18ba07f,bowled,2
+f19ccfad,caught,31
+f19ccfad,bowled,5
+f19ccfad,run out,4
+f19ccfad,caught and bowled,2
+f19ccfad,lbw,1
+f1f99156,caught,25
+f1f99156,bowled,3
+f1f99156,lbw,3
+f1f99156,run out,3
+f1f99156,caught and bowled,1
+f21043a5,caught,1
+f21043a5,lbw,1
+f233bbb4,caught,19
+f233bbb4,lbw,5
+f233bbb4,bowled,2
+f233bbb4,caught and bowled,1
+f233bbb4,run out,1
+f24c6701,caught,3
+f24ca2ba,run out,1
+f29185a1,caught,69
+f29185a1,bowled,7
+f29185a1,run out,2
+f29185a1,caught and bowled,1
+f29185a1,lbw,1
+f29185a1,stumped,1
+f2c936d7,caught,1
+f3cb53a1,caught,8
+f3cb53a1,bowled,3
+f3cb53a1,lbw,2
+f3cb53a1,run out,1
+f48cf4da,caught,1
+f48cf4da,run out,1
+f4cb4f53,bowled,1
+f4cb4f53,caught,1
+f4cb4f53,caught and bowled,1
+f4cb4f53,stumped,1
+f4f0fafd,bowled,1
+f5180fe6,bowled,6
+f5180fe6,caught,6
+f5180fe6,stumped,1
+f5f18a18,caught,1
+f62772e5,caught,15
+f62772e5,bowled,4
+f62772e5,run out,4
+f62772e5,stumped,2
+f62772e5,lbw,1
+f663ef00,caught,2
+f663ef00,run out,1
+f6d8a7ab,caught,2
+f6d8a7ab,run out,2
+f708a0bc,caught,2
+f708a0bc,run out,1
+f752db61,caught,1
+f834dcfc,caught,2
+f836b33d,caught,2
+f836b33d,bowled,1
+f842c2cf,lbw,2
+f842c2cf,bowled,1
+f842c2cf,caught,1
+f842c2cf,run out,1
+f842c2cf,stumped,1
+f846de6a,bowled,5
+f846de6a,caught,5
+f846de6a,run out,3
+f89d3b11,caught,11
+f89d3b11,bowled,2
+f89d3b11,stumped,1
+f986ca1a,caught,17
+f986ca1a,bowled,8
+f986ca1a,run out,5
+f986ca1a,caught and bowled,1
+f986ca1a,lbw,1
+f9e6e7ef,caught,19
+f9e6e7ef,bowled,6
+f9e6e7ef,lbw,2
+f9e6e7ef,run out,1
+f9e6e7ef,stumped,1
+fa463154,caught,6
+fa463154,run out,3
+fa463154,caught and bowled,1
+faa7365d,caught,2
+facb9086,caught,6
+facb9086,run out,1
+fb2d1dda,caught,88
+fb2d1dda,lbw,7
+fb2d1dda,bowled,6
+fb2d1dda,run out,5
+fb2d1dda,stumped,3
+fb2d1dda,caught and bowled,2
+fb2d1dda,retired hurt,1
+fb5f69e4,bowled,1
+fb66ce1f,caught,15
+fb66ce1f,bowled,6
+fb66ce1f,run out,3
+fb66ce1f,lbw,2
+fb66ce1f,caught and bowled,1
+fb66ce1f,stumped,1
+fb693839,run out,1
+fcc21ace,caught,2
+fcc21ace,bowled,1
+fd835ab3,caught,32
+fd835ab3,bowled,9
+fd835ab3,run out,6
+fd835ab3,lbw,1
+fd835ab3,stumped,1
+fdcb08c2,bowled,1
+fdedb37c,caught,6
+fdedb37c,bowled,2
+fdedb37c,run out,2
+fe11caa6,caught,73
+fe11caa6,bowled,24
+fe11caa6,run out,9
+fe11caa6,stumped,7
+fe11caa6,lbw,6
+fe11caa6,caught and bowled,2
+fe366f34,caught,8
+fe366f34,bowled,3
+fe763256,caught,24
+fe763256,run out,11
+fe763256,bowled,8
+fe763256,lbw,1
+fe93fd9d,caught,78
+fe93fd9d,bowled,20
+fe93fd9d,caught and bowled,7
+fe93fd9d,run out,7
+fe93fd9d,lbw,6
+fe93fd9d,hit wicket,1
+fe93fd9d,obstructing the field,1
+fe93fd9d,stumped,1
+ff077124,caught,3
+ff077124,run out,2
+ff1e12a0,caught,2
+ff1e12a0,bowled,1
+ff1e12a0,caught and bowled,1
+ff1e12a0,lbw,1
+ff1e68fa,caught,3
+ffe699c0,caught,6
+ffe699c0,run out,2
+ffe699c0,bowled,1
+ffe699c0,caught and bowled,1
+fffa744b,caught,17
+fffa744b,bowled,6
+fffa744b,lbw,3
