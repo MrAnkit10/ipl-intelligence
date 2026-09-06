@@ -1,0 +1,31 @@
+match_id,date,venue,batting_team,bowling_team,total_runs,wickets,category
+1426268,2024-04-15,"M Chinnaswamy Stadium, Bengaluru",Sunrisers Hyderabad,Royal Challengers Bengaluru,287,3,highest
+1473439,2025-03-23,"Rajiv Gandhi International Stadium, Uppal, Hyderabad",Sunrisers Hyderabad,Rajasthan Royals,286,6,highest
+1473505,2025-05-25,"Arun Jaitley Stadium, Delhi",Sunrisers Hyderabad,Kolkata Knight Riders,278,3,highest
+1422126,2024-03-27,"Rajiv Gandhi International Stadium, Uppal, Hyderabad",Sunrisers Hyderabad,Mumbai Indians,277,3,highest
+1422134,2024-04-03,"Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam",Kolkata Knight Riders,Delhi Capitals,272,7,highest
+1426273,2024-04-20,"Arun Jaitley Stadium, Delhi",Sunrisers Hyderabad,Delhi Capitals,266,7,highest
+1529278,2026-04-25,"Arun Jaitley Stadium, Delhi",Punjab Kings,Delhi Capitals,265,4,highest
+1529278,2026-04-25,"Arun Jaitley Stadium, Delhi",Delhi Capitals,Punjab Kings,264,2,highest
+598027,2013-04-23,M Chinnaswamy Stadium,Royal Challengers Bangalore,Pune Warriors,263,5,highest
+1426280,2024-04-26,"Eden Gardens, Kolkata",Punjab Kings,Kolkata Knight Riders,262,2,highest
+1426268,2024-04-15,"M Chinnaswamy Stadium, Bengaluru",Royal Challengers Bengaluru,Sunrisers Hyderabad,262,7,highest
+1426280,2024-04-26,"Eden Gardens, Kolkata",Kolkata Knight Riders,Punjab Kings,261,6,highest
+1426281,2024-04-27,"Arun Jaitley Stadium, Delhi",Delhi Capitals,Mumbai Indians,257,4,highest
+1359512,2023-04-28,"Punjab Cricket Association IS Bindra Stadium, Mohali, Chandigarh",Lucknow Super Giants,Punjab Kings,257,5,highest
+1529310,2026-05-22,"Rajiv Gandhi International Stadium, Uppal, Hyderabad",Sunrisers Hyderabad,Royal Challengers Bengaluru,255,4,highest
+1082617,2017-04-23,Eden Gardens,Royal Challengers Bangalore,Kolkata Knight Riders,49,10,lowest
+392182,2009-04-18,Newlands,Rajasthan Royals,Royal Challengers Bangalore,58,10,lowest
+1359534,2023-05-14,"Sawai Mansingh Stadium, Jaipur",Rajasthan Royals,Royal Challengers Bangalore,59,10,lowest
+1082635,2017-05-06,Feroz Shah Kotla,Delhi Daredevils,Mumbai Indians,66,10,lowest
+1082626,2017-04-30,"Punjab Cricket Association IS Bindra Stadium, Mohali",Delhi Daredevils,Kings XI Punjab,67,10,lowest
+336021,2008-05-16,Wankhede Stadium,Kolkata Knight Riders,Mumbai Indians,67,10,lowest
+1304082,2022-04-23,"Brabourne Stadium, Mumbai",Royal Challengers Bangalore,Sunrisers Hyderabad,68,10,lowest
+1175356,2019-03-23,MA Chidambaram Stadium,Royal Challengers Bangalore,Chennai Super Kings,70,10,lowest
+729305,2014-04-26,Sheikh Zayed Stadium,Royal Challengers Bangalore,Rajasthan Royals,70,10,lowest
+1082645,2017-05-14,Maharashtra Cricket Association Stadium,Kings XI Punjab,Rising Pune Supergiant,73,10,lowest
+501229,2011-04-27,Nehru Stadium,Kochi Tuskers Kerala,Deccan Chargers,74,10,lowest
+1529282,2026-04-27,"Arun Jaitley Stadium, Delhi",Delhi Capitals,Royal Challengers Bengaluru,75,10,lowest
+598046,2013-05-05,Wankhede Stadium,Chennai Super Kings,Mumbai Indians,79,10,lowest
+598044,2013-05-04,"Rajiv Gandhi International Stadium, Uppal",Delhi Daredevils,Sunrisers Hyderabad,80,10,lowest
+501214,2011-04-17,Eden Gardens,Rajasthan Royals,Kolkata Knight Riders,81,10,lowest

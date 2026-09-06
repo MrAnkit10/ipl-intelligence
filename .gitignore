@@ -39,6 +39,10 @@ models/*.joblib
 !data/processed/dismissal_breakdown.csv
 !data/processed/batting_percentiles.csv
 !data/processed/season_awards.csv
+!data/processed/records_biggest_wins.csv
+!data/processed/records_team_totals.csv
+!data/processed/records_partnerships.csv
+!data/processed/records_batting_extremes.csv
 !data/features/win_prediction_features.parquet
 !models/win_probability.pkl
 !models/player_performance.pkl

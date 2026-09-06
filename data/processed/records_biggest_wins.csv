@@ -1,0 +1,31 @@
+match_id,date,venue,team1,team2,winner,margin_type,margin_value
+1082635,2017-05-06,Feroz Shah Kotla,Delhi Daredevils,Mumbai Indians,Mumbai Indians,runs,146.0
+980987,2016-05-14,M Chinnaswamy Stadium,Royal Challengers Bangalore,Gujarat Lions,Royal Challengers Bangalore,runs,144.0
+335982,2008-04-18,M Chinnaswamy Stadium,Royal Challengers Bangalore,Kolkata Knight Riders,Kolkata Knight Riders,runs,140.0
+829785,2015-05-06,M Chinnaswamy Stadium,Royal Challengers Bangalore,Kings XI Punjab,Royal Challengers Bangalore,runs,138.0
+598027,2013-04-23,M Chinnaswamy Stadium,Royal Challengers Bangalore,Pune Warriors,Royal Challengers Bangalore,runs,130.0
+1175366,2019-03-31,Rajiv Gandhi International Stadium,Sunrisers Hyderabad,Royal Challengers Bangalore,Sunrisers Hyderabad,runs,118.0
+1359534,2023-05-14,"Sawai Mansingh Stadium, Jaipur",Royal Challengers Bangalore,Rajasthan Royals,Royal Challengers Bangalore,runs,112.0
+501260,2011-05-17,Himachal Pradesh Cricket Association Stadium,Kings XI Punjab,Royal Challengers Bangalore,Kings XI Punjab,runs,111.0
+1473505,2025-05-25,"Arun Jaitley Stadium, Delhi",Sunrisers Hyderabad,Kolkata Knight Riders,Sunrisers Hyderabad,runs,110.0
+1422134,2024-04-03,"Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam",Kolkata Knight Riders,Delhi Capitals,Kolkata Knight Riders,runs,106.0
+336038,2008-05-30,Wankhede Stadium,Delhi Daredevils,Rajasthan Royals,Rajasthan Royals,runs,105.0
+1529276,2026-04-23,"Wankhede Stadium, Mumbai",Chennai Super Kings,Mumbai Indians,Chennai Super Kings,runs,103.0
+1136601,2018-05-09,Eden Gardens,Mumbai Indians,Kolkata Knight Riders,Mumbai Indians,runs,102.0
+1473487,2025-05-01,"Sawai Mansingh Stadium, Jaipur",Mumbai Indians,Rajasthan Royals,Mumbai Indians,runs,100.0
+1529273,2026-04-20,"Narendra Modi Stadium, Ahmedabad",Mumbai Indians,Gujarat Titans,Mumbai Indians,runs,99.0
+1216513,2020-10-04,Dubai International Cricket Stadium,Kings XI Punjab,Chennai Super Kings,Chennai Super Kings,wickets,10.0
+1082626,2017-04-30,"Punjab Cricket Association IS Bindra Stadium, Mohali",Kings XI Punjab,Delhi Daredevils,Kings XI Punjab,wickets,10.0
+392183,2009-04-19,Newlands,Delhi Daredevils,Kings XI Punjab,Delhi Daredevils,wickets,10.0
+1473498,2025-05-18,"Arun Jaitley Stadium, Delhi",Delhi Capitals,Gujarat Titans,Gujarat Titans,wickets,10.0
+501263,2011-05-20,Wankhede Stadium,Mumbai Indians,Rajasthan Royals,Rajasthan Royals,wickets,10.0
+1426295,2024-05-08,"Rajiv Gandhi International Stadium, Uppal, Hyderabad",Lucknow Super Giants,Sunrisers Hyderabad,Sunrisers Hyderabad,wickets,10.0
+1254073,2021-04-22,"Wankhede Stadium, Mumbai",Rajasthan Royals,Royal Challengers Bangalore,Royal Challengers Bangalore,wickets,10.0
+1216495,2020-11-03,Sharjah Cricket Stadium,Mumbai Indians,Sunrisers Hyderabad,Sunrisers Hyderabad,wickets,10.0
+829757,2015-04-26,Feroz Shah Kotla,Delhi Daredevils,Royal Challengers Bangalore,Royal Challengers Bangalore,wickets,10.0
+1216521,2020-10-23,Sharjah Cricket Stadium,Chennai Super Kings,Mumbai Indians,Mumbai Indians,wickets,10.0
+1082593,2017-04-07,Saurashtra Cricket Association Stadium,Gujarat Lions,Kolkata Knight Riders,Kolkata Knight Riders,wickets,10.0
+980929,2016-04-21,Saurashtra Cricket Association Stadium,Gujarat Lions,Sunrisers Hyderabad,Sunrisers Hyderabad,wickets,10.0
+419115,2010-03-18,M Chinnaswamy Stadium,Royal Challengers Bangalore,Rajasthan Royals,Royal Challengers Bangalore,wickets,10.0
+1136608,2018-05-14,Holkar Cricket Stadium,Kings XI Punjab,Royal Challengers Bangalore,Royal Challengers Bangalore,wickets,10.0
+598007,2013-04-10,"Punjab Cricket Association Stadium, Mohali",Kings XI Punjab,Chennai Super Kings,Chennai Super Kings,wickets,10.0

@@ -1,0 +1,61 @@
+match_id,date,venue,batter_id,batter,batting_team,bowling_team,runs,balls_faced,balls_to_milestone,fours,sixes,category
+1529296,2026-05-10,"MA Chidambaram Stadium, Chepauk, Chennai",cf59b3f0,Urvil Patel,Chennai Super Kings,Lucknow Super Giants,65,23,13,2,8,fastest_fifty
+1359530,2023-05-11,"Eden Gardens, Kolkata",6c19c6e5,YBK Jaiswal,Rajasthan Royals,Kolkata Knight Riders,98,47,13,13,5,fastest_fifty
+1304060,2022-04-06,"Maharashtra Cricket Association Stadium, Pune",ded9240e,PJ Cummins,Kolkata Knight Riders,Mumbai Indians,56,15,14,4,6,fastest_fifty
+1136562,2018-04-08,Punjab Cricket Association IS Bindra Stadium,b17e2f24,KL Rahul,Kings XI Punjab,Delhi Daredevils,51,16,14,6,4,fastest_fifty
+1473489,2025-05-03,"M Chinnaswamy Stadium, Bengaluru",c5aef772,R Shepherd,Royal Challengers Bengaluru,Chennai Super Kings,53,14,14,4,6,fastest_fifty
+1529279,2026-04-25,"Sawai Mansingh Stadium, Jaipur",470f446b,V Suryavanshi,Rajasthan Royals,Sunrisers Hyderabad,103,37,15,5,12,fastest_fifty
+1426273,2024-04-20,"Arun Jaitley Stadium, Delhi",9b6e1b3f,J Fraser-McGurk,Delhi Capitals,Sunrisers Hyderabad,65,18,15,5,7,fastest_fifty
+1359489,2023-04-10,"M Chinnaswamy Stadium, Bengaluru",3241e3fd,N Pooran,Lucknow Super Giants,Royal Challengers Bangalore,62,19,15,4,7,fastest_fifty
+1529270,2026-04-18,"Rajiv Gandhi International Stadium, Uppal, Hyderabad",f29185a1,Abhishek Sharma,Sunrisers Hyderabad,Chennai Super Kings,59,22,15,6,4,fastest_fifty
+1426281,2024-04-27,"Arun Jaitley Stadium, Delhi",9b6e1b3f,J Fraser-McGurk,Delhi Capitals,Mumbai Indians,84,27,15,11,6,fastest_fifty
+1082636,2017-05-07,M Chinnaswamy Stadium,9d430b40,SP Narine,Kolkata Knight Riders,Royal Challengers Bangalore,54,17,15,6,4,fastest_fifty
+1527689,2026-04-10,"Barsapara Cricket Stadium, Guwahati",470f446b,V Suryavanshi,Rajasthan Royals,Royal Challengers Bengaluru,78,26,15,8,7,fastest_fifty
+734037,2014-05-24,Eden Gardens,3c6ffae8,YK Pathan,Kolkata Knight Riders,Sunrisers Hyderabad,72,22,15,5,7,fastest_fifty
+1527676,2026-03-30,"Barsapara Cricket Stadium, Guwahati",470f446b,V Suryavanshi,Rajasthan Royals,Chennai Super Kings,52,17,15,4,5,fastest_fifty
+1535463,2026-05-27,"Maharaja Yadavindra Singh International Cricket Stadium, New Chandigarh",470f446b,V Suryavanshi,Rajasthan Royals,Sunrisers Hyderabad,97,29,16,5,12,fastest_fifty
+598027,2013-04-23,M Chinnaswamy Stadium,db584dad,CH Gayle,Royal Challengers Bangalore,Pune Warriors,175,66,30,13,17,fastest_hundred
+1473484,2025-04-28,"Sawai Mansingh Stadium, Jaipur",470f446b,V Suryavanshi,Rajasthan Royals,Gujarat Titans,101,38,35,7,11,fastest_hundred
+1529279,2026-04-25,"Sawai Mansingh Stadium, Jaipur",470f446b,V Suryavanshi,Rajasthan Royals,Sunrisers Hyderabad,103,37,36,5,12,fastest_hundred
+1473505,2025-05-25,"Arun Jaitley Stadium, Delhi",235c2bb6,H Klaasen,Sunrisers Hyderabad,Kolkata Knight Riders,105,39,37,7,9,fastest_hundred
+419107,2010-03-13,Brabourne Stadium,3c6ffae8,YK Pathan,Rajasthan Royals,Mumbai Indians,100,37,37,9,8,fastest_hundred
+598064,2013-05-06,"Punjab Cricket Association Stadium, Mohali",d67d5f00,DA Miller,Kings XI Punjab,Royal Challengers Bangalore,101,38,38,8,7,fastest_hundred
+1426268,2024-04-15,"M Chinnaswamy Stadium, Bengaluru",12b610c2,TM Head,Sunrisers Hyderabad,Royal Challengers Bengaluru,102,41,39,9,8,fastest_hundred
+1473459,2025-04-08,"Maharaja Yadavindra Singh International Cricket Stadium, Mullanpur",b5797845,Priyansh Arya,Punjab Kings,Chennai Super Kings,103,42,39,7,9,fastest_hundred
+1473464,2025-04-12,"Rajiv Gandhi International Stadium, Uppal, Hyderabad",f29185a1,Abhishek Sharma,Sunrisers Hyderabad,Punjab Kings,141,55,40,14,10,fastest_hundred
+1426283,2024-04-28,"Narendra Modi Stadium, Ahmedabad",9caf69a1,WG Jacks,Royal Challengers Bengaluru,Gujarat Titans,100,41,41,5,10,fastest_hundred
+335994,2008-04-27,Dr DY Patil Sports Academy,2b6e6dec,AC Gilchrist,Deccan Chargers,Mumbai Indians,109,47,42,9,10,fastest_hundred
+1082627,2017-04-30,"Rajiv Gandhi International Stadium, Uppal",dcce6f09,DA Warner,Sunrisers Hyderabad,Kolkata Knight Riders,126,59,43,10,8,fastest_hundred
+980987,2016-05-14,M Chinnaswamy Stadium,c4487b84,AB de Villiers,Royal Challengers Bangalore,Gujarat Lions,129,52,43,10,12,fastest_hundred
+1529284,2026-04-29,"Wankhede Stadium, Mumbai",e66732f8,RD Rickelton,Mumbai Indians,Sunrisers Hyderabad,123,55,44,10,8,fastest_hundred
+1473439,2025-03-23,"Rajiv Gandhi International Stadium, Uppal, Hyderabad",752f7486,Ishan Kishan,Sunrisers Hyderabad,Rajasthan Royals,106,47,45,11,6,fastest_hundred
+598027,2013-04-23,M Chinnaswamy Stadium,db584dad,CH Gayle,Royal Challengers Bangalore,Pune Warriors,175,66,,13,17,most_sixes
+335982,2008-04-18,M Chinnaswamy Stadium,b8a55852,BB McCullum,Kolkata Knight Riders,Royal Challengers Bangalore,158,73,,10,13,most_sixes
+548372,2012-05-17,Feroz Shah Kotla,db584dad,CH Gayle,Royal Challengers Bangalore,Delhi Daredevils,128,62,,7,13,most_sixes
+1529279,2026-04-25,"Sawai Mansingh Stadium, Jaipur",470f446b,V Suryavanshi,Rajasthan Royals,Sunrisers Hyderabad,103,37,,5,12,most_sixes
+1535463,2026-05-27,"Maharaja Yadavindra Singh International Cricket Stadium, New Chandigarh",470f446b,V Suryavanshi,Rajasthan Royals,Sunrisers Hyderabad,97,29,,5,12,most_sixes
+829785,2015-05-06,M Chinnaswamy Stadium,db584dad,CH Gayle,Royal Challengers Bangalore,Kings XI Punjab,117,57,,7,12,most_sixes
+980987,2016-05-14,M Chinnaswamy Stadium,c4487b84,AB de Villiers,Royal Challengers Bangalore,Gujarat Lions,129,52,,10,12,most_sixes
+419137,2010-04-03,"MA Chidambaram Stadium, Chepauk",4b57e452,M Vijay,Chennai Super Kings,Rajasthan Royals,127,56,,8,11,most_sixes
+1136565,2018-04-10,MA Chidambaram Stadium,bbd41817,AD Russell,Kolkata Knight Riders,Chennai Super Kings,88,36,,1,11,most_sixes
+1136576,2018-04-19,Punjab Cricket Association IS Bindra Stadium,db584dad,CH Gayle,Kings XI Punjab,Sunrisers Hyderabad,104,63,,1,11,most_sixes
+1473484,2025-04-28,"Sawai Mansingh Stadium, Jaipur",470f446b,V Suryavanshi,Rajasthan Royals,Gujarat Titans,101,38,,7,11,most_sixes
+336018,2008-05-14,Wankhede Stadium,f233bbb4,ST Jayasuriya,Mumbai Indians,Chennai Super Kings,114,48,,9,11,most_sixes
+1178399,2019-04-10,Wankhede Stadium,a757b0d8,KA Pollard,Mumbai Indians,Kings XI Punjab,83,31,,3,10,most_sixes
+1370352,2023-05-26,"Narendra Modi Stadium, Ahmedabad",b4b99816,Shubman Gill,Gujarat Titans,Mumbai Indians,129,60,,7,10,most_sixes
+1473464,2025-04-12,"Rajiv Gandhi International Stadium, Uppal, Hyderabad",f29185a1,Abhishek Sharma,Sunrisers Hyderabad,Punjab Kings,141,55,,14,10,most_sixes
+501206,2011-04-13,"Punjab Cricket Association Stadium, Mohali",25eeb281,PC Valthaty,Kings XI Punjab,Chennai Super Kings,120,63,,19,2,most_fours
+829795,2015-05-10,Wankhede Stadium,c4487b84,AB de Villiers,Royal Challengers Bangalore,Mumbai Indians,133,59,,19,4,most_fours
+419143,2010-04-07,Sawai Mansingh Stadium,11df3dc8,MJ Lumb,Rajasthan Royals,Kings XI Punjab,83,43,,16,2,most_fours
+1529278,2026-04-25,"Arun Jaitley Stadium, Delhi",b17e2f24,KL Rahul,Delhi Capitals,Punjab Kings,152,67,,16,9,most_fours
+548309,2012-04-06,Sawai Mansingh Stadium,29e95537,AM Rahane,Rajasthan Royals,Kings XI Punjab,98,66,,16,1,most_fours
+1359516,2023-04-30,"Wankhede Stadium, Mumbai",6c19c6e5,YBK Jaiswal,Rajasthan Royals,Mumbai Indians,124,62,,16,8,most_fours
+1359515,2023-04-30,"MA Chidambaram Stadium, Chepauk, Chennai",df5a6881,DP Conway,Chennai Super Kings,Punjab Kings,92,52,,16,1,most_fours
+1136602,2018-05-10,Arun Jaitley Stadium,919a3be2,RR Pant,Delhi Daredevils,Sunrisers Hyderabad,128,63,,15,7,most_fours
+548380,2012-05-25,"MA Chidambaram Stadium, Chepauk",4b57e452,M Vijay,Chennai Super Kings,Delhi Daredevils,113,58,,15,4,most_fours
+729283,2014-04-18,Sheikh Zayed Stadium,b681e71e,GJ Maxwell,Kings XI Punjab,Chennai Super Kings,95,43,,15,2,most_fours
+980921,2016-04-17,M Chinnaswamy Stadium,372455c4,Q de Kock,Delhi Daredevils,Royal Challengers Bangalore,108,51,,15,3,most_fours
+1082640,2017-05-10,Green Park,85ec8e33,SS Iyer,Delhi Daredevils,Gujarat Lions,96,57,,15,2,most_fours
+1535464,2026-05-29,"Maharaja Yadavindra Singh International Cricket Stadium, New Chandigarh",b4b99816,Shubman Gill,Gujarat Titans,Rajasthan Royals,104,53,,15,3,most_fours
+1527691,2026-04-11,"MA Chidambaram Stadium, Chepauk, Chennai",a4cc73aa,SV Samson,Chennai Super Kings,Delhi Capitals,115,56,,15,4,most_fours
+1216509,2020-10-17,Sharjah Cricket Stadium,0a476045,S Dhawan,Delhi Capitals,Chennai Super Kings,101,58,,14,1,most_fours

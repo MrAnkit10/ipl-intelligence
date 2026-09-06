@@ -83,7 +83,9 @@ NAV_ITEMS = [
     ("#17479E", "Venue Analytics", "pages/4_Venue_Analytics.py"),
     ("#FF822A", "Live Win Probability", "pages/5_Win_Probability.py"),
     ("#0D3692", "Season Archive", "pages/9_Seasons.py"),
-    ("#A72056", "Model Insights", "pages/11_Model_Insights.py"),
+    ("#B45309", "Records & Milestones", "pages/11_Records.py"),
+    ("#0EA5E9", "Player Comparison", "pages/12_Player_Comparison.py"),
+    ("#A72056", "Model Insights", "pages/13_Model_Insights.py"),
 ]
 nav_cols = st.columns(3)
 for i, (color, label, page) in enumerate(NAV_ITEMS):

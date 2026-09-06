@@ -138,6 +138,33 @@ def load_season_awards() -> pd.DataFrame:
     return pd.read_csv(path)
 
 
+def _load_csv_or_empty(filename: str) -> pd.DataFrame:
+    path = PROCESSED_DIR / filename
+    if not path.exists():
+        return pd.DataFrame()
+    return pd.read_csv(path)
+
+
+@st.cache_data
+def load_records_biggest_wins() -> pd.DataFrame:
+    return _load_csv_or_empty("records_biggest_wins.csv")
+
+
+@st.cache_data
+def load_records_team_totals() -> pd.DataFrame:
+    return _load_csv_or_empty("records_team_totals.csv")
+
+
+@st.cache_data
+def load_records_partnerships() -> pd.DataFrame:
+    return _load_csv_or_empty("records_partnerships.csv")
+
+
+@st.cache_data
+def load_records_batting_extremes() -> pd.DataFrame:
+    return _load_csv_or_empty("records_batting_extremes.csv")
+
+
 @st.cache_data
 def load_dismissal_breakdown() -> pd.DataFrame:
     path = PROCESSED_DIR / "dismissal_breakdown.csv"

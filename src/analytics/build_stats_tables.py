@@ -16,6 +16,12 @@ from pathlib import Path
 import pandas as pd
 
 from src.analytics.awards import compute_season_awards
+from src.analytics.records import (
+    compute_batting_extremes,
+    compute_biggest_wins,
+    compute_partnerships,
+    compute_team_totals,
+)
 from src.analytics.batting import (
     compute_batting_percentiles,
     compute_batting_stats,
@@ -106,6 +112,10 @@ def main() -> None:
     batting_stats["catches"] = batting_stats["catches"].fillna(0).astype(int)
     batting_percentiles = compute_batting_percentiles(batting_stats)
     season_awards = compute_season_awards(matches, deliveries)
+    records_biggest_wins = compute_biggest_wins(matches, top_n=15)
+    records_team_totals = compute_team_totals(matches, deliveries, top_n=15)
+    records_partnerships = compute_partnerships(matches, deliveries, top_n=15)
+    records_batting_extremes = compute_batting_extremes(matches, deliveries, top_n=15)
     team_stats = compute_team_stats(matches)
     venue_stats = compute_venue_stats(matches, deliveries)
     head_to_head = compute_head_to_head(matches)
@@ -132,6 +142,10 @@ def main() -> None:
         "overview_kpis.csv": overview_kpis,
         "batting_percentiles.csv": batting_percentiles,
         "season_awards.csv": season_awards,
+        "records_biggest_wins.csv": records_biggest_wins,
+        "records_team_totals.csv": records_team_totals,
+        "records_partnerships.csv": records_partnerships,
+        "records_batting_extremes.csv": records_batting_extremes,
     }
     for filename, df in outputs.items():
         df.to_csv(PROCESSED_DIR / filename, index=False)
