@@ -170,14 +170,24 @@ live win-probability page calls.
 streamlit run app/Home.py
 ```
 
-Ten pages, all reading from the Parquet/CSV tables and the trained models
-(no live API, no database dependency):
+Twelve pages, all reading from the Parquet/CSV tables and the trained models
+(no live API, no database dependency), Model Insights deliberately last in
+the nav order since it's project internals rather than something a visitor
+explores first:
 
-- **Home** — headline tournament numbers, featured players (team-tinted photo cards), navigation
-- **Teams** — a card grid per team (colored badge, code, record, win %); "View Full Stats"
-  drills into...
+- **Home** — headline tournament numbers, a season-archive quick-launch row (2008-2026, one
+  click into that season's full match list), a redesigned "Explore" grid, top run-scorers and
+  top wicket-takers as team-tinted photo cards
+- **Teams** — a card grid per team (colored badge, code, record, win %); "View Full Stats" drills into...
 - **Team Detail** — full record, head-to-head vs every opponent, leading batter/bowler
-  (broadcast-style stat cards), complete match log with a season filter
+  (broadcast-style stat cards), and a complete match log that opens straight into...
+- **Season Archive** — every IPL season 2008-2026: matches played, the champion (derived as the
+  winner of that season's chronologically-last match), and every match, each opening into...
+- **Match Scorecard** — a full traditional scorecard reconstructed from ball-by-ball data for
+  any of the 1,243 matches: batting card (runs/balls/4s/6s/SR/how out), bowling figures
+  (overs/maidens/runs/wickets/economy), extras, and fall of wickets — verified against a real,
+  independently-checkable match (SRH 207/4 beat RCB 172 by 35 runs, IPL 2017 match 1) before
+  trusting it at scale
 - **IPL Overview** — tournament leaders (top scorer/wicket-taker stat cards), team win %,
   batting-first vs chasing, toss impact, matches per season
 - **Player Analytics** — photo, batting/bowling career stats, run composition (1s/2s/3s/4s/5s/6s
@@ -189,30 +199,50 @@ Ten pages, all reading from the Parquet/CSV tables and the trained models
   a Manhattan runs-per-over chart, then replays a real historical run chase ball-by-ball through
   the trained model, with a full-match probability timeline annotated with wickets and sixes
   (blueprint Modules 2 and 3)
+- **Player Performance Predictor** — a gauge-chart expected-runs prediction, milestone
+  probability bars, and a form-comparison chart (career/recent/season/venue/opponent averages)
+  for a player/opponent/venue combination
 - **Model Insights** — validation/test metrics, raw-vs-calibrated calibration curves, methodology
-- **Player Performance Predictor** — expected runs/strike rate/probability thresholds for
-  a player/opponent/venue combination
 
-All 10 pages are checked with Streamlit's `AppTest` headless runner (including
-widget interactions and the full Home → Teams → Team Detail navigation flow
-via `st.switch_page`) as part of verifying this works, not just that it imports.
+All pages are checked with Streamlit's `AppTest` headless runner (including
+widget interactions and full navigation flows — Home → Teams → Team Detail,
+Home → Seasons → Match Scorecard, Team Detail's match log → Match Scorecard
+— via `st.switch_page`) as part of verifying this works, not just that it
+imports. This caught a real bug during the page renumbering below: `Home.py`
+still linked to pre-rename filenames, which only surfaced once tested through
+the full app context rather than as an isolated page.
 
 ### Visual Design
 
 Dark navy theme (`.streamlit/config.toml`) plus a shared CSS/component layer
-(`app/components.py`: `inject_theme_css`, `render_team_badge`,
-`render_match_banner`, `render_matchup_banner`, `render_stat_card`) styled
-after broadcast-style match-center UIs, adopting a design reference the user
-shared from iplt20.com. Deliberately **not** using official team crests —
-those are trademarked, and hotlinking them on a public deployment is a real
-IP risk — team identity is instead a colored badge with the team's short
-code (CSK, MI, RCB, ...), generated from data already in the app.
-Also deliberately **not** attempting a wagon wheel, spider chart, catch
-map, or bowling-length breakdown (all in the reference material) — those
-need ball-tracking data (shot direction, pitch length) that Cricsheet — this
-project's only
-data source — simply doesn't record. Building them would mean displaying
-fabricated numbers as if they were real match data.
+(`app/components.py`: `inject_theme_css`, `render_page_title`, `chart_card`,
+`render_team_badge`, `render_match_banner`, `render_matchup_banner`,
+`render_stat_card`) styled after broadcast-style match-center UIs, adopting
+a design reference the user shared from iplt20.com. No emoji anywhere in
+page titles — a small custom SVG cricket-ball mark (`BALL_ICON_SVG`) stands
+in instead. Deliberately **not** using official team crests or the IPL
+logo — those are trademarked, and reproducing them (even redrawn) on a
+public deployment is a real IP risk — team identity is instead a colored
+badge with the team's short code (CSK, MI, RCB, ...), generated from data
+already in the app. Also deliberately **not** attempting a wagon wheel,
+spider chart, catch map, or bowling-length breakdown (all requested,
+referencing real broadcast graphics) — those need ball-tracking data (shot
+direction, pitch length) that Cricsheet, this project's only data source,
+simply doesn't record. Building them would mean displaying fabricated
+numbers as if they were real match data; what's genuine from those
+references (the dark stat-card look) was extracted and reused instead.
+
+### Data Accuracy
+
+Asked to verify the numbers against the official IPL site — Cricsheet data
+can't be bulk-compared against a JS-heavy commercial site, but it can be
+spot-checked against a citable source. Mumbai Indians' Wikipedia page shows
+273 matches / 151 wins / 55.31% at the time of checking; this project's
+data through the *2025* season shows 277 matches / 151 wins / 55.31% —
+an exact match on wins and win %, meaning Wikipedia simply hasn't been
+updated for the 2026 season yet. This project's data is more current, not
+wrong — a good example of why "does it match another site" isn't itself
+proof of an error.
 
 ### Player & Venue Photos
 
@@ -333,14 +363,14 @@ pattern as team names).
 - [x] SQL demonstrations: CTEs, window functions, rolling averages, ranking, LAG, views, FILTER
 - [x] Feature engineering (match-state, momentum) for win probability
 - [x] Full model comparison (Logistic Regression, Random Forest, XGBoost, LightGBM) + isotonic calibration
-- [x] Streamlit application (8 pages: Home, Overview, Player Analytics, Batter vs Bowler, Venue Analytics, Win Probability, Model Insights, Player Performance Predictor)
+- [x] Streamlit application (12 pages, including a Season Archive with full ball-by-ball-derived match scorecards)
 - [x] Batter-vs-bowler matchup engine (historical; model-based next-ball distribution not yet built)
 - [x] Player performance predictor
+- [x] Deployment (Streamlit Community Cloud)
 - [ ] Tableau dashboard (data + build guide ready — see below; the workbook itself needs to be assembled in the Tableau GUI, which isn't something that can be scripted/verified the way the rest of this repo is)
-- [ ] Deployment
 
 ## Future Improvements
 
-Player performance predictor, live match integration, Win Probability Added
-(WPA) player-impact metric, expected-runs modeling — see the full project
-blueprint for the complete roadmap.
+Model-based next-ball outcome distribution for the matchup engine, live
+match integration, Win Probability Added (WPA) player-impact metric — see
+the full project blueprint for the complete roadmap.

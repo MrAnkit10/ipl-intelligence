@@ -9,7 +9,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from app.components import inject_theme_css, render_stat_card
+from app.components import chart_card, inject_theme_css, render_stat_card
 from app.data_loader import (
     load_batting_stats,
     load_bowling_stats,
@@ -62,29 +62,29 @@ st.divider()
 col_h2h, col_players = st.columns([3, 2])
 
 with col_h2h:
-    st.subheader("Head-to-Head")
-    h2h = load_head_to_head()
-    involving = h2h[(h2h["team_a"] == team) | (h2h["team_b"] == team)].copy()
-    involving["opponent"] = involving.apply(lambda r: r["team_b"] if r["team_a"] == team else r["team_a"], axis=1)
-    involving["team_win_pct"] = involving.apply(
-        lambda r: r["team_a_win_pct"] if r["team_a"] == team else round(100 - r["team_a_win_pct"], 2), axis=1
-    )
-    involving["team_wins"] = involving.apply(
-        lambda r: r["team_a_wins"] if r["team_a"] == team else r["team_b_wins"], axis=1
-    )
-    involving = involving.sort_values("matches_played", ascending=False)
-    if involving.empty:
-        st.caption("No head-to-head meetings recorded.")
-    else:
-        fig = px.bar(
-            involving, x="opponent", y="team_win_pct", text="matches_played",
-            labels={"opponent": "", "team_win_pct": f"{team} win %"},
-            color_discrete_sequence=[color],
+    with chart_card("Head-to-Head", f"{team}'s win % against every opponent it has faced"):
+        h2h = load_head_to_head()
+        involving = h2h[(h2h["team_a"] == team) | (h2h["team_b"] == team)].copy()
+        involving["opponent"] = involving.apply(lambda r: r["team_b"] if r["team_a"] == team else r["team_a"], axis=1)
+        involving["team_win_pct"] = involving.apply(
+            lambda r: r["team_a_win_pct"] if r["team_a"] == team else round(100 - r["team_a_win_pct"], 2), axis=1
         )
-        fig.update_traces(texttemplate="%{text} matches", textposition="outside", marker_color=color)
-        fig.add_hline(y=50, line_dash="dash", line_color="gray")
-        fig.update_layout(xaxis_tickangle=-30)
-        st.plotly_chart(fig, width="stretch")
+        involving["team_wins"] = involving.apply(
+            lambda r: r["team_a_wins"] if r["team_a"] == team else r["team_b_wins"], axis=1
+        )
+        involving = involving.sort_values("matches_played", ascending=False)
+        if involving.empty:
+            st.caption("No head-to-head meetings recorded.")
+        else:
+            fig = px.bar(
+                involving, x="opponent", y="team_win_pct", text="matches_played",
+                labels={"opponent": "", "team_win_pct": f"{team} win %"},
+                color_discrete_sequence=[color],
+            )
+            fig.update_traces(texttemplate="%{text} matches", textposition="outside", marker_color=color)
+            fig.add_hline(y=50, line_dash="dash", line_color="gray")
+            fig.update_layout(xaxis_tickangle=-30, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
+            st.plotly_chart(fig, width="stretch")
 
 with col_players:
     st.subheader("Key Players")
@@ -118,12 +118,18 @@ with col_players:
         )
 
 st.divider()
-st.subheader("Match Log")
-team_matches = load_team_matches(team)
-season_filter = st.selectbox("Season", ["All"] + sorted(team_matches["season_year"].unique().tolist(), reverse=True))
-if season_filter != "All":
-    team_matches = team_matches[team_matches["season_year"] == season_filter]
-st.dataframe(
-    team_matches[["date", "opponent", "venue", "result"]],
-    width="stretch", hide_index=True, height=400,
-)
+with chart_card("Match Log", "Every match this team has played — pick one below for its full scorecard"):
+    team_matches = load_team_matches(team)
+    season_filter = st.selectbox("Season", ["All"] + sorted(team_matches["season_year"].unique().tolist(), reverse=True))
+    filtered = team_matches if season_filter == "All" else team_matches[team_matches["season_year"] == season_filter]
+    st.dataframe(
+        filtered[["date", "opponent", "venue", "result"]],
+        width="stretch", hide_index=True, height=400,
+    )
+
+    filtered = filtered.copy()
+    filtered["label"] = filtered["date"].astype(str) + " vs " + filtered["opponent"]
+    picked = st.selectbox("Open a scorecard", filtered["label"].tolist(), key="team_match_picker")
+    if st.button("Open Scorecard →", key="team_open_scorecard"):
+        st.session_state["selected_match_id"] = int(filtered.loc[filtered["label"] == picked, "match_id"].iloc[0])
+        st.switch_page("pages/10_Match_Detail.py")

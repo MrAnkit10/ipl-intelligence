@@ -9,12 +9,12 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-from app.components import inject_theme_css
+from app.components import chart_card, inject_theme_css, render_page_title
 from app.data_loader import load_evaluation_report, load_player_performance_evaluation_report
 
 st.set_page_config(page_title="Model Insights | IPL Intelligence", page_icon="🔬", layout="wide")
 inject_theme_css()
-st.title("🔬 Model Insights")
+render_page_title("Model Insights", "Methodology, validation metrics, and calibration for both trained models", "#A72056")
 
 win_prob_tab, player_perf_tab = st.tabs(["Win Probability Model", "Player Performance Model"])
 
@@ -85,40 +85,42 @@ with win_prob_tab:
     st.dataframe(test_df.style.format("{:.4f}"), width="stretch")
 
     st.divider()
-    st.subheader("Calibration Curve")
-    st.caption(
+    with chart_card(
+        "Calibration Curve",
         "A perfectly calibrated model sits on the diagonal: when it says 70% win probability, "
-        "the batting team should actually win about 70% of the time in similar situations."
-    )
-
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1], mode="lines", name="Perfect calibration", line=dict(dash="dash", color="gray")))
-    for name, key in [("Raw", "raw_calibration_curve"), ("Calibrated", "calibrated_calibration_curve")]:
-        curve = report[key]
-        fig.add_trace(
-            go.Scatter(
-                x=curve["predicted_probability"],
-                y=curve["observed_frequency"],
-                mode="lines+markers",
-                name=name,
+        "the batting team should actually win about 70% of the time in similar situations.",
+    ):
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1], mode="lines", name="Perfect calibration", line=dict(dash="dash", color="gray")))
+        for name, key, color in [("Raw", "raw_calibration_curve", "#EF4444"), ("Calibrated", "calibrated_calibration_curve", "#22C55E")]:
+            curve = report[key]
+            fig.add_trace(
+                go.Scatter(
+                    x=curve["predicted_probability"],
+                    y=curve["observed_frequency"],
+                    mode="lines+markers",
+                    name=name,
+                    line=dict(color=color),
+                )
             )
+        fig.update_layout(
+            xaxis_title="Predicted probability",
+            yaxis_title="Observed win frequency",
+            xaxis_range=[0, 1],
+            yaxis_range=[0, 1],
+            plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            legend=dict(font=dict(color="#B8C0E0")),
         )
-    fig.update_layout(
-        xaxis_title="Predicted probability",
-        yaxis_title="Observed win frequency",
-        xaxis_range=[0, 1],
-        yaxis_range=[0, 1],
-    )
-    st.plotly_chart(fig, width="stretch")
+        st.plotly_chart(fig, width="stretch")
 
-    raw_gap = sum(
-        abs(p - o)
-        for p, o in zip(report["raw_calibration_curve"]["predicted_probability"], report["raw_calibration_curve"]["observed_frequency"])
-    ) / len(report["raw_calibration_curve"]["predicted_probability"])
-    cal_gap = sum(
-        abs(p - o)
-        for p, o in zip(
-            report["calibrated_calibration_curve"]["predicted_probability"], report["calibrated_calibration_curve"]["observed_frequency"]
-        )
-    ) / len(report["calibrated_calibration_curve"]["predicted_probability"])
-    st.caption(f"Mean |predicted − observed| across deciles: raw = {raw_gap:.3f}, calibrated = {cal_gap:.3f}")
+        raw_gap = sum(
+            abs(p - o)
+            for p, o in zip(report["raw_calibration_curve"]["predicted_probability"], report["raw_calibration_curve"]["observed_frequency"])
+        ) / len(report["raw_calibration_curve"]["predicted_probability"])
+        cal_gap = sum(
+            abs(p - o)
+            for p, o in zip(
+                report["calibrated_calibration_curve"]["predicted_probability"], report["calibrated_calibration_curve"]["observed_frequency"]
+            )
+        ) / len(report["calibrated_calibration_curve"]["predicted_probability"])
+        st.caption(f"Mean |predicted − observed| across deciles: raw = {raw_gap:.3f}, calibrated = {cal_gap:.3f}")

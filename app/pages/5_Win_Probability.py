@@ -10,18 +10,18 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-from app.components import inject_theme_css, render_match_banner
+from app.components import inject_theme_css, render_match_banner, render_page_title
 from app.data_loader import load_deliveries, load_matches, load_win_probability_model, team_color
 
 FEATURES_PATH = ROOT_DIR / "data" / "features" / "win_prediction_features.parquet"
 
 st.set_page_config(page_title="Win Probability | IPL Intelligence", page_icon="📈", layout="wide")
 inject_theme_css()
-st.title("📈 Live Win Probability")
-st.caption(
+render_page_title(
+    "Live Win Probability",
     "Replays a real historical run chase ball-by-ball through the trained, calibrated "
-    "Random Forest model — Version 1 simulates live play this way rather than a paid live API "
-    "(blueprint section 16)."
+    "Random Forest model — Version 1 simulates live play this way rather than a paid live API.",
+    "#FF822A",
 )
 
 

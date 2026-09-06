@@ -9,17 +9,17 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from app.components import inject_theme_css, render_matchup_banner
+from app.components import chart_card, inject_theme_css, render_matchup_banner, render_page_title
 from app.data_loader import load_deliveries, load_player_photos, team_color
 from src.data.team_normalization import canonical_team_name
 
 st.set_page_config(page_title="Batter vs Bowler | IPL Intelligence", page_icon="⚔️", layout="wide")
 inject_theme_css()
-st.title("⚔️ Batter vs Bowler Matchup")
-st.caption(
+render_page_title(
+    "Batter vs Bowler Matchup",
     "Historical head-to-head from ball-by-ball data. A model-based next-ball outcome "
-    "distribution (blueprint Module 5) is a planned multiclass-classification extension, "
-    "not yet built."
+    "distribution (blueprint Module 5) is a planned extension, not yet built.",
+    "#EA1A85",
 )
 
 deliveries = load_deliveries()
@@ -69,20 +69,22 @@ else:
     cols[5].metric("Dot Ball %", f"{dot_pct:.0f}%")
     cols[6].metric("Boundary %", f"{boundary_pct:.0f}%")
 
-    st.subheader("Outcome Distribution")
-    # A ball where the batter got out is classified as "Wicket" only, never
-    # also as its run value, so percentages below sum to 100%.
-    own_dismissal = faced["player_dismissed"] == batter
-    scoring_balls = faced.loc[~own_dismissal, "runs_batter"]
-    outcome_counts = scoring_balls.value_counts().reindex([0, 1, 2, 3, 4, 6], fill_value=0)
-    outcome_counts["W"] = int(own_dismissal.sum())
-    outcome_df = pd.DataFrame(
-        {"outcome": ["Dot", "1 Run", "2 Runs", "3 Runs", "Four", "Six", "Wicket"], "count": outcome_counts.values}
-    )
-    outcome_df["pct"] = outcome_df["count"] / balls_faced * 100
-    fig = px.bar(outcome_df, x="outcome", y="pct", text="pct", title=f"{batter} vs {bowler}: outcome % per ball")
-    fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside")
-    st.plotly_chart(fig, width="stretch")
+    with chart_card("Outcome Distribution", f"{batter} vs {bowler} — result of every ball faced"):
+        # A ball where the batter got out is classified as "Wicket" only, never
+        # also as its run value, so percentages below sum to 100%.
+        own_dismissal = faced["player_dismissed"] == batter
+        scoring_balls = faced.loc[~own_dismissal, "runs_batter"]
+        outcome_counts = scoring_balls.value_counts().reindex([0, 1, 2, 3, 4, 6], fill_value=0)
+        outcome_counts["W"] = int(own_dismissal.sum())
+        outcome_df = pd.DataFrame(
+            {"outcome": ["Dot", "1 Run", "2 Runs", "3 Runs", "Four", "Six", "Wicket"], "count": outcome_counts.values}
+        )
+        outcome_df["pct"] = outcome_df["count"] / balls_faced * 100
+        outcome_colors = ["#8892C0", "#3B82F6", "#3B82F6", "#3B82F6", "#22C55E", "#22C55E", "#EF4444"]
+        fig = px.bar(outcome_df, x="outcome", y="pct", text="pct")
+        fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside", marker_color=outcome_colors)
+        fig.update_layout(plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)", xaxis_title="", yaxis_title="% of balls")
+        st.plotly_chart(fig, width="stretch")
 
     with st.expander("Ball-by-ball history"):
         st.dataframe(

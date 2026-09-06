@@ -9,7 +9,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from app.components import inject_theme_css, render_stat_card
+from app.components import chart_card, inject_theme_css, render_page_title, render_stat_card
 from app.data_loader import (
     load_batting_stats,
     load_bowling_stats,
@@ -23,7 +23,7 @@ from src.analytics.overview import compute_overview
 
 st.set_page_config(page_title="IPL Overview | IPL Intelligence", page_icon="📊", layout="wide")
 inject_theme_css()
-st.title("📊 IPL Overview")
+render_page_title("IPL Overview", "Tournament-wide numbers across every recorded season", "#004BA0")
 
 matches = load_matches()
 deliveries = load_deliveries()
@@ -64,57 +64,68 @@ with lead_col2:
     )
 
 st.divider()
-st.subheader("Team Win Percentage")
-fig = px.bar(
-    team_stats,
-    x="team",
-    y="win_pct",
-    color="team",
-    color_discrete_map={t: team_color(t) for t in team_stats["team"]},
-    labels={"win_pct": "Win %", "team": "Team"},
-    text="win_pct",
-)
-fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside")
-fig.update_layout(showlegend=False, xaxis_tickangle=-35)
-st.plotly_chart(fig, width="stretch")
+with chart_card("Team Win Percentage", "All-time win % across every season played"):
+    fig = px.bar(
+        team_stats,
+        x="team",
+        y="win_pct",
+        color="team",
+        color_discrete_map={t: team_color(t) for t in team_stats["team"]},
+        labels={"win_pct": "Win %", "team": ""},
+        text="win_pct",
+    )
+    fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside")
+    fig.update_layout(showlegend=False, xaxis_tickangle=-35, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
+    st.plotly_chart(fig, width="stretch")
 
 col1, col2 = st.columns(2)
 with col1:
-    st.subheader("Batting First vs Chasing")
-    melted = team_stats.melt(
-        id_vars="team",
-        value_vars=["win_pct_batting_first", "win_pct_chasing"],
-        var_name="scenario",
-        value_name="win_pct_scenario",
-    )
-    melted["scenario"] = melted["scenario"].map(
-        {"win_pct_batting_first": "Batting First", "win_pct_chasing": "Chasing"}
-    )
-    fig2 = px.bar(
-        melted, x="team", y="win_pct_scenario", color="scenario", barmode="group",
-        labels={"win_pct_scenario": "Win %", "team": "Team"},
-    )
-    fig2.update_layout(xaxis_tickangle=-35)
-    st.plotly_chart(fig2, width="stretch")
+    with chart_card("Batting First vs Chasing", "Win % by strategy, per team"):
+        melted = team_stats.melt(
+            id_vars="team",
+            value_vars=["win_pct_batting_first", "win_pct_chasing"],
+            var_name="scenario",
+            value_name="win_pct_scenario",
+        )
+        melted["scenario"] = melted["scenario"].map(
+            {"win_pct_batting_first": "Batting First", "win_pct_chasing": "Chasing"}
+        )
+        fig2 = px.bar(
+            melted, x="team", y="win_pct_scenario", color="scenario", barmode="group",
+            labels={"win_pct_scenario": "Win %", "team": ""},
+            color_discrete_map={"Batting First": "#3B82F6", "Chasing": "#F59E0B"},
+        )
+        fig2.update_layout(
+            xaxis_tickangle=-35, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, title=""),
+        )
+        st.plotly_chart(fig2, width="stretch")
 
 with col2:
-    st.subheader("Toss Impact")
-    toss = team_stats.dropna(subset=["toss_won_and_match_won_pct"]).sort_values(
-        "toss_won_and_match_won_pct", ascending=False
-    )
-    fig3 = px.bar(
-        toss, x="team", y="toss_won_and_match_won_pct",
-        labels={"toss_won_and_match_won_pct": "Win % after winning toss", "team": "Team"},
-    )
-    fig3.update_layout(xaxis_tickangle=-35)
-    st.plotly_chart(fig3, width="stretch")
+    with chart_card("Toss Impact", "How often the toss winner also wins the match"):
+        toss = team_stats.dropna(subset=["toss_won_and_match_won_pct"]).sort_values(
+            "toss_won_and_match_won_pct", ascending=False
+        )
+        fig3 = px.bar(
+            toss, x="team", y="toss_won_and_match_won_pct",
+            labels={"toss_won_and_match_won_pct": "Win % after winning toss", "team": ""},
+            color="team", color_discrete_map={t: team_color(t) for t in toss["team"]},
+        )
+        fig3.update_layout(
+            xaxis_tickangle=-35, showlegend=False, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+        )
+        st.plotly_chart(fig3, width="stretch")
 
 st.divider()
-st.subheader("Matches per Season")
-season_counts = matches.groupby("season_year").size().reset_index(name="matches")
-fig4 = px.bar(season_counts, x="season_year", y="matches", labels={"season_year": "Season", "matches": "Matches"})
-st.plotly_chart(fig4, width="stretch")
+with chart_card("Matches per Season", "Tournament size over time"):
+    season_counts = matches.groupby("season_year").size().reset_index(name="matches")
+    fig4 = px.bar(
+        season_counts, x="season_year", y="matches", labels={"season_year": "Season", "matches": "Matches"},
+    )
+    fig4.update_traces(marker_color="#3B82F6")
+    fig4.update_layout(plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
+    st.plotly_chart(fig4, width="stretch")
 
 st.divider()
-st.subheader("Full Team Record")
-st.dataframe(team_stats, width="stretch", hide_index=True)
+with chart_card("Full Team Record"):
+    st.dataframe(team_stats, width="stretch", hide_index=True)

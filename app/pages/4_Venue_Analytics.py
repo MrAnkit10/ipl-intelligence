@@ -9,13 +9,13 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from app.components import avatar_html, inject_theme_css
+from app.components import avatar_html, chart_card, inject_theme_css, render_page_title
 from app.data_loader import load_deliveries, load_venue_photos, load_venue_stats, team_color
 from src.data.venue_normalization import canonical_venue_name
 
 st.set_page_config(page_title="Venue Analytics | IPL Intelligence", page_icon="🏟️", layout="wide")
 inject_theme_css()
-st.title("🏟️ Venue Analytics")
+render_page_title("Venue Analytics", "Scoring conditions and match outcomes by ground", "#17479E")
 
 venue_stats = load_venue_stats()
 deliveries = load_deliveries().copy()
@@ -54,12 +54,14 @@ cols[4].metric("Chasing Win %", f"{row['chasing_win_pct']:.0f}%" if pd.notna(row
 cols[5].metric("Most Successful Team", row["most_successful_team"] or "—")
 
 st.divider()
-st.subheader("Scoring by Over")
-venue_deliveries = deliveries[(deliveries["venue"] == venue) & (~deliveries["is_super_over"])]
-by_over = venue_deliveries.groupby("over")["runs_total"].mean().reset_index()
-fig = px.bar(by_over, x="over", y="runs_total", labels={"over": "Over", "runs_total": "Average Runs"})
-st.plotly_chart(fig, width="stretch")
+with chart_card("Scoring by Over", f"Average runs per over at {venue}"):
+    venue_deliveries = deliveries[(deliveries["venue"] == venue) & (~deliveries["is_super_over"])]
+    by_over = venue_deliveries.groupby("over")["runs_total"].mean().reset_index()
+    fig = px.bar(by_over, x="over", y="runs_total", labels={"over": "Over", "runs_total": "Average Runs"})
+    fig.update_traces(marker_color=accent)
+    fig.update_layout(plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
+    st.plotly_chart(fig, width="stretch")
 
 st.divider()
-st.subheader("All Venues")
-st.dataframe(venue_stats, width="stretch", hide_index=True)
+with chart_card("All Venues"):
+    st.dataframe(venue_stats, width="stretch", hide_index=True)

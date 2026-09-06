@@ -1,6 +1,7 @@
 """Small reusable UI pieces shared across pages."""
 
 import hashlib
+from contextlib import contextmanager
 
 import streamlit as st
 
@@ -10,6 +11,19 @@ AVATAR_COLORS = [
     "#EC1C24", "#004BA0", "#FDB913", "#3A225D", "#EA1A85",
     "#17479E", "#FF822A", "#1B2133", "#A72056", "#0D3692",
 ]
+
+# A small custom cricket-ball mark (plain SVG: a circle plus two seam
+# curves) used in place of the 🏏 emoji and, deliberately, in place of
+# any real IPL/BCCI branding — those are trademarked, and reproducing
+# them (even redrawn) on a public deployment isn't something this
+# project can safely do. This is an original, generic cricket icon.
+BALL_ICON_SVG = """
+<svg width="{size}" height="{size}" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="24" cy="24" r="21" fill="{color}" stroke="#ffffff33" stroke-width="1.5"/>
+    <path d="M 24 3 A 21 21 0 0 1 24 45" stroke="#ffffff88" stroke-width="1.2" fill="none" stroke-dasharray="2,2"/>
+    <path d="M 8 12 A 21 21 0 0 0 8 36" stroke="#ffffff88" stroke-width="1.2" fill="none" stroke-dasharray="2,2"/>
+</svg>
+"""
 
 
 def inject_theme_css() -> None:
@@ -28,12 +42,58 @@ def inject_theme_css() -> None:
         [data-testid="stMetricLabel"] { opacity: 0.75; }
         [data-testid="stVerticalBlockBorderWrapper"] {
             border-radius: 14px !important;
+            background: linear-gradient(180deg, #131A3A 0%, #0F1530 100%);
+            border: 1px solid #232B55 !important;
         }
+        [data-testid="stVerticalBlockBorderWrapper"] > div { padding: 4px 6px; }
         h1, h2, h3 { letter-spacing: -0.01em; }
+        #MainMenu, footer { visibility: hidden; }
         </style>
         """,
         unsafe_allow_html=True,
     )
+
+
+def render_page_title(title: str, subtitle: str | None = None, color: str = "#3B82F6") -> None:
+    """A designed page header (colored accent chip + bold title, optional
+    subtitle) — replaces st.title("<emoji> Title"), which reads as a
+    placeholder rather than a finished product."""
+    ball = BALL_ICON_SVG.format(size=34, color=color)
+    subtitle_html = f'<div style="color:#B8C0E0;font-size:13px;font-family:sans-serif;margin-top:2px;">{subtitle}</div>' if subtitle else ""
+    st.markdown(
+        f"""
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+            <div style="flex-shrink:0;">{ball}</div>
+            <div>
+                <div style="color:white;font-size:26px;font-weight:900;font-family:sans-serif;
+                            letter-spacing:-0.02em;">{title}</div>
+                {subtitle_html}
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+@contextmanager
+def chart_card(title: str, subtitle: str | None = None):
+    """A bordered, dark-card section for a chart or table — the boxed-panel
+    look of a broadcast stats page ("Manhattan", "Partnerships", ...),
+    applied to this project's own charts."""
+    with st.container(border=True):
+        subtitle_html = (
+            f'<div style="color:#8892C0;font-size:12px;font-family:sans-serif;margin-bottom:8px;">{subtitle}</div>'
+            if subtitle else ""
+        )
+        st.markdown(
+            f"""
+            <div style="font-weight:800;font-size:15px;color:white;font-family:sans-serif;
+                        margin:2px 0 2px 0;">{title}</div>
+            {subtitle_html}
+            """,
+            unsafe_allow_html=True,
+        )
+        yield
 
 
 def render_team_badge(team: str, color: str, size: int = 64) -> None:

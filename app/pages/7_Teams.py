@@ -8,17 +8,18 @@ if str(ROOT_DIR) not in sys.path:
 import pandas as pd
 import streamlit as st
 
-from app.components import inject_theme_css
+from app.components import inject_theme_css, render_page_title
 from app.data_loader import load_team_stats, team_color
 from src.data.team_normalization import team_code
 
 st.set_page_config(page_title="Teams | IPL Intelligence", page_icon="🏆", layout="wide")
 inject_theme_css()
-st.title("🏆 Teams")
-st.caption(
-    "Team badges are colored code chips, not official crests — those are trademarked and "
-    "not safe to hotlink on a public deployment. Click \"View Full Stats\" on any team for "
-    "its complete record, head-to-head, key players, and match log."
+render_page_title(
+    "Teams",
+    "Team badges are colored code chips, not official crests — those are trademarked and not "
+    "safe to hotlink on a public deployment. Click \"View Full Stats\" for the complete record, "
+    "head-to-head, key players, and match log. Data: Cricsheet ball-by-ball records.",
+    "#EC1C24",
 )
 
 team_stats = load_team_stats().sort_values("win_pct", ascending=False).reset_index(drop=True)
@@ -68,4 +69,4 @@ for row_df in rows:
             )
             if st.button("View Full Stats →", key=f"view_{team_row['team']}", width="stretch"):
                 st.session_state["selected_team"] = team_row["team"]
-                st.switch_page("pages/9_Team_Detail.py")
+                st.switch_page("pages/8_Team_Detail.py")

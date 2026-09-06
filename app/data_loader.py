@@ -98,7 +98,7 @@ def load_team_matches(team: str) -> pd.DataFrame:
 
     played["result"] = played.apply(_result, axis=1)
     return played.sort_values("date", ascending=False)[
-        ["date", "opponent", "venue", "result", "season_year"]
+        ["match_id", "date", "opponent", "venue", "result", "season_year"]
     ].reset_index(drop=True)
 
 
