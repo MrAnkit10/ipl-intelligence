@@ -1,5 +1,7 @@
 """Career bowling statistics per player (blueprint section 28)."""
 
+from __future__ import annotations
+
 import numpy as np
 import pandas as pd
 
@@ -20,6 +22,24 @@ def _phase_economy(legal: pd.DataFrame) -> pd.DataFrame:
     wide = phase_agg.pivot(index="bowler_id", columns="phase", values="economy")
     wide = wide.rename(columns={p: f"economy_{p}" for p in wide.columns})
     return wide.reset_index()
+
+
+def _best_bowling_figures(main: pd.DataFrame) -> pd.DataFrame:
+    """Best single-innings bowling figures per career — the "4/25" a
+    scorecard shows. Aggregates each (bowler, match) to its wicket count
+    and runs conceded, then ranks by the standard cricket convention:
+    most wickets first, fewest runs conceded as the tiebreak. Requires
+    main["bowler_runs"] to already be set by the caller."""
+    bowler_wickets = main[main["dismissal_kind"].isin(BOWLER_CREDITED_DISMISSALS)]
+    per_match_wickets = bowler_wickets.groupby(["bowler_id", "match_id"]).size().rename("wickets")
+    per_match_runs = main.groupby(["bowler_id", "match_id"])["bowler_runs"].sum().rename("runs")
+    per_match = pd.concat([per_match_wickets, per_match_runs], axis=1)
+    per_match["wickets"] = per_match["wickets"].fillna(0).astype(int)
+    per_match = per_match.reset_index().sort_values(["wickets", "runs"], ascending=[False, True])
+    best = per_match.groupby("bowler_id").first()
+    return best.rename(
+        columns={"wickets": "best_bowling_wickets", "runs": "best_bowling_runs", "match_id": "best_bowling_match_id"}
+    ).reset_index()
 
 
 def compute_bowling_stats(deliveries: pd.DataFrame) -> pd.DataFrame:
@@ -71,6 +91,13 @@ def compute_bowling_stats(deliveries: pd.DataFrame) -> pd.DataFrame:
 
     stats = stats.reset_index().rename(columns={"index": "bowler_id"})
     stats = stats.merge(_phase_economy(legal), on="bowler_id", how="left")
+    stats = stats.merge(_best_bowling_figures(main), on="bowler_id", how="left")
     stats = stats.rename(columns={"bowler_id": "player_id"})
+
+    stats["best_bowling_figures"] = stats.apply(
+        lambda r: f"{int(r['best_bowling_wickets'])}/{int(r['best_bowling_runs'])}"
+        if pd.notna(r["best_bowling_wickets"]) else None,
+        axis=1,
+    )
 
     return stats.sort_values("wickets", ascending=False).reset_index(drop=True)

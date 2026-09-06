@@ -98,6 +98,7 @@ with col_players:
             b["player_name"], "Leading Run Scorer", player_photos.get(b["player_id"]), color,
             [
                 ("Runs", f"{int(b['runs']):,}"),
+                ("Highest Score", int(b["highest_score"]) if pd.notna(b.get("highest_score")) else "—"),
                 ("Average", f"{b['batting_average']:.1f}" if pd.notna(b["batting_average"]) else "—"),
                 ("Strike Rate", f"{b['strike_rate']:.1f}"),
                 ("50s / 100s", f"{int(b['fifties'])} / {int(b['hundreds'])}"),
@@ -111,6 +112,7 @@ with col_players:
             bw["player_name"], "Leading Wicket Taker", player_photos.get(bw["player_id"]), color,
             [
                 ("Wickets", int(bw["wickets"])),
+                ("Best Bowling", bw["best_bowling_figures"] if pd.notna(bw.get("best_bowling_figures")) else "—"),
                 ("Economy", f"{bw['economy']:.2f}"),
                 ("Average", f"{bw['bowling_average']:.1f}" if pd.notna(bw["bowling_average"]) else "—"),
             ],

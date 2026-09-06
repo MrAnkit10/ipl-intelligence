@@ -49,6 +49,7 @@ with lead_col1:
         team_color(top_batter.get("current_team", "")),
         [
             ("Runs", f"{int(top_batter['runs']):,}"),
+            ("Highest Score", int(top_batter["highest_score"]) if pd.notna(top_batter.get("highest_score")) else "—"),
             ("Average", f"{top_batter['batting_average']:.1f}" if pd.notna(top_batter["batting_average"]) else "—"),
             ("Strike Rate", f"{top_batter['strike_rate']:.1f}"),
         ],
@@ -60,6 +61,7 @@ with lead_col2:
         team_color(top_bowler.get("current_team", "")),
         [
             ("Wickets", int(top_bowler["wickets"])),
+            ("Best Bowling", top_bowler["best_bowling_figures"] if pd.notna(top_bowler.get("best_bowling_figures")) else "—"),
             ("Economy", f"{top_bowler['economy']:.2f}"),
         ],
     )
@@ -138,25 +140,27 @@ st.divider()
 lb_col1, lb_col2 = st.columns(2)
 with lb_col1:
     with chart_card("Most Runs — Full Leaderboard", "Every player, ranked"):
-        runs_lb = batting_stats[["player_name", "current_team", "innings", "runs", "batting_average", "strike_rate"]].copy()
+        runs_lb = batting_stats[
+            ["player_name", "current_team", "innings", "runs", "highest_score", "batting_average", "strike_rate"]
+        ].copy()
         runs_lb.insert(0, "Rank", range(1, len(runs_lb) + 1))
         st.dataframe(
             runs_lb.rename(columns={
                 "player_name": "Player", "current_team": "Team", "innings": "Inns",
-                "runs": "Runs", "batting_average": "Avg", "strike_rate": "SR",
+                "runs": "Runs", "highest_score": "HS", "batting_average": "Avg", "strike_rate": "SR",
             }),
             width="stretch", hide_index=True, height=420,
         )
 with lb_col2:
     with chart_card("Most Wickets — Full Leaderboard", "Every player, ranked"):
         wickets_lb = bowling_stats.sort_values("wickets", ascending=False)[
-            ["player_name", "current_team", "wickets", "economy", "bowling_average"]
+            ["player_name", "current_team", "wickets", "best_bowling_figures", "economy", "bowling_average"]
         ].copy()
         wickets_lb.insert(0, "Rank", range(1, len(wickets_lb) + 1))
         st.dataframe(
             wickets_lb.rename(columns={
                 "player_name": "Player", "current_team": "Team", "wickets": "Wkts",
-                "economy": "Econ", "bowling_average": "Avg",
+                "best_bowling_figures": "Best", "economy": "Econ", "bowling_average": "Avg",
             }),
             width="stretch", hide_index=True, height=420,
         )

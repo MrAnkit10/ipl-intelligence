@@ -302,15 +302,16 @@ if not bat_row.empty:
 if not bowl_row.empty:
     row = bowl_row.iloc[0]
     st.subheader("Bowling")
-    cols = st.columns(6)
+    cols = st.columns(7)
     cols[0].metric("Overs", f"{row['overs']:.1f}")
     cols[1].metric("Wickets", int(row["wickets"]))
-    cols[2].metric("Economy", f"{row['economy']:.2f}")
-    cols[3].metric(
+    cols[2].metric("Best Bowling", row["best_bowling_figures"] if pd.notna(row.get("best_bowling_figures")) else "—")
+    cols[3].metric("Economy", f"{row['economy']:.2f}")
+    cols[4].metric(
         "Bowling Average", f"{row['bowling_average']:.1f}" if pd.notna(row["bowling_average"]) else "—"
     )
-    cols[4].metric("Dot Ball %", f"{row['dot_ball_pct']:.1f}%")
-    cols[5].metric("Boundary Conceded %", f"{row['boundary_conceded_pct']:.1f}%")
+    cols[5].metric("Dot Ball %", f"{row['dot_ball_pct']:.1f}%")
+    cols[6].metric("Boundary Conceded %", f"{row['boundary_conceded_pct']:.1f}%")
 
     phase_cols = [c for c in ["economy_powerplay", "economy_middle", "economy_death"] if c in row.index]
     phase_df = pd.DataFrame(
