@@ -39,10 +39,20 @@ PROCESSED_DIR = BASE_DIR / "data" / "processed"
 SUPPORTED_DATA_VERSION = "1.2.0"
 
 
-def _extract_season_year(season_value) -> int:
-    """Cricsheet stores season as e.g. 2020 or '2007/08'; normalize to a year."""
-    text = str(season_value)
-    return int(text[:4])
+def _extract_season_year(first_match_date: str) -> int:
+    """The calendar year a season is publicly known by.
+
+    Cricsheet's own "season" field is not safe to parse for this: it's a
+    split-year string like "2009/10" for three IPL seasons (2008, 2010,
+    2020), and naively taking the first 4 characters collides two of them
+    with unrelated single-year seasons that happen to share that prefix -
+    "2009/10" (the real IPL 2010, played Mar-Apr 2010) parsed to 2009,
+    silently merging its matches, Orange Cap, and champion into the
+    separate real IPL 2009 season. Every IPL season's matches fall inside
+    a single calendar year in this data, so the match's own first date is
+    the reliable source of truth instead.
+    """
+    return int(first_match_date[:4])
 
 
 def _phase(over_number: int, is_super_over: bool) -> str:
@@ -107,7 +117,7 @@ def parse_match_file(json_path: Path) -> tuple[dict, list[dict]]:
     match_row = {
         "match_id": match_id,
         "season": str(info.get("season")),
-        "season_year": _extract_season_year(info.get("season")),
+        "season_year": _extract_season_year(info["dates"][0]),
         "date": info["dates"][0],
         "event_name": info.get("event", {}).get("name"),
         "match_number": info.get("event", {}).get("match_number"),
