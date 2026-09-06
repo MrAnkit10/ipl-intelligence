@@ -10,12 +10,14 @@ import plotly.express as px
 import streamlit as st
 
 from app.data_loader import load_deliveries, load_venue_stats
+from src.data.venue_normalization import canonical_venue_name
 
 st.set_page_config(page_title="Venue Analytics | IPL Intelligence", page_icon="🏟️", layout="wide")
 st.title("🏟️ Venue Analytics")
 
 venue_stats = load_venue_stats()
-deliveries = load_deliveries()
+deliveries = load_deliveries().copy()
+deliveries["venue"] = deliveries["venue"].map(canonical_venue_name, na_action="ignore")
 
 venues = venue_stats.sort_values("matches_played", ascending=False)["venue"].tolist()
 venue = st.selectbox("Select a venue", venues)

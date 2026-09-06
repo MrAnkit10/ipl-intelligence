@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 
 from src.data.team_normalization import canonical_team_name
+from src.data.venue_normalization import canonical_venue_name
 
 
 def _with_canonical_team_names(matches: pd.DataFrame) -> pd.DataFrame:
@@ -76,7 +77,9 @@ def compute_team_stats(matches: pd.DataFrame) -> pd.DataFrame:
 def compute_venue_stats(matches: pd.DataFrame, deliveries: pd.DataFrame) -> pd.DataFrame:
     """One row per venue (blueprint section 8)."""
     matches = _with_canonical_team_names(matches)
-    main = deliveries[~deliveries["is_super_over"]]
+    matches["venue"] = matches["venue"].map(canonical_venue_name, na_action="ignore")
+    main = deliveries[~deliveries["is_super_over"]].copy()
+    main["venue"] = main["venue"].map(canonical_venue_name, na_action="ignore")
 
     innings_totals = (
         main.groupby(["match_id", "innings"])

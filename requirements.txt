@@ -8,6 +8,11 @@ tqdm
 scikit-learn
 joblib
 matplotlib
+xgboost
+lightgbm
 
 streamlit
 plotly
+
+sqlalchemy
+psycopg2-binary

@@ -6,8 +6,9 @@ analytics, a calibrated win-probability model, player analytics, venue
 analysis, a batter-vs-bowler matchup engine, and an interactive Streamlit
 application.
 
-Status: **data foundation, descriptive analytics, and a calibrated win-probability
-model are complete**, actively under development. See
+Status: data foundation, descriptive analytics, a calibrated win-probability
+model, a player performance predictor, the Streamlit app, and a working
+local PostgreSQL database are all complete. See
 [Development Roadmap](#development-roadmap) below.
 
 ## Architecture
@@ -20,7 +21,7 @@ Cricsheet JSON  ->  Python parser  ->  matches / deliveries / players
                                               |
                           -------------------------------------
                           |                |                  |
-                 Descriptive Analytics   Machine Learning   Power BI
+                 Descriptive Analytics   Machine Learning   Tableau
                           |                |
                           -------------------------------------
                                               |
@@ -49,7 +50,8 @@ ipl-intelligence/
 │   ├── analytics/      # batting / bowling / team / venue analytics
 │   └── database/       # PostgreSQL connection layer
 ├── sql/                # schema + analytical queries
-├── dashboard/          # Power BI .pbix
+├── dashboard/          # Tableau build guide
+├── scripts/            # environment-fix helper scripts
 └── app/                # Streamlit application
 ```
 
@@ -58,6 +60,7 @@ ipl-intelligence/
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
+scripts/fix_macos_libomp.sh                # only needed on macOS without Homebrew
 
 python -m src.data.download_data          # fetch Cricsheet IPL JSON + player register
 python -m src.data.parse_cricsheet        # build matches/deliveries/players tables
@@ -75,37 +78,87 @@ python -m src.models.predict_player_performance             # example prediction
 streamlit run app/Home.py                 # the full application
 ```
 
-Current scale: **1,243 matches**, **295,732 deliveries**, **804 players**,
+Current scale: **1,243 matches**, **295,732 deliveries**, **805 players**,
 seasons 2008-2026.
+
+## PostgreSQL
+
+No Homebrew on this machine, so Postgres runs via **Postgres.app** instead
+(a self-contained `.app` bundle — no `brew install postgresql`, no sudo):
+
+```bash
+# one-time setup
+export PGBIN="/Applications/Postgres.app/Contents/Versions/17/bin"
+"$PGBIN/initdb" -D ~/pgdata -U $(whoami) -A trust --encoding=UTF8
+# started via a LaunchAgent (~/Library/LaunchAgents/com.ipl-intelligence.postgres.plist)
+# so it's already running and starts automatically on login — no manual start needed.
+
+createdb -h /tmp -p 5432 ipl_intelligence
+psql -h /tmp -p 5432 -d ipl_intelligence -f sql/schema.sql
+python -m src.database.load_data      # loads dim_/fact_ tables from data/processed/
+```
+
+`src/database/db.py` reads `DATABASE_URL` from a local `.env` (gitignored;
+see `.env.example`). Query it directly with `psql -h /tmp -p 5432 -d
+ipl_intelligence`, or through `sql/player_queries.sql` and
+`sql/analytics_queries.sql` — CTEs, window functions (rolling 5-innings
+form, `RANK()`, `LAG()`), `FILTER`, and a view, all run against the live
+data and verified to return sensible results (blueprint section 32).
+
+## Making XGBoost/LightGBM Work Without Homebrew
+
+Both packages' macOS wheels link against `@rpath/libomp.dylib` and expect
+it at `/opt/homebrew/opt/libomp/lib/libomp.dylib` (i.e. they assume
+Homebrew) — `pip install` succeeds but `import xgboost` fails at dlopen
+time. This machine already has `libomp.dylib` via its Anaconda install, so
+`scripts/fix_macos_libomp.sh` repoints each package's compiled extension at
+that file directly with `install_name_tool` — no global `DYLD_LIBRARY_PATH`
+(which breaks numpy's Accelerate-framework linking if set broadly), no
+Homebrew, no sudo. Re-run it after any `pip install --upgrade
+xgboost`/`lightgbm`, since reinstalling restores the original path.
 
 ## Win Probability Model
 
 `python -m src.features.build_features` builds a ball-by-ball second-innings
 feature table (142K balls across 1,234 decided matches). `python -m
 src.models.train` does a chronological season split (train <=2022, validate
-2023-2024, test >=2025), compares Logistic Regression vs Random Forest,
-calibrates the better model with isotonic regression, and saves it to
+2023-2024, test >=2025), compares **Logistic Regression, Random Forest,
+XGBoost, and LightGBM** (the full progression blueprint section 19 asks
+for), calibrates the best one with isotonic regression, and saves it to
 `models/win_probability.pkl`.
+
+Validation results (used for model selection):
+
+| Model | Log Loss | ROC-AUC |
+|---|---|---|
+| Logistic Regression | 0.523 | 0.852 |
+| **Random Forest (selected)** | **0.481** | **0.853** |
+| XGBoost | 0.509 | 0.854 |
+| LightGBM | 0.512 | 0.852 |
+
+XGBoost/LightGBM needed real regularization to be competitive at all — a
+first pass with no `subsample`/`colsample_bytree`/`reg_lambda` scored log
+loss 0.68 (worse than Random Forest's 0.49), and simply adding more boosting
+rounds made it *worse* (up to 1.03), confirming overfitting on the wide,
+sparse one-hot-encoded venue/team feature space rather than undertraining.
+Regularized settings closed most of the gap (see comments in
+`src/models/train.py`), but Random Forest still wins here without a full
+Optuna sweep (blueprint section 17) — a legitimate result, not a shortcut.
 
 Held-out test results (2025-2026 seasons, never seen during training or
 calibration):
 
 | Model | Log Loss | Brier | ROC-AUC | Accuracy |
 |---|---|---|---|---|
-| Random Forest (raw) | 0.496 | 0.159 | 0.872 | 0.773 |
-| Random Forest + isotonic calibration | 0.513 | 0.155 | 0.871 | 0.759 |
+| Random Forest (raw) | 0.497 | 0.161 | 0.872 | 0.775 |
+| Random Forest + isotonic calibration | 0.531 | 0.156 | 0.871 | 0.753 |
 
 Calibration slightly worsens log loss but improves the Brier score and
-roughly halves the mean calibration-curve gap (0.115 -> 0.089 average
-|predicted - observed| across probability deciles) — the raw model is
-overconfident at the extremes, which isotonic regression corrects. This
-distinction (ranking quality vs. probability trustworthiness) is exactly
-what blueprint section 24 calls out.
-
-**XGBoost/LightGBM are not yet in the comparison** — both need `libomp`,
-which isn't installed (no Homebrew in this environment). `brew install
-libomp` (or a Docker-based dev environment) unblocks adding them later;
-they're expected to beat the Random Forest baseline.
+substantially closes the mean calibration-curve gap (predicted vs. observed
+win frequency across probability deciles) — the raw model is overconfident
+at the extremes, which isotonic regression corrects. This distinction
+(ranking quality vs. probability trustworthiness) is exactly what blueprint
+section 24 calls out; see the Model Insights page for the full curve.
 
 `python -m src.models.predict` shows the inference interface the Streamlit
 live win-probability page calls.
@@ -191,6 +244,28 @@ Chargers vs Sunrisers Hyderabad, Gujarat Lions vs Gujarat Titans). The
 source tables (`matches.parquet`) are never overwritten — normalization is
 applied at analysis time only.
 
+## Venue Normalization
+
+The same gap existed for venues (blueprint section 43) and was found while
+writing `sql/analytics_queries.sql`'s venue-profile query: "Wankhede
+Stadium" and "Wankhede Stadium, Mumbai" showed up as two separate rows.
+`src/data/venue_normalization.py` merges 24 name variants down from 60 raw
+venue strings to 36 canonical venues — plain suffix/punctuation variants
+(`"M.Chinnaswamy Stadium"` vs `"M Chinnaswamy Stadium, Bengaluru"`) plus
+three well-documented ground renames (Feroz Shah Kotla -> Arun Jaitley
+Stadium, Sardar Patel Stadium -> Narendra Modi Stadium, Subrata Roy Sahara
+Stadium -> Maharashtra Cricket Association Stadium).
+
+This wasn't just a descriptive-analytics bug — venue is a feature in both
+ML models, so the fragmentation was diluting its signal. After the fix and
+retrain, Logistic Regression's validation log loss improved from 0.590 to
+0.523 (ROC-AUC 0.828 -> 0.852); Random Forest improved more modestly (it's
+less sensitive to sparse one-hot categories). Applied everywhere venue is
+grouped or filtered: descriptive stats, both feature-engineering pipelines,
+the Streamlit Venue Analytics page, and the PostgreSQL load (`fact_matches`
+keeps `venue_original` alongside the canonical `venue`, same audit-trail
+pattern as team names).
+
 ## Development Roadmap
 
 - [x] Repository + environment setup
@@ -199,10 +274,11 @@ applied at analysis time only.
 - [x] Data validation
 - [x] Descriptive analytics (batting/bowling/team/venue stats, tournament overview)
 - [x] Team-name normalization
-- [x] PostgreSQL schema (not yet loaded — no local Postgres in this environment)
+- [x] Venue normalization
+- [x] PostgreSQL schema, loaded and verified (Postgres.app, no Homebrew)
+- [x] SQL demonstrations: CTEs, window functions, rolling averages, ranking, LAG, views, FILTER
 - [x] Feature engineering (match-state, momentum) for win probability
-- [x] Baseline ML (Logistic Regression, Random Forest) + isotonic calibration
-- [ ] XGBoost / LightGBM (blocked on libomp)
+- [x] Full model comparison (Logistic Regression, Random Forest, XGBoost, LightGBM) + isotonic calibration
 - [x] Streamlit application (8 pages: Home, Overview, Player Analytics, Batter vs Bowler, Venue Analytics, Win Probability, Model Insights, Player Performance Predictor)
 - [x] Batter-vs-bowler matchup engine (historical; model-based next-ball distribution not yet built)
 - [x] Player performance predictor

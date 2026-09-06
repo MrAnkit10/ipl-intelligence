@@ -34,7 +34,10 @@ CREATE TABLE IF NOT EXISTS fact_matches (
     match_number       INT,
     team1              TEXT REFERENCES dim_team(team_name),
     team2              TEXT REFERENCES dim_team(team_name),
+    team1_original     TEXT,   -- name as originally recorded, before normalization (section 42)
+    team2_original     TEXT,
     venue              TEXT,
+    venue_original     TEXT,  -- name as originally recorded, before normalization (section 43)
     city               TEXT,
     toss_winner        TEXT REFERENCES dim_team(team_name),
     toss_decision      TEXT,

@@ -20,6 +20,7 @@ import numpy as np
 import pandas as pd
 
 from src.data.team_normalization import canonical_team_name
+from src.data.venue_normalization import canonical_venue_name
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 PROCESSED_DIR = BASE_DIR / "data" / "processed"
@@ -73,6 +74,7 @@ def build_batting_innings(matches: pd.DataFrame, deliveries: pd.DataFrame) -> pd
 
     for col in ["batting_team", "bowling_team"]:
         innings_agg[col] = innings_agg[col].map(canonical_team_name, na_action="ignore")
+    innings_agg["venue"] = innings_agg["venue"].map(canonical_venue_name, na_action="ignore")
 
     return innings_agg.sort_values(["player_id", "date"]).reset_index(drop=True)
 

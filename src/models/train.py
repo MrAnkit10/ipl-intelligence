@@ -6,11 +6,11 @@ deliveries — that would leak same-match balls across train/test):
     VALIDATION 2023-2024
     TEST       2025-2026
 
-Compares Logistic Regression and Random Forest (XGBoost/LightGBM need
-libomp, unavailable in this environment — see README), picks the better
-one by validation log loss, calibrates it with isotonic regression fit on
-the validation split, and reports final metrics on the held-out test
-seasons. Saves the calibrated pipeline to models/win_probability.pkl.
+Compares Logistic Regression, Random Forest, XGBoost, and LightGBM, picks
+the better one by validation log loss, calibrates it with isotonic
+regression fit on the validation split, and reports final metrics on the
+held-out test seasons. Saves the calibrated pipeline to
+models/win_probability.pkl.
 
 Usage:
     python -m src.models.train
@@ -20,7 +20,9 @@ import json
 from pathlib import Path
 
 import joblib
+import lightgbm
 import pandas as pd
+import xgboost
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.compose import ColumnTransformer
 from sklearn.frozen import FrozenEstimator
@@ -80,6 +82,22 @@ def candidate_models() -> dict:
         "logistic_regression": LogisticRegression(max_iter=1000),
         "random_forest": RandomForestClassifier(
             n_estimators=300, min_samples_leaf=5, n_jobs=-1, random_state=42
+        ),
+        # One-hot encoding venue/batting_team/bowling_team makes a wide,
+        # sparse feature space where unregularized boosting overfits hard
+        # (a first pass at n_estimators=300/depth=6 with no regularization
+        # scored log_loss=0.68, worse than Random Forest's 0.49 — more
+        # rounds made it worse still, up to 1.03, confirming overfitting
+        # rather than undertraining). subsample/colsample/reg_lambda/
+        # min_child_weight bring it back in range; a full Optuna sweep
+        # (blueprint section 17) would likely close the remaining gap.
+        "xgboost": xgboost.XGBClassifier(
+            n_estimators=300, max_depth=4, learning_rate=0.05, n_jobs=-1, random_state=42,
+            eval_metric="logloss", subsample=0.8, colsample_bytree=0.8, reg_lambda=5.0, min_child_weight=10,
+        ),
+        "lightgbm": lightgbm.LGBMClassifier(
+            n_estimators=300, max_depth=4, learning_rate=0.05, n_jobs=-1, random_state=42, verbose=-1,
+            subsample=0.8, colsample_bytree=0.8, reg_lambda=5.0, min_child_samples=30,
         ),
     }
 

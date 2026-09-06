@@ -50,7 +50,7 @@ class WinProbabilityModel:
 if __name__ == "__main__":
     model = WinProbabilityModel.load()
     prob = model.predict_one(
-        venue="Rajiv Gandhi International Stadium, Uppal",
+        venue="Rajiv Gandhi International Stadium, Uppal, Hyderabad",
         batting_team="Royal Challengers Bengaluru",
         bowling_team="Sunrisers Hyderabad",
         over=16,

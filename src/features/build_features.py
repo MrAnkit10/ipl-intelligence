@@ -16,6 +16,7 @@ import numpy as np
 import pandas as pd
 
 from src.data.team_normalization import canonical_team_name
+from src.data.venue_normalization import canonical_venue_name
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 PROCESSED_DIR = BASE_DIR / "data" / "processed"
@@ -45,6 +46,7 @@ def build_win_prediction_features(matches: pd.DataFrame, deliveries: pd.DataFram
     ].copy()
     for col in ["batting_team", "bowling_team"]:
         second_innings[col] = second_innings[col].map(canonical_team_name, na_action="ignore")
+    second_innings["venue"] = second_innings["venue"].map(canonical_venue_name, na_action="ignore")
 
     second_innings = second_innings.sort_values(["match_id", "over", "ball"]).reset_index(drop=True)
     second_innings = second_innings.merge(first_innings_total, on="match_id", how="inner")

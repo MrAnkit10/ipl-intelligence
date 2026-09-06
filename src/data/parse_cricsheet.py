@@ -189,13 +189,24 @@ def parse_match_file(json_path: Path) -> tuple[dict, list[dict]]:
 
 
 def build_players_table(deliveries: pd.DataFrame) -> pd.DataFrame:
-    """Build the player dimension from ids seen in the deliveries, enriched
-    with canonical names / cross-platform keys from Cricsheet's people register."""
+    """Build the player dimension from every id seen in the deliveries,
+    enriched with canonical names / cross-platform keys from Cricsheet's
+    people register.
+
+    Includes non_striker, not just batter/bowler: a player can end an
+    innings at the non-striker's end without ever facing a ball (e.g. the
+    winning run scored at the other end, or the innings ending on a wicket
+    or the overs running out) and would otherwise never appear here, later
+    causing a dangling foreign key from fact_deliveries.non_striker_id."""
     id_name_pairs = pd.concat(
         [
             deliveries[["batter_id", "batter"]].rename(columns={"batter_id": "player_id", "batter": "player_name"}),
             deliveries[["bowler_id", "bowler"]].rename(columns={"bowler_id": "player_id", "bowler": "player_name"}),
-        ]
+            deliveries[["non_striker_id", "non_striker"]].rename(
+                columns={"non_striker_id": "player_id", "non_striker": "player_name"}
+            ),
+        ],
+        ignore_index=True,
     ).dropna(subset=["player_id"])
 
     # A player can appear under slightly different display-name spellings

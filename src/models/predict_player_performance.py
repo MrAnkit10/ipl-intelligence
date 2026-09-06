@@ -10,7 +10,7 @@ Usage:
     from src.models.predict_player_performance import PlayerPerformanceModel
     model = PlayerPerformanceModel.load()
     model.predict_one(
-        venue="Wankhede Stadium", batting_team="Mumbai Indians",
+        venue="Wankhede Stadium, Mumbai", batting_team="Mumbai Indians",
         bowling_team="Chennai Super Kings", batting_position=3,
         career_avg_runs=38.2, career_strike_rate=132.5, last_5_avg_runs=45.0,
         last_10_avg_runs=40.1, last_5_strike_rate=140.0, season_avg_runs=41.0,
@@ -73,7 +73,7 @@ class PlayerPerformanceModel:
 if __name__ == "__main__":
     model = PlayerPerformanceModel.load()
     result = model.predict_one(
-        venue="Wankhede Stadium",
+        venue="Wankhede Stadium, Mumbai",
         batting_team="Royal Challengers Bengaluru",
         bowling_team="Mumbai Indians",
         batting_position=3,

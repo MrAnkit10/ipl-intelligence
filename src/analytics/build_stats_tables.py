@@ -25,6 +25,7 @@ from src.analytics.team_stats import (
     compute_venue_stats,
 )
 from src.data.team_normalization import canonical_team_name
+from src.data.venue_normalization import canonical_venue_name
 
 PROCESSED_DIR = Path(__file__).resolve().parents[2] / "data" / "processed"
 
@@ -83,6 +84,7 @@ def build_matches_bi(matches: pd.DataFrame) -> pd.DataFrame:
     matches_bi = matches.copy()
     for col in ["team1", "team2", "toss_winner", "winner"]:
         matches_bi[f"canonical_{col}"] = matches_bi[col].map(canonical_team_name, na_action="ignore")
+    matches_bi["canonical_venue"] = matches_bi["venue"].map(canonical_venue_name, na_action="ignore")
     return matches_bi
 
 
