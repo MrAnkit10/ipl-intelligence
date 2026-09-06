@@ -9,8 +9,9 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from app.components import inject_theme_css, render_avatar
-from app.data_loader import load_deliveries, load_player_photos
+from app.components import inject_theme_css, render_matchup_banner
+from app.data_loader import load_deliveries, load_player_photos, team_color
+from src.data.team_normalization import canonical_team_name
 
 st.set_page_config(page_title="Batter vs Bowler | IPL Intelligence", page_icon="⚔️", layout="wide")
 inject_theme_css()
@@ -35,11 +36,12 @@ col1, col2 = st.columns(2)
 batter = col1.selectbox("Batter", batters, index=batters.index("V Kohli") if "V Kohli" in batters else 0)
 bowler = col2.selectbox("Bowler", bowlers, index=bowlers.index("JJ Bumrah") if "JJ Bumrah" in bowlers else 0)
 
-photo_col1, photo_col2 = st.columns(2)
-with photo_col1:
-    render_avatar(batter, player_photos.get(batter_name_to_id.get(batter)), size=90)
-with photo_col2:
-    render_avatar(bowler, player_photos.get(bowler_name_to_id.get(bowler)), size=90)
+batter_team = canonical_team_name(main.loc[main["batter"] == batter].sort_values("date")["batting_team"].iloc[-1])
+bowler_team = canonical_team_name(main.loc[main["bowler"] == bowler].sort_values("date")["bowling_team"].iloc[-1])
+render_matchup_banner(
+    batter, team_color(batter_team), f"Batter · {batter_team}", player_photos.get(batter_name_to_id.get(batter)),
+    bowler, team_color(bowler_team), f"Bowler · {bowler_team}", player_photos.get(bowler_name_to_id.get(bowler)),
+)
 
 matchup = main[(main["batter"] == batter) & (main["bowler"] == bowler)]
 faced = matchup[matchup["extra_wides"] == 0]

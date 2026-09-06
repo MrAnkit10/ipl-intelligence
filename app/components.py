@@ -56,6 +56,46 @@ def render_team_badge(team: str, color: str, size: int = 64) -> None:
     )
 
 
+def render_stat_card(
+    name: str, subtitle: str, photo_url: str | None, color: str, rows: list[tuple[str, str]]
+) -> None:
+    """A dark broadcast-style stat card (name/subtitle banner, photo,
+    labeled stat rows) — the visual language of the Bumrah-bowling-economy
+    reference graphic, applied to stats this project actually has."""
+    photo_html = (
+        f'<img src="{photo_url}" style="width:100%;height:100%;object-fit:cover;" />'
+        if photo_url
+        else f'''<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+                       background:{_color_for(name)};color:white;font-size:32px;font-weight:800;
+                       font-family:sans-serif;">{_initials(name)}</div>'''
+    )
+    rows_html = "".join(
+        f'''<div style="display:flex;justify-content:space-between;padding:8px 0;
+                    border-bottom:1px solid #232B55;">
+                <span style="color:#B8C0E0;font-size:13px;font-family:sans-serif;">{label}</span>
+                <span style="color:white;font-weight:700;font-size:14px;font-family:sans-serif;">{value}</span>
+            </div>'''
+        for label, value in rows
+    )
+    st.markdown(
+        f"""
+        <div style="border-radius:14px;overflow:hidden;border:1px solid {color}88;
+                    box-shadow:0 6px 16px rgba(0,0,0,0.35);margin-bottom:16px;">
+            <div style="display:flex;background:linear-gradient(90deg,{color}CC 0%,#0A0E27 100%);">
+                <div style="flex:1;padding:14px 16px;">
+                    <div style="color:white;font-weight:900;font-size:18px;font-family:sans-serif;">{name}</div>
+                    <div style="color:#DDE3FF;font-size:12px;font-family:sans-serif;">{subtitle}</div>
+                </div>
+                <div style="width:64px;height:64px;margin:8px;border-radius:10px;overflow:hidden;
+                            flex-shrink:0;">{photo_html}</div>
+            </div>
+            <div style="background:#0F1530;padding:8px 16px;">{rows_html}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def render_match_banner(
     team1: str, team1_color: str, team1_score: str,
     team2: str, team2_color: str, team2_score: str,
@@ -92,6 +132,43 @@ def render_match_banner(
     )
 
 
+def render_matchup_banner(
+    player1: str, player1_color: str, player1_subtitle: str, player1_photo: str | None,
+    player2: str, player2_color: str, player2_subtitle: str, player2_photo: str | None,
+) -> None:
+    """A split-gradient "vs" card for a head-to-head player matchup —
+    same visual language as render_match_banner, with player photos
+    instead of team codes and scores."""
+    p1_photo_html = avatar_html(player1, player1_photo, size=72)
+    p2_photo_html = avatar_html(player2, player2_photo, size=72)
+    st.markdown(
+        f"""
+        <div style="border-radius:16px;overflow:hidden;margin-bottom:6px;
+                    display:flex;align-items:center;
+                    background:linear-gradient(90deg,{player1_color} 0%,{player1_color}CC 48%,
+                    #0A0E27 50%,{player2_color}CC 52%,{player2_color} 100%);padding:20px 28px;">
+            <div style="flex:1;display:flex;align-items:center;gap:14px;color:white;font-family:sans-serif;">
+                {p1_photo_html}
+                <div>
+                    <div style="font-size:11px;opacity:0.85;font-weight:600;">{player1_subtitle}</div>
+                    <div style="font-size:19px;font-weight:800;">{player1}</div>
+                </div>
+            </div>
+            <div style="color:white;opacity:0.7;font-weight:700;font-family:sans-serif;padding:0 16px;">VS</div>
+            <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:14px;
+                        color:white;font-family:sans-serif;text-align:right;">
+                <div>
+                    <div style="font-size:11px;opacity:0.85;font-weight:600;">{player2_subtitle}</div>
+                    <div style="font-size:19px;font-weight:800;">{player2}</div>
+                </div>
+                {p2_photo_html}
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def _initials(name: str) -> str:
     parts = [p for p in name.replace(".", " ").split() if p]
     if not parts:
@@ -106,23 +183,32 @@ def _color_for(name: str) -> str:
     return AVATAR_COLORS[int(digest, 16) % len(AVATAR_COLORS)]
 
 
+def avatar_html(name: str, photo_url: str | None, size: int = 120) -> str:
+    """Returns the avatar markup as a string (real photo if found, else a
+    colored initials circle) so it can be embedded inside a larger custom
+    HTML card in a single st.markdown call — splitting one card's HTML
+    across multiple st.markdown/st.image calls doesn't actually nest in
+    the DOM, since each call renders as its own sibling element."""
+    if photo_url:
+        return (
+            f'<img src="{photo_url}" style="width:{size}px;height:{size}px;border-radius:50%;'
+            f'object-fit:cover;" />'
+        )
+    initials = _initials(name)
+    color = _color_for(name)
+    return f"""
+        <div style="width:{size}px;height:{size}px;border-radius:50%;
+                    background:{color};color:white;display:flex;
+                    align-items:center;justify-content:center;
+                    font-size:{size // 3}px;font-weight:700;
+                    font-family:sans-serif;">
+            {initials}
+        </div>
+        """
+
+
 def render_avatar(name: str, photo_url: str | None, size: int = 120) -> None:
     """Shows a real photo if one was found, otherwise a colored initials
-    avatar — never a broken image or a wrong photo."""
-    if photo_url:
-        st.image(photo_url, width=size)
-    else:
-        initials = _initials(name)
-        color = _color_for(name)
-        st.markdown(
-            f"""
-            <div style="width:{size}px;height:{size}px;border-radius:50%;
-                        background:{color};color:white;display:flex;
-                        align-items:center;justify-content:center;
-                        font-size:{size // 3}px;font-weight:700;
-                        font-family:sans-serif;">
-                {initials}
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+    avatar — never a broken image or a wrong photo. For a standalone
+    avatar; to embed one inside a larger custom card, use avatar_html()."""
+    st.markdown(avatar_html(name, photo_url, size), unsafe_allow_html=True)

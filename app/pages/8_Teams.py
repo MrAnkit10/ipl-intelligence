@@ -17,8 +17,8 @@ inject_theme_css()
 st.title("🏆 Teams")
 st.caption(
     "Team badges are colored code chips, not official crests — those are trademarked and "
-    "not safe to hotlink on a public deployment. Click through to Team Analytics for the "
-    "full head-to-head and toss/venue breakdowns."
+    "not safe to hotlink on a public deployment. Click \"View Full Stats\" on any team for "
+    "its complete record, head-to-head, key players, and match log."
 )
 
 team_stats = load_team_stats().sort_values("win_pct", ascending=False).reset_index(drop=True)
@@ -66,3 +66,6 @@ for row_df in rows:
                 int(team_row["losses"]),
                 team_row["win_pct"] if pd.notna(team_row["win_pct"]) else 0.0,
             )
+            if st.button("View Full Stats →", key=f"view_{team_row['team']}", width="stretch"):
+                st.session_state["selected_team"] = team_row["team"]
+                st.switch_page("pages/9_Team_Detail.py")

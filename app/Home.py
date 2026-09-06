@@ -5,10 +5,18 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
+import pandas as pd
 import streamlit as st
 
-from app.components import inject_theme_css, render_avatar
-from app.data_loader import load_batting_stats, load_bowling_stats, load_deliveries, load_matches, load_player_photos
+from app.components import avatar_html, inject_theme_css
+from app.data_loader import (
+    load_batting_stats,
+    load_bowling_stats,
+    load_deliveries,
+    load_matches,
+    load_player_photos,
+    team_color,
+)
 from src.analytics.overview import compute_overview
 
 st.set_page_config(page_title="IPL Intelligence", page_icon="🏏", layout="wide")
@@ -20,8 +28,19 @@ batting_stats = load_batting_stats()
 bowling_stats = load_bowling_stats()
 overview = compute_overview(matches, deliveries, batting_stats, bowling_stats)
 
-st.title("🏏 IPL Intelligence")
-st.caption("Cricket Analytics & Win Prediction Platform — 19 seasons of IPL ball-by-ball data")
+st.markdown(
+    """
+    <div style="border-radius:18px;overflow:hidden;margin-bottom:20px;padding:36px 32px;
+                background:radial-gradient(circle at 10% 20%,#EC1C24 0%,#131A3A 45%,#0A0E27 100%);
+                box-shadow:0 10px 28px rgba(0,0,0,0.4);">
+        <div style="color:white;font-size:38px;font-weight:900;font-family:sans-serif;">🏏 IPL Intelligence</div>
+        <div style="color:#DDE3FF;font-size:15px;font-family:sans-serif;margin-top:4px;">
+            Cricket Analytics &amp; Win Prediction Platform — 19 seasons of IPL ball-by-ball data
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 col1, col2, col3, col4 = st.columns(4)
 col1.metric("Seasons", overview["seasons"])
@@ -61,9 +80,24 @@ top5 = batting_stats.head(5)
 cols = st.columns(5)
 for col, (_, row) in zip(cols, top5.iterrows()):
     with col:
-        render_avatar(row["player_name"], player_photos.get(row["player_id"]), size=90)
-        st.markdown(f"**{row['player_name']}**")
-        st.caption(f"{row['runs']:,} runs · SR {row['strike_rate']:.1f}")
+        color = team_color(row["current_team"]) if pd.notna(row.get("current_team")) else "#3B82F6"
+        photo = avatar_html(row["player_name"], player_photos.get(row["player_id"]), size=80)
+        st.markdown(
+            f"""
+            <div style="border-radius:14px;overflow:hidden;text-align:center;margin-bottom:8px;
+                        background:linear-gradient(180deg,{color}55 0%,#131A3A 70%);
+                        border:1px solid {color}88;padding:16px 8px 12px 8px;">
+                <div style="display:flex;justify-content:center;">{photo}</div>
+                <div style="color:white;font-weight:800;font-size:14px;font-family:sans-serif;margin-top:8px;">
+                    {row['player_name']}
+                </div>
+                <div style="color:#B8C0E0;font-size:12px;font-family:sans-serif;">
+                    {row['runs']:,} runs · SR {row['strike_rate']:.1f}
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
 st.divider()
 st.caption(

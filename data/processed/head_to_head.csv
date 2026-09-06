@@ -1,0 +1,84 @@
+team_a,team_b,matches_played,team_a_wins,team_b_wins,team_a_win_pct
+Chennai Super Kings,Mumbai Indians,41,20,21,48.78
+Punjab Kings,Royal Challengers Bengaluru,38,18,20,47.37
+Delhi Capitals,Mumbai Indians,38,17,21,44.74
+Kolkata Knight Riders,Mumbai Indians,37,12,25,32.43
+Kolkata Knight Riders,Royal Challengers Bengaluru,36,20,16,55.56
+Delhi Capitals,Punjab Kings,35,17,18,48.57
+Delhi Capitals,Kolkata Knight Riders,35,15,20,42.86
+Mumbai Indians,Punjab Kings,35,18,17,51.43
+Mumbai Indians,Royal Challengers Bengaluru,35,19,16,54.29
+Chennai Super Kings,Royal Challengers Bengaluru,35,21,14,60.0
+Kolkata Knight Riders,Punjab Kings,34,21,13,61.76
+Delhi Capitals,Royal Challengers Bengaluru,33,13,20,39.39
+Chennai Super Kings,Delhi Capitals,33,21,12,63.64
+Mumbai Indians,Rajasthan Royals,32,16,16,50.0
+Chennai Super Kings,Rajasthan Royals,32,16,16,50.0
+Chennai Super Kings,Punjab Kings,32,16,16,50.0
+Chennai Super Kings,Kolkata Knight Riders,32,21,11,65.62
+Rajasthan Royals,Royal Challengers Bengaluru,32,15,17,46.88
+Delhi Capitals,Rajasthan Royals,31,16,15,51.61
+Kolkata Knight Riders,Sunrisers Hyderabad,31,20,11,64.52
+Punjab Kings,Rajasthan Royals,30,12,18,40.0
+Kolkata Knight Riders,Rajasthan Royals,29,17,12,58.62
+Royal Challengers Bengaluru,Sunrisers Hyderabad,26,12,14,46.15
+Punjab Kings,Sunrisers Hyderabad,26,8,18,30.77
+Mumbai Indians,Sunrisers Hyderabad,25,14,11,56.0
+Delhi Capitals,Sunrisers Hyderabad,25,11,14,44.0
+Chennai Super Kings,Sunrisers Hyderabad,24,15,9,62.5
+Rajasthan Royals,Sunrisers Hyderabad,24,10,14,41.67
+Deccan Chargers,Royal Challengers Bengaluru,11,6,5,54.55
+Deccan Chargers,Delhi Capitals,11,4,7,36.36
+Gujarat Titans,Rajasthan Royals,11,8,3,72.73
+Gujarat Titans,Royal Challengers Bengaluru,10,4,6,40.0
+Chennai Super Kings,Deccan Chargers,10,6,4,60.0
+Chennai Super Kings,Gujarat Titans,10,4,6,40.0
+Deccan Chargers,Mumbai Indians,10,4,6,40.0
+Deccan Chargers,Punjab Kings,10,3,7,30.0
+Deccan Chargers,Rajasthan Royals,9,2,7,22.22
+Deccan Chargers,Kolkata Knight Riders,9,2,7,22.22
+Gujarat Titans,Mumbai Indians,9,5,4,55.56
+Lucknow Super Giants,Mumbai Indians,9,6,3,66.67
+Delhi Capitals,Lucknow Super Giants,8,5,3,62.5
+Lucknow Super Giants,Royal Challengers Bengaluru,8,3,5,37.5
+Lucknow Super Giants,Rajasthan Royals,8,2,6,25.0
+Lucknow Super Giants,Punjab Kings,8,3,5,37.5
+Delhi Capitals,Gujarat Titans,8,3,5,37.5
+Gujarat Titans,Punjab Kings,8,4,4,50.0
+Gujarat Titans,Lucknow Super Giants,8,5,3,62.5
+Kolkata Knight Riders,Lucknow Super Giants,7,2,5,28.57
+Chennai Super Kings,Lucknow Super Giants,7,3,4,42.86
+Gujarat Titans,Sunrisers Hyderabad,7,6,1,85.71
+Lucknow Super Giants,Sunrisers Hyderabad,7,5,2,71.43
+Mumbai Indians,Pune Warriors,6,5,1,83.33
+Pune Warriors,Punjab Kings,6,3,3,50.0
+Mumbai Indians,Rising Pune Supergiant,6,2,4,33.33
+Chennai Super Kings,Pune Warriors,6,4,2,66.67
+Gujarat Titans,Kolkata Knight Riders,6,4,2,66.67
+Pune Warriors,Royal Challengers Bengaluru,5,0,5,0.0
+Gujarat Lions,Royal Challengers Bengaluru,5,2,3,40.0
+Gujarat Lions,Sunrisers Hyderabad,5,0,5,0.0
+Delhi Capitals,Pune Warriors,5,3,2,60.0
+Kolkata Knight Riders,Pune Warriors,5,4,1,80.0
+Pune Warriors,Rajasthan Royals,5,1,4,20.0
+Delhi Capitals,Rising Pune Supergiant,4,2,2,50.0
+Gujarat Lions,Kolkata Knight Riders,4,3,1,75.0
+Gujarat Lions,Punjab Kings,4,2,2,50.0
+Delhi Capitals,Gujarat Lions,4,3,1,75.0
+Punjab Kings,Rising Pune Supergiant,4,2,2,50.0
+Kolkata Knight Riders,Rising Pune Supergiant,4,3,1,75.0
+Deccan Chargers,Pune Warriors,4,3,1,75.0
+Gujarat Lions,Rising Pune Supergiant,4,3,1,75.0
+Rising Pune Supergiant,Royal Challengers Bengaluru,4,2,2,50.0
+Rising Pune Supergiant,Sunrisers Hyderabad,4,3,1,75.0
+Gujarat Lions,Mumbai Indians,3,2,1,66.67
+Pune Warriors,Sunrisers Hyderabad,2,0,2,0.0
+Delhi Capitals,Kochi Tuskers Kerala,2,1,1,50.0
+Kochi Tuskers Kerala,Kolkata Knight Riders,2,2,0,100.0
+Chennai Super Kings,Kochi Tuskers Kerala,2,1,1,50.0
+Kochi Tuskers Kerala,Royal Challengers Bengaluru,2,0,2,0.0
+Kochi Tuskers Kerala,Rajasthan Royals,2,1,1,50.0
+Deccan Chargers,Kochi Tuskers Kerala,1,1,0,100.0
+Kochi Tuskers Kerala,Pune Warriors,1,0,1,0.0
+Kochi Tuskers Kerala,Punjab Kings,1,0,1,0.0
+Kochi Tuskers Kerala,Mumbai Indians,1,1,0,100.0

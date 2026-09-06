@@ -69,6 +69,40 @@ def load_venue_stats() -> pd.DataFrame:
 
 
 @st.cache_data
+def load_head_to_head() -> pd.DataFrame:
+    return pd.read_csv(PROCESSED_DIR / "head_to_head.csv")
+
+
+@st.cache_data
+def load_team_matches(team: str) -> pd.DataFrame:
+    """Every match a canonical team played, newest first, with the
+    opponent, result, and margin resolved from the batting team's
+    perspective."""
+    from src.data.team_normalization import canonical_team_name
+
+    matches = load_matches().copy()
+    for col in ["team1", "team2", "toss_winner", "winner"]:
+        matches[col] = matches[col].map(canonical_team_name, na_action="ignore")
+
+    played = matches[(matches["team1"] == team) | (matches["team2"] == team)].copy()
+    played["opponent"] = played.apply(lambda r: r["team2"] if r["team1"] == team else r["team1"], axis=1)
+
+    def _result(row) -> str:
+        if row["outcome_type"] != "win":
+            return "No result"
+        if row["winner"] == team:
+            margin = f"by {int(row['win_by_runs'])} runs" if pd.notna(row["win_by_runs"]) else f"by {int(row['win_by_wickets'])} wkts"
+            return f"Won {margin}"
+        margin = f"by {int(row['win_by_runs'])} runs" if pd.notna(row["win_by_runs"]) else f"by {int(row['win_by_wickets'])} wkts"
+        return f"Lost {margin}"
+
+    played["result"] = played.apply(_result, axis=1)
+    return played.sort_values("date", ascending=False)[
+        ["date", "opponent", "venue", "result", "season_year"]
+    ].reset_index(drop=True)
+
+
+@st.cache_data
 def load_player_photos() -> dict:
     """player_id -> photo_url, only for players a real photo was found for."""
     path = PROCESSED_DIR / "player_photos.csv"

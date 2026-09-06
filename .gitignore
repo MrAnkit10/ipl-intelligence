@@ -33,6 +33,7 @@ models/*.joblib
 !data/processed/bowling_stats.csv
 !data/processed/team_stats.csv
 !data/processed/venue_stats.csv
+!data/processed/head_to_head.csv
 !data/processed/player_photos.csv
 !data/processed/venue_photos.csv
 !data/processed/dismissal_breakdown.csv
