@@ -9,11 +9,12 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from app.components import render_avatar
+from app.components import inject_theme_css, render_avatar
 from app.data_loader import load_deliveries, load_venue_photos, load_venue_stats
 from src.data.venue_normalization import canonical_venue_name
 
 st.set_page_config(page_title="Venue Analytics | IPL Intelligence", page_icon="🏟️", layout="wide")
+inject_theme_css()
 st.title("🏟️ Venue Analytics")
 
 venue_stats = load_venue_stats()

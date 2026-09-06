@@ -9,9 +9,11 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+from app.components import inject_theme_css
 from app.data_loader import load_evaluation_report, load_player_performance_evaluation_report
 
 st.set_page_config(page_title="Model Insights | IPL Intelligence", page_icon="🔬", layout="wide")
+inject_theme_css()
 st.title("🔬 Model Insights")
 
 win_prob_tab, player_perf_tab = st.tabs(["Win Probability Model", "Player Performance Model"])

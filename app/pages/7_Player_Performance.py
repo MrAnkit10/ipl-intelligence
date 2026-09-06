@@ -9,10 +9,12 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
+from app.components import inject_theme_css
 from app.data_loader import load_batting_innings_table, load_player_performance_model
 from src.data.team_normalization import canonical_team_name
 
 st.set_page_config(page_title="Player Performance Predictor | IPL Intelligence", page_icon="🔮", layout="wide")
+inject_theme_css()
 st.title("🔮 Player Performance Predictor")
 st.caption(
     "Given a player, an opponent, and a venue, estimates expected runs for their next "

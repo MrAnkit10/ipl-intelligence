@@ -170,25 +170,41 @@ live win-probability page calls.
 streamlit run app/Home.py
 ```
 
-Eight pages, all reading from the Parquet/CSV tables and the trained models
+Nine pages, all reading from the Parquet/CSV tables and the trained models
 (no live API, no database dependency):
 
 - **Home** — headline tournament numbers, featured players (with photos), navigation
+- **Teams** — a card grid per team (colored badge, code, record, win %)
 - **IPL Overview** — team win %, batting-first vs chasing, toss impact, matches per season
 - **Player Analytics** — photo, batting/bowling career stats, run composition (1s/2s/3s/4s/5s/6s
   breakdown of career runs), dismissal-type breakdown, strike rate/economy by phase, recent form
 - **Batter vs Bowler** — both players' photos, historical head-to-head, outcome distribution per ball
 - **Venue Analytics** — photo, scoring conditions, chasing vs defending record, scoring by over
-- **Live Win Probability** — replays a real historical run chase ball-by-ball through the
-  trained model, with a full-match probability timeline annotated with wickets and sixes
+- **Live Win Probability** — a match-center header (final score both innings, result, venue) plus
+  a Manhattan runs-per-over chart, then replays a real historical run chase ball-by-ball through
+  the trained model, with a full-match probability timeline annotated with wickets and sixes
   (blueprint Modules 2 and 3)
 - **Model Insights** — validation/test metrics, raw-vs-calibrated calibration curves, methodology
 - **Player Performance Predictor** — expected runs/strike rate/probability thresholds for
   a player/opponent/venue combination
 
-All 8 pages are checked with Streamlit's `AppTest` headless runner (including
+All 9 pages are checked with Streamlit's `AppTest` headless runner (including
 widget interactions — changing the selected match/player/matchup) as part of
 verifying this works, not just that it imports.
+
+### Visual Design
+
+Dark navy theme (`.streamlit/config.toml`) plus a shared CSS/component layer
+(`app/components.py`: `inject_theme_css`, `render_team_badge`,
+`render_match_banner`) styled after broadcast-style match-center UIs.
+Deliberately **not** using official team crests — those are trademarked, and
+hotlinking them on a public deployment is a real IP risk — team identity is
+instead a colored badge with the team's short code (CSK, MI, RCB, ...),
+generated from data already in the app. Also deliberately **not** attempting
+a wagon wheel, spider chart, or catch map: those need ball-tracking data
+(shot direction, fielding position) that Cricsheet — this project's only
+data source — simply doesn't record. Building them would mean displaying
+fabricated numbers as if they were real match data.
 
 ### Player & Venue Photos
 

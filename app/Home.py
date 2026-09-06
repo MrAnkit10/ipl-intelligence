@@ -7,11 +7,12 @@ if str(ROOT_DIR) not in sys.path:
 
 import streamlit as st
 
-from app.components import render_avatar
+from app.components import inject_theme_css, render_avatar
 from app.data_loader import load_batting_stats, load_bowling_stats, load_deliveries, load_matches, load_player_photos
 from src.analytics.overview import compute_overview
 
 st.set_page_config(page_title="IPL Intelligence", page_icon="🏏", layout="wide")
+inject_theme_css()
 
 matches = load_matches()
 deliveries = load_deliveries()
@@ -41,10 +42,11 @@ st.divider()
 st.subheader("Explore")
 nav_col1, nav_col2, nav_col3 = st.columns(3)
 with nav_col1:
+    st.page_link("pages/8_Teams.py", label="🏆 Teams", icon="🏆")
     st.page_link("pages/1_IPL_Overview.py", label="📊 IPL Overview", icon="📊")
     st.page_link("pages/2_Player_Analytics.py", label="🧑 Player Analytics", icon="🧑")
-    st.page_link("pages/7_Player_Performance.py", label="🔮 Player Performance Predictor", icon="🔮")
 with nav_col2:
+    st.page_link("pages/7_Player_Performance.py", label="🔮 Player Performance Predictor", icon="🔮")
     st.page_link("pages/3_Batter_vs_Bowler.py", label="⚔️ Batter vs Bowler", icon="⚔️")
     st.page_link("pages/4_Venue_Analytics.py", label="🏟️ Venue Analytics", icon="🏟️")
 with nav_col3:

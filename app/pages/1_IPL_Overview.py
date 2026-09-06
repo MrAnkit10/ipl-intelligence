@@ -8,9 +8,11 @@ if str(ROOT_DIR) not in sys.path:
 import plotly.express as px
 import streamlit as st
 
+from app.components import inject_theme_css
 from app.data_loader import load_matches, load_team_stats, team_color
 
 st.set_page_config(page_title="IPL Overview | IPL Intelligence", page_icon="📊", layout="wide")
+inject_theme_css()
 st.title("📊 IPL Overview")
 
 matches = load_matches()

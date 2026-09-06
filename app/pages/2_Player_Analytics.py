@@ -9,7 +9,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from app.components import render_avatar
+from app.components import inject_theme_css, render_avatar
 from app.data_loader import (
     load_batting_stats,
     load_bowling_stats,
@@ -19,6 +19,7 @@ from app.data_loader import (
 )
 
 st.set_page_config(page_title="Player Analytics | IPL Intelligence", page_icon="🧑", layout="wide")
+inject_theme_css()
 st.title("🧑 Player Analytics")
 
 batting_stats = load_batting_stats()

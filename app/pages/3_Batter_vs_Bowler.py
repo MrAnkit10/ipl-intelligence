@@ -9,10 +9,11 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from app.components import render_avatar
+from app.components import inject_theme_css, render_avatar
 from app.data_loader import load_deliveries, load_player_photos
 
 st.set_page_config(page_title="Batter vs Bowler | IPL Intelligence", page_icon="⚔️", layout="wide")
+inject_theme_css()
 st.title("⚔️ Batter vs Bowler Matchup")
 st.caption(
     "Historical head-to-head from ball-by-ball data. A model-based next-ball outcome "

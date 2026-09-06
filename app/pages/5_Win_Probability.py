@@ -6,14 +6,17 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
 import pandas as pd
+import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
+from app.components import inject_theme_css, render_match_banner
 from app.data_loader import load_deliveries, load_matches, load_win_probability_model, team_color
 
 FEATURES_PATH = ROOT_DIR / "data" / "features" / "win_prediction_features.parquet"
 
 st.set_page_config(page_title="Win Probability | IPL Intelligence", page_icon="📈", layout="wide")
+inject_theme_css()
 st.title("📈 Live Win Probability")
 st.caption(
     "Replays a real historical run chase ball-by-ball through the trained, calibrated "
@@ -56,15 +59,56 @@ batting_team = match_features["batting_team"].iloc[0]
 bowling_team = match_features["bowling_team"].iloc[0]
 
 n_balls = len(match_features)
+
+match_deliveries_all = deliveries[(deliveries["match_id"] == match_id) & (~deliveries["is_super_over"])]
+innings1 = match_deliveries_all[match_deliveries_all["innings"] == 1]
+innings2 = match_deliveries_all[match_deliveries_all["innings"] == 2]
+innings1_team = innings1["batting_team"].iloc[0]
+innings1_score = f"{innings1['runs_total'].sum()}/{innings1['is_wicket'].sum()}"
+innings2_score = f"{innings2['runs_total'].sum()}/{innings2['is_wicket'].sum()}"
+
+result_text = (
+    f"{match_row['winner'] or 'No result'} "
+    + (f"won by {int(match_row['win_by_runs'])} runs" if pd.notna(match_row["win_by_runs"]) else "")
+    + (f"won by {int(match_row['win_by_wickets'])} wickets" if pd.notna(match_row["win_by_wickets"]) else "")
+)
+subtitle = f"{result_text} · {match_row['venue']} · {match_row['date'].strftime('%d %b %Y')}"
+render_match_banner(
+    innings1_team, team_color(innings1_team), innings1_score,
+    batting_team, team_color(batting_team), innings2_score,
+    subtitle,
+)
+
+st.subheader("Manhattan — Runs per Over")
+over_runs = (
+    match_deliveries_all.groupby(["innings", "over"])
+    .agg(runs=("runs_total", "sum"), wickets=("is_wicket", "sum"), team=("batting_team", "first"))
+    .reset_index()
+)
+over_runs["over_label"] = over_runs["over"] + 1
+fig_manhattan = px.bar(
+    over_runs, x="over_label", y="runs", color="team", barmode="group",
+    color_discrete_map={innings1_team: team_color(innings1_team), batting_team: team_color(batting_team)},
+    labels={"over_label": "Over", "runs": "Runs", "team": ""},
+)
+wicket_overs = over_runs[over_runs["wickets"] > 0]
+fig_manhattan.add_trace(
+    go.Scatter(
+        x=wicket_overs["over_label"], y=wicket_overs["runs"] + 1.5, mode="text",
+        text=["W" * int(w) for w in wicket_overs["wickets"]], textfont=dict(color="crimson", size=11),
+        showlegend=False, hoverinfo="skip",
+    )
+)
+fig_manhattan.update_layout(legend=dict(orientation="h", yanchor="bottom", y=1.02))
+st.plotly_chart(fig_manhattan, width="stretch")
+
+st.divider()
+st.subheader("Replay the Chase")
 ball_idx = st.slider("Ball", 1, n_balls, n_balls) - 1
 state = match_features.iloc[ball_idx]
 
 overs_completed = state["balls_bowled"] // 6
 balls_into_over = state["balls_bowled"] % 6
-
-st.divider()
-st.subheader(f"{batting_team} vs {bowling_team}")
-st.caption(f"{match_row['venue']} · {match_row['date'].strftime('%Y-%m-%d')}")
 
 col1, col2, col3 = st.columns(3)
 col1.metric("Target", int(state["target_runs"]))
@@ -128,9 +172,3 @@ fig.update_layout(
     hovermode="x unified",
 )
 st.plotly_chart(fig, width="stretch")
-
-st.caption(
-    f"Actual result: **{match_row['winner'] or 'No result'}** "
-    + (f"won by {int(match_row['win_by_runs'])} runs" if pd.notna(match_row["win_by_runs"]) else "")
-    + (f"won by {int(match_row['win_by_wickets'])} wickets" if pd.notna(match_row["win_by_wickets"]) else "")
-)
