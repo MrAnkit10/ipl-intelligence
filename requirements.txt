@@ -1,0 +1,10 @@
+pandas
+numpy
+pyarrow
+requests
+python-dotenv
+tqdm
+
+scikit-learn
+joblib
+matplotlib
