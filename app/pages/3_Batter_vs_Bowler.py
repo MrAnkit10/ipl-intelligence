@@ -78,27 +78,29 @@ else:
         outcome_counts["W"] = int(own_dismissal.sum())
         outcome_labels = ["Dot", "1 Run", "2 Runs", "3 Runs", "Four", "Six", "Wicket"]
         outcome_colors = ["#4B5372", "#3B82F6", "#60A5FA", "#93C5FD", "#22C55E", "#A855F7", "#EF4444"]
-        outcome_pct = outcome_counts.values / balls_faced * 100
 
-        fig = go.Figure()
-        cumulative = 0
-        for label, pct, oc in zip(outcome_labels, outcome_pct, outcome_colors):
-            fig.add_trace(
-                go.Bar(
-                    y=["Result"], x=[pct], orientation="h", name=label,
-                    marker=dict(color=oc, line=dict(color="#0A0E27", width=1)),
-                    text=f"{label} {pct:.0f}%" if pct >= 5 else "",
-                    textposition="inside", insidetextanchor="middle",
-                    textfont=dict(color="white", size=12, weight=700),
-                    hovertext=f"{label}: {pct:.1f}% of balls", hoverinfo="text",
-                )
+        nonzero = outcome_counts.values > 0
+        fig = go.Figure(
+            go.Pie(
+                labels=[l for l, keep in zip(outcome_labels, nonzero) if keep],
+                values=[v for v, keep in zip(outcome_counts.values, nonzero) if keep],
+                marker=dict(colors=[c for c, keep in zip(outcome_colors, nonzero) if keep], line=dict(color="#0A0E27", width=2)),
+                hole=0.62,
+                textinfo="label+percent",
+                textfont=dict(color="white", size=12),
+                hovertemplate="%{label}: %{value} balls (%{percent})<extra></extra>",
+                sort=False,
             )
-            cumulative += pct
+        )
         fig.update_layout(
-            barmode="stack", plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-            height=160, margin=dict(l=10, r=10, t=10, b=10), showlegend=True,
-            legend=dict(orientation="h", yanchor="top", y=-0.25, font=dict(color="#B8C0E0")),
-            xaxis=dict(visible=False, range=[0, 100]), yaxis=dict(visible=False),
+            paper_bgcolor="rgba(0,0,0,0)", height=340, margin=dict(l=10, r=10, t=10, b=10),
+            showlegend=False,
+            annotations=[
+                dict(
+                    text=f"{balls_faced}<br><span style='font-size:11px;color:#8892C0'>balls</span>",
+                    x=0.5, y=0.5, font=dict(color="white", size=24), showarrow=False,
+                )
+            ],
         )
         st.plotly_chart(fig, width="stretch")
 
