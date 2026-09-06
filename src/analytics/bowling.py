@@ -92,6 +92,7 @@ def compute_bowling_stats(deliveries: pd.DataFrame) -> pd.DataFrame:
     stats = stats.reset_index().rename(columns={"index": "bowler_id"})
     stats = stats.merge(_phase_economy(legal), on="bowler_id", how="left")
     stats = stats.merge(_best_bowling_figures(main), on="bowler_id", how="left")
+    stats = stats.merge(_bowling_career_span(main), on="bowler_id", how="left")
     stats = stats.rename(columns={"bowler_id": "player_id"})
 
     stats["best_bowling_figures"] = stats.apply(
@@ -99,5 +100,55 @@ def compute_bowling_stats(deliveries: pd.DataFrame) -> pd.DataFrame:
         if pd.notna(r["best_bowling_wickets"]) else None,
         axis=1,
     )
+    stats["wickets_per_match"] = np.where(
+        stats["matches_played"] > 0, stats["wickets"] / stats["matches_played"], np.nan
+    )
 
     return stats.sort_values("wickets", ascending=False).reset_index(drop=True)
+
+
+def _bowling_career_span(main: pd.DataFrame) -> pd.DataFrame:
+    """Matches played and debut/last-played dates, for the same identity
+    strip treatment batting_stats gets from _innings_extremes."""
+    matches_played = main.groupby("bowler_id")["match_id"].nunique().rename("matches_played")
+    debut = main.groupby("bowler_id")["date"].min().rename("debut_date")
+    last_played = main.groupby("bowler_id")["date"].max().rename("last_played_date")
+    return pd.concat([matches_played, debut, last_played], axis=1).reset_index().rename(
+        columns={"index": "bowler_id"}
+    )
+
+
+BOWLING_PERCENTILE_METRICS = {
+    # column -> (display label, group, higher_is_better)
+    "wickets_per_match": ("Wkts/Match", "impact", True),
+    "best_bowling_wickets": ("Best Bowling", "impact", True),
+    "bowling_strike_rate": ("Strike Rate", "impact", False),
+    "economy": ("Economy", "economy", False),
+    "economy_powerplay": ("Powerplay Econ", "economy", False),
+    "economy_death": ("Death Econ", "economy", False),
+    "dot_ball_pct": ("Dot %", "control", True),
+    "boundary_conceded_pct": ("Boundary %", "control", False),
+    "bowling_average": ("Average", "control", False),
+}
+
+BOWLING_GROUP_COLORS = {"impact": "#EF4444", "economy": "#3B82F6", "control": "#22C55E"}
+
+
+def compute_bowling_percentiles(bowling_stats: pd.DataFrame, min_balls: int = 300) -> pd.DataFrame:
+    """Percentile rank (0-100) of every BOWLING_PERCENTILE_METRICS column,
+    against the pool of bowlers with at least min_balls career balls
+    bowled (~50 overs) - the same qualification-threshold idea as
+    compute_batting_percentiles, so a two-over cameo doesn't distort the
+    scale."""
+    pool = bowling_stats[bowling_stats["balls_bowled"] >= min_balls]
+    out = bowling_stats[["player_id"]].copy()
+    for col, (_, _, higher_is_better) in BOWLING_PERCENTILE_METRICS.items():
+        values = pool[col].dropna()
+        if values.empty:
+            out[col] = np.nan
+            continue
+        ranks = bowling_stats[col].apply(
+            lambda v, values=values: np.nan if pd.isna(v) else (values <= v).mean() * 100
+        )
+        out[col] = ranks if higher_is_better else 100 - ranks
+    return out

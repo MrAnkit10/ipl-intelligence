@@ -28,7 +28,7 @@ from src.analytics.batting import (
     compute_dismissal_breakdown,
     compute_fielding_stats,
 )
-from src.analytics.bowling import compute_bowling_stats
+from src.analytics.bowling import compute_bowling_percentiles, compute_bowling_stats
 from src.analytics.overview import compute_overview
 from src.analytics.team_stats import (
     compute_head_to_head,
@@ -116,6 +116,7 @@ def main() -> None:
     records_team_totals = compute_team_totals(matches, deliveries, top_n=15)
     records_partnerships = compute_partnerships(matches, deliveries, top_n=15)
     records_batting_extremes = compute_batting_extremes(matches, deliveries, top_n=15)
+    bowling_percentiles = compute_bowling_percentiles(bowling_stats)
     team_stats = compute_team_stats(matches)
     venue_stats = compute_venue_stats(matches, deliveries)
     head_to_head = compute_head_to_head(matches)
@@ -146,6 +147,7 @@ def main() -> None:
         "records_team_totals.csv": records_team_totals,
         "records_partnerships.csv": records_partnerships,
         "records_batting_extremes.csv": records_batting_extremes,
+        "bowling_percentiles.csv": bowling_percentiles,
     }
     for filename, df in outputs.items():
         df.to_csv(PROCESSED_DIR / filename, index=False)

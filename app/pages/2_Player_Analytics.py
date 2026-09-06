@@ -14,6 +14,7 @@ from app.components import avatar_html, chart_card, inject_theme_css, render_htm
 from app.data_loader import (
     load_batting_percentiles,
     load_batting_stats,
+    load_bowling_percentiles,
     load_bowling_stats,
     load_deliveries,
     load_dismissal_breakdown,
@@ -21,6 +22,7 @@ from app.data_loader import (
     team_color,
 )
 from src.analytics.batting import GROUP_COLORS, PERCENTILE_METRICS
+from src.analytics.bowling import BOWLING_GROUP_COLORS, BOWLING_PERCENTILE_METRICS
 
 TRANSPARENT_LAYOUT = dict(plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
 PHASE_COLORS = ["#3B82F6", "#EAB308", "#EF4444"]
@@ -312,6 +314,72 @@ if not bowl_row.empty:
     )
     cols[5].metric("Dot Ball %", f"{row['dot_ball_pct']:.1f}%")
     cols[6].metric("Boundary Conceded %", f"{row['boundary_conceded_pct']:.1f}%")
+
+    bowl_percentiles = load_bowling_percentiles()
+    bprow = bowl_percentiles[bowl_percentiles["player_id"] == player_id]
+    if not bprow.empty and row["balls_bowled"] >= 120:
+        bprow = bprow.iloc[0]
+        with chart_card(
+            "Bowling Dossier",
+            "Every spoke is a percentile (0-100) against bowlers with 300+ career balls bowled — "
+            "how this bowler's rate stats rank against the league, not raw wicket counts.",
+        ):
+            b_labels = [BOWLING_PERCENTILE_METRICS[m][0] for m in BOWLING_PERCENTILE_METRICS]
+            b_groups = [BOWLING_PERCENTILE_METRICS[m][1] for m in BOWLING_PERCENTILE_METRICS]
+            b_values = [bprow[m] for m in BOWLING_PERCENTILE_METRICS]
+            b_raw_fmt = {
+                "wickets_per_match": "{:.2f}", "best_bowling_wickets": "{:.0f}w", "bowling_strike_rate": "{:.1f}",
+                "economy": "{:.2f}", "economy_powerplay": "{:.2f}", "economy_death": "{:.2f}",
+                "dot_ball_pct": "{:.0f}%", "boundary_conceded_pct": "{:.0f}%", "bowling_average": "{:.1f}",
+            }
+            b_raw_values = [
+                b_raw_fmt[m].format(row[m]) if pd.notna(row.get(m)) else "—" for m in BOWLING_PERCENTILE_METRICS
+            ]
+
+            bfig = go.Figure()
+            for group_key in ["impact", "economy", "control"]:
+                idx = [i for i, g in enumerate(b_groups) if g == group_key]
+                bfig.add_trace(
+                    go.Barpolar(
+                        r=[b_values[i] if pd.notna(b_values[i]) else 0 for i in idx],
+                        theta=[b_labels[i] for i in idx],
+                        name=group_key.capitalize(),
+                        marker_color=BOWLING_GROUP_COLORS[group_key],
+                        marker_line_color="#0A0E27",
+                        marker_line_width=1,
+                        opacity=0.85,
+                        hovertext=[f"{b_labels[i]}: {b_raw_values[i]} (percentile {b_values[i]:.0f})" for i in idx],
+                        hoverinfo="text",
+                    )
+                )
+            bfig.add_trace(
+                go.Scatterpolar(
+                    r=[min(v, 96) + 4 if pd.notna(v) else 4 for v in b_values],
+                    theta=b_labels,
+                    mode="text",
+                    text=b_raw_values,
+                    textfont=dict(color="white", size=11),
+                    showlegend=False,
+                    hoverinfo="skip",
+                )
+            )
+            bfig.update_layout(
+                polar=dict(
+                    bgcolor="rgba(0,0,0,0)",
+                    radialaxis=dict(range=[0, 100], showticklabels=False, gridcolor="#232B55", linecolor="#232B55"),
+                    angularaxis=dict(
+                        categoryarray=b_labels, direction="clockwise", rotation=90,
+                        gridcolor="#232B55", linecolor="#232B55", color="#B8C0E0", tickfont=dict(size=11),
+                    ),
+                ),
+                paper_bgcolor="rgba(0,0,0,0)",
+                legend=dict(orientation="h", yanchor="bottom", y=-0.12, font=dict(color="#B8C0E0")),
+                margin=dict(l=30, r=30, t=10, b=10),
+                height=440,
+            )
+            st.plotly_chart(bfig, width="stretch")
+    elif row["balls_bowled"] < 120:
+        st.caption("Bowling Dossier needs at least 120 career balls bowled (20 overs) for a meaningful percentile ranking.")
 
     phase_cols = [c for c in ["economy_powerplay", "economy_middle", "economy_death"] if c in row.index]
     phase_df = pd.DataFrame(

@@ -43,6 +43,7 @@ models/*.joblib
 !data/processed/records_team_totals.csv
 !data/processed/records_partnerships.csv
 !data/processed/records_batting_extremes.csv
+!data/processed/bowling_percentiles.csv
 !data/features/win_prediction_features.parquet
 !models/win_probability.pkl
 !models/player_performance.pkl
