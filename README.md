@@ -226,12 +226,19 @@ already applied), `team_stats.csv`, `head_to_head.csv`, `season_trends.csv`,
 `venue_stats.csv`, `phase_trends.csv`, and `batting_stats.csv`/
 `bowling_stats.csv` (now with each player's `current_team` for filtering).
 
-**What's not automatable**: a Tableau workbook is built through its GUI —
-there's no way to author or verify a `.twbx` file the way the rest of this
-repo's output is checked (tests, `AppTest`, validation scripts). See
-[`dashboard/TABLEAU_GUIDE.md`](dashboard/TABLEAU_GUIDE.md) for the exact
-worksheets/dashboards to build, mapped 1:1 to the four Power BI pages the
-blueprint originally specified (section 37).
+A Tableau workbook is normally built through its GUI, with no API for
+authoring one programmatically — so `dashboard/IPL_Intelligence.twb` was
+hand-written against Tableau's XML schema and genuinely tested (not written
+blind): opened in the real Tableau Desktop install on this machine, its own
+log file read after each attempt for exact DTD validation errors, each one
+fixed and retested. Real bugs were caught and fixed this way. What's
+*unverified*: this session's environment can't actually render a GUI
+window to look at (screenshots only ever showed the desktop/VS Code, never
+Tableau, even with the process confirmed alive and logging a successful
+render), and the CSV data connection currently loads 0 rows for a reason
+that needs visual iteration to pin down. Full account, and the four-page
+build guide (mapped 1:1 to blueprint section 37's Power BI pages) for
+finishing this on a machine with a real display: [`dashboard/TABLEAU_GUIDE.md`](dashboard/TABLEAU_GUIDE.md).
 
 ## Team-Name Normalization
 

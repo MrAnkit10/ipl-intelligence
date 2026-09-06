@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<workbook locale='en_US' source-build='2026.2.0' source-platform='mac' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <preferences />
+  <datasources>
+    <datasource caption='team_stats' inline='true' name='team_stats' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='team_stats.csv' name='textscan.team_stats'>
+            <connection auto-extract='no' character-set='UTF-8' class='textscan' directory='/Users/ankitkanani/ipl-intelligence/data/processed' driver='' filename='team_stats.csv' force-character-set='no' force-header='no' force-separator='no' header='yes' separator=',' text-qualifier='&quot;' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.team_stats' name='team_stats#csv' table='[team_stats#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='string' name='team' ordinal='0' />
+            <column datatype='integer' name='matches_played' ordinal='1' />
+            <column datatype='integer' name='wins' ordinal='2' />
+            <column datatype='integer' name='losses' ordinal='3' />
+            <column datatype='integer' name='no_results' ordinal='4' />
+            <column datatype='real' name='win_pct' ordinal='5' />
+            <column datatype='integer' name='toss_won' ordinal='6' />
+            <column datatype='real' name='toss_won_and_match_won_pct' ordinal='7' />
+            <column datatype='integer' name='matches_batted_first' ordinal='8' />
+            <column datatype='real' name='win_pct_batting_first' ordinal='9' />
+            <column datatype='integer' name='matches_chased' ordinal='10' />
+            <column datatype='real' name='win_pct_chasing' ordinal='11' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>team</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[team]</local-name>
+            <parent-name>[team_stats#csv]</parent-name>
+            <remote-alias>team</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>win_pct</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[win_pct]</local-name>
+            <parent-name>[team_stats#csv]</parent-name>
+            <remote-alias>win_pct</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column datatype='string' name='[team]' role='dimension' type='nominal' />
+      <column aggregation='Sum' datatype='real' name='[win_pct]' role='measure' type='quantitative' />
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Team Win Pct'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='team_stats' name='team_stats' />
+          </datasources>
+          <datasource-dependencies datasource='team_stats'>
+            <column datatype='string' name='[team]' role='dimension' type='nominal' />
+            <column aggregation='Sum' datatype='real' name='[win_pct]' role='measure' type='quantitative' />
+            <column-instance column='[team]' derivation='None' name='[none:team:nk]' pivot='key' type='nominal' />
+            <column-instance column='[win_pct]' derivation='Sum' name='[sum:win_pct:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[team_stats].[none:team:nk]'>
+            <groupfilter function='level-members' level='[none:team:nk]' user:ui-domain='relevant' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <sort class='manual' column='[team_stats].[none:team:nk]' direction='ASC' />
+          <perspectives />
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <encodings>
+              <text column='[team_stats].[sum:win_pct:qk]' />
+            </encodings>
+          </pane>
+        </panes>
+        <rows>[team_stats].[none:team:nk]</rows>
+        <cols>[team_stats].[sum:win_pct:qk]</cols>
+      </table>
+    </worksheet>
+  </worksheets>
+  <dashboards>
+    <dashboard name='Executive Overview'>
+      <style />
+      <size sizing-mode='automatic' />
+      <zones>
+        <zone h='100000' id='2' type-v2='layout-basic' w='100000' x='0' y='0'>
+          <zone h='100000' id='3' name='Team Win Pct' w='100000' x='0' y='0' />
+        </zone>
+      </zones>
+    </dashboard>
+  </dashboards>
+</workbook>

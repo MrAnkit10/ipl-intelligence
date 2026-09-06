@@ -1,15 +1,49 @@
 # Tableau Dashboard Build Guide
 
-Tableau Desktop (Apple silicon) 2026.2 is confirmed installed. This isn't a
-`.twbx` file I could hand you — Tableau workbooks are built through its GUI
-(drag fields onto shelves, arrange dashboards visually), and there's no way
-for me to author or verify one without running the app interactively. What
-this guide gives you instead: every data file pre-computed and ready to
-connect to with one click, and the exact worksheets/dashboards to build so
-you're assembling, not designing from a blank canvas.
+Tableau Desktop (Apple silicon) 2026.2 is confirmed installed. This guide
+gives you every data file pre-computed and ready to connect to with one
+click, and the exact worksheets/dashboards to build, mirroring blueprint
+section 37 (originally written for Power BI) — same four pages, same
+content, Tableau vocabulary.
 
-Mirrors blueprint section 37 (originally written for Power BI) — same four
-pages, same content, Tableau vocabulary.
+## About `IPL_Intelligence.twb`
+
+This directory also contains a hand-authored `.twb` (Tableau's XML
+workbook format) with one real worksheet (`team_stats.csv` -> a "Team Win
+%" bar chart) wired into an "Executive Overview" dashboard. Worth being
+precise about what that file actually is:
+
+- Tableau workbooks are normally built through the GUI (drag fields onto
+  shelves, arrange visually) — there's no supported API for authoring one
+  programmatically. This was written by hand against Tableau's (largely
+  undocumented) XML schema.
+- It was genuinely tested, not written blind: opened in the real Tableau
+  Desktop install on this machine, with Tableau's own log
+  (`~/Documents/My Tableau Repository/Logs/log.txt`) read after each
+  attempt for its exact DTD validation errors, each one fixed, retested.
+  Real bugs were found and fixed this way — an invalid `selection-relaxation-option`
+  enum value, a missing `<style/>` element, the required-but-easy-to-miss
+  `filter`/`sort`/`perspectives`/`aggregation` sequence inside `<view>`,
+  and stale `parent-name` references after a relation rename.
+- **What's unverified**: this session's environment has no way to actually
+  see a rendered window (screenshots only ever showed the desktop/VS Code,
+  never a Tableau window, even once the process was confirmed alive and
+  logging a successful render) — so the schema-level errors are confirmed
+  fixed, but the CSV data connection currently loads **0 rows** (Tableau's
+  log: `"Cell requested for row 0 is out of bounds for table with 0
+  rows!"`), for a reason that couldn't be pinned down without visual
+  feedback to iterate against. `auto-extract='no'` and the `textscan`
+  connection attributes matching a known-working sample were both tried
+  without success.
+
+**When you open this file yourself** (on a machine where Tableau can
+actually show you a window), you'll be able to see the real error/state
+immediately and fix the connection in seconds via the GUI's own "Edit
+Connection" dialog — almost certainly faster than continuing to debug it
+blind. Treat it as a structurally-valid starting point, not a finished
+dashboard. Building fresh via File > New > Text File (the normal path,
+described below) is the more reliable route if the existing file gives you
+trouble.
 
 ## Data Files (all in `data/processed/`)
 
