@@ -70,8 +70,12 @@ def build_preprocessor() -> ColumnTransformer:
 def candidate_models() -> dict:
     return {
         "linear_regression": LinearRegression(),
+        # max_depth=6: an unbounded-depth version scored worse on
+        # validation (MAE 16.26) than this bounded one (16.13) while
+        # pickling to 55MB vs 2.4MB — same overfitting pattern as the
+        # win-probability model.
         "random_forest": RandomForestRegressor(
-            n_estimators=300, min_samples_leaf=5, n_jobs=-1, random_state=42
+            n_estimators=300, max_depth=6, min_samples_leaf=5, n_jobs=-1, random_state=42
         ),
     }
 
@@ -94,7 +98,7 @@ def main() -> None:
     # rather than a guess. Not the headline-evaluated target, so a single
     # Random Forest (matching the deployed runs model) is enough.
     balls_pipeline = Pipeline([("preprocess", build_preprocessor()), ("model", RandomForestRegressor(
-        n_estimators=300, min_samples_leaf=5, n_jobs=-1, random_state=42
+        n_estimators=300, max_depth=6, min_samples_leaf=5, n_jobs=-1, random_state=42
     ))])
     balls_pipeline.fit(X_train, train["label_balls_faced"])
     balls_test_metrics = compute_regression_metrics(test["label_balls_faced"], balls_pipeline.predict(X_test))

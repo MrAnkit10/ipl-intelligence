@@ -18,6 +18,25 @@ data/features/*
 models/*.pkl
 models/*.joblib
 
+# Everything above is regenerable by the scripts in README, and normally
+# gitignored so this stays a data-engineering repo rather than a data dump.
+# The exceptions below are committed anyway because the Streamlit app
+# deployed at share.streamlit.io reads them directly at runtime, with no
+# build step to regenerate them in the cloud — the app would otherwise
+# fail on first load. Kept to the minimum the app actually reads (see
+# app/data_loader.py); redundant CSV twins of the parquet files and the
+# Tableau/Power BI-only BI-export tables stay gitignored.
+!data/processed/matches.parquet
+!data/processed/deliveries.parquet
+!data/processed/players.parquet
+!data/processed/batting_stats.csv
+!data/processed/bowling_stats.csv
+!data/processed/team_stats.csv
+!data/processed/venue_stats.csv
+!data/features/win_prediction_features.parquet
+!models/win_probability.pkl
+!models/player_performance.pkl
+
 .DS_Store
 *.log
 
