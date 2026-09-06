@@ -21,22 +21,41 @@ AVATAR_COLORS = [
 # do. The ball body is always solid red with a bright white seam so it
 # stays legible against any background; {color} only tints the outer ring,
 # letting each page tie the mark to its own accent color.
-BALL_ICON_SVG = """
-<svg width="{size}" height="{size}" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="24" cy="24" r="20" fill="#B3122A" stroke="{color}" stroke-width="2.5"/>
-    <circle cx="24" cy="24" r="20" fill="url(#ballShine)" />
-    <ellipse cx="17" cy="14" rx="6" ry="4" fill="#ffffff" fill-opacity="0.22" transform="rotate(-25 17 14)"/>
-    <path d="M24,4 Q34,24 24,44" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
-    <path d="M25.4,10.8 l3.4,-1.9 M27,16.8 l3.7,-1.3 M28,24 l4,0 M27,31.2 l3.7,1.3 M25.4,37.2 l3.4,1.9"
-          stroke="#ffffff" stroke-width="1.3" stroke-linecap="round"/>
-    <defs>
-        <radialGradient id="ballShine" cx="35%" cy="28%" r="70%">
-            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.25"/>
-            <stop offset="55%" stop-color="#ffffff" stop-opacity="0"/>
-        </radialGradient>
-    </defs>
-</svg>
-"""
+BALL_ICON_SVG = (
+    '<svg width="{size}" height="{size}" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">'
+    '<circle cx="24" cy="24" r="20" fill="#B3122A" stroke="{color}" stroke-width="2.5"/>'
+    '<circle cx="24" cy="24" r="20" fill="url(#ballShine)" />'
+    '<ellipse cx="17" cy="14" rx="6" ry="4" fill="#ffffff" fill-opacity="0.22" transform="rotate(-25 17 14)"/>'
+    '<path d="M24,4 Q34,24 24,44" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>'
+    '<path d="M25.4,10.8 l3.4,-1.9 M27,16.8 l3.7,-1.3 M28,24 l4,0 M27,31.2 l3.7,1.3 M25.4,37.2 l3.4,1.9" '
+    'stroke="#ffffff" stroke-width="1.3" stroke-linecap="round"/>'
+    "<defs>"
+    '<radialGradient id="ballShine" cx="35%" cy="28%" r="70%">'
+    '<stop offset="0%" stop-color="#ffffff" stop-opacity="0.25"/>'
+    '<stop offset="55%" stop-color="#ffffff" stop-opacity="0"/>'
+    "</radialGradient>"
+    "</defs>"
+    "</svg>"
+)
+
+
+def render_html(html: str) -> None:
+    """Render a raw HTML snippet safely.
+
+    Streamlit's markdown renderer parses unsafe_allow_html content through
+    a CommonMark-style block parser first: an empty/whitespace-only line
+    anywhere inside the snippet (e.g. from an f-string placeholder that
+    resolves to "" on its own line, or from a template string that itself
+    starts/ends with a bare newline) splits it into multiple blocks, and
+    any block after the first one that isn't recognized as its own HTML
+    tag gets treated as an indented code block — rendered as escaped,
+    literal text instead of HTML. Collapsing all whitespace (including
+    every newline) into single spaces makes the snippet one line, so
+    there's no blank line left to trigger that split. Safe here because
+    these are all layout <div>/<svg> markup, never <pre>/<code> content
+    where whitespace is meaningful.
+    """
+    st.markdown(" ".join(html.split()), unsafe_allow_html=True)
 
 
 def inject_theme_css() -> None:
@@ -73,7 +92,7 @@ def render_page_title(title: str, subtitle: str | None = None, color: str = "#3B
     placeholder rather than a finished product."""
     ball = BALL_ICON_SVG.format(size=34, color=color)
     subtitle_html = f'<div style="color:#B8C0E0;font-size:13px;font-family:sans-serif;margin-top:2px;">{subtitle}</div>' if subtitle else ""
-    st.markdown(
+    render_html(
         f"""
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
             <div style="flex-shrink:0;">{ball}</div>
@@ -83,8 +102,7 @@ def render_page_title(title: str, subtitle: str | None = None, color: str = "#3B
                 {subtitle_html}
             </div>
         </div>
-        """,
-        unsafe_allow_html=True,
+        """
     )
 
 
@@ -98,13 +116,12 @@ def chart_card(title: str, subtitle: str | None = None):
             f'<div style="color:#8892C0;font-size:12px;font-family:sans-serif;margin-bottom:8px;">{subtitle}</div>'
             if subtitle else ""
         )
-        st.markdown(
+        render_html(
             f"""
             <div style="font-weight:800;font-size:15px;color:white;font-family:sans-serif;
                         margin:2px 0 2px 0;">{title}</div>
             {subtitle_html}
-            """,
-            unsafe_allow_html=True,
+            """
         )
         yield
 
@@ -115,7 +132,7 @@ def render_team_badge(team: str, color: str, size: int = 64) -> None:
     to hotlink on a public deployment."""
     code = team_code(team)
     font_size = max(size // 3, 12)
-    st.markdown(
+    render_html(
         f"""
         <div style="width:{size}px;height:{size}px;border-radius:{size // 5}px;
                     background:linear-gradient(135deg,{color} 0%,{color}CC 100%);
@@ -124,8 +141,7 @@ def render_team_badge(team: str, color: str, size: int = 64) -> None:
                     box-shadow:0 4px 12px {color}55;">
             {code}
         </div>
-        """,
-        unsafe_allow_html=True,
+        """
     )
 
 
@@ -150,7 +166,7 @@ def render_stat_card(
             </div>'''
         for label, value in rows
     )
-    st.markdown(
+    render_html(
         f"""
         <div style="border-radius:14px;overflow:hidden;border:1px solid {color}88;
                     box-shadow:0 6px 16px rgba(0,0,0,0.35);margin-bottom:16px;">
@@ -164,8 +180,7 @@ def render_stat_card(
             </div>
             <div style="background:#0F1530;padding:8px 16px;">{rows_html}</div>
         </div>
-        """,
-        unsafe_allow_html=True,
+        """
     )
 
 
@@ -179,7 +194,7 @@ def render_match_banner(
     trademarked logo imagery (team badges are the colored code chips from
     render_team_badge, rendered inline as text)."""
     team1_code, team2_code = team_code(team1), team_code(team2)
-    st.markdown(
+    render_html(
         f"""
         <div style="border-radius:16px;overflow:hidden;margin-bottom:6px;">
             <div style="display:flex;background:linear-gradient(90deg,{team1_color} 0%,{team1_color}CC 48%,
@@ -200,8 +215,7 @@ def render_match_banner(
             <div style="background:#131A3A;color:#B8C0E0;text-align:center;padding:8px;
                         font-size:13px;font-family:sans-serif;">{subtitle}</div>
         </div>
-        """,
-        unsafe_allow_html=True,
+        """
     )
 
 
@@ -214,7 +228,7 @@ def render_matchup_banner(
     instead of team codes and scores."""
     p1_photo_html = avatar_html(player1, player1_photo, size=72)
     p2_photo_html = avatar_html(player2, player2_photo, size=72)
-    st.markdown(
+    render_html(
         f"""
         <div style="border-radius:16px;overflow:hidden;margin-bottom:6px;
                     display:flex;align-items:center;
@@ -237,8 +251,7 @@ def render_matchup_banner(
                 {p2_photo_html}
             </div>
         </div>
-        """,
-        unsafe_allow_html=True,
+        """
     )
 
 
@@ -269,7 +282,7 @@ def avatar_html(name: str, photo_url: str | None, size: int = 120) -> str:
         )
     initials = _initials(name)
     color = _color_for(name)
-    return f"""
+    html = f"""
         <div style="width:{size}px;height:{size}px;border-radius:50%;
                     background:{color};color:white;display:flex;
                     align-items:center;justify-content:center;
@@ -278,10 +291,11 @@ def avatar_html(name: str, photo_url: str | None, size: int = 120) -> str:
             {initials}
         </div>
         """
+    return " ".join(html.split())
 
 
 def render_avatar(name: str, photo_url: str | None, size: int = 120) -> None:
     """Shows a real photo if one was found, otherwise a colored initials
     avatar — never a broken image or a wrong photo. For a standalone
     avatar; to embed one inside a larger custom card, use avatar_html()."""
-    st.markdown(avatar_html(name, photo_url, size), unsafe_allow_html=True)
+    render_html(avatar_html(name, photo_url, size))

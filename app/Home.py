@@ -8,7 +8,7 @@ if str(ROOT_DIR) not in sys.path:
 import pandas as pd
 import streamlit as st
 
-from app.components import BALL_ICON_SVG, avatar_html, inject_theme_css
+from app.components import BALL_ICON_SVG, avatar_html, inject_theme_css, render_html
 from app.data_loader import (
     load_batting_stats,
     load_bowling_stats,
@@ -29,7 +29,7 @@ bowling_stats = load_bowling_stats()
 overview = compute_overview(matches, deliveries, batting_stats, bowling_stats)
 
 ball = BALL_ICON_SVG.format(size=56, color="#ffffffAA")
-st.markdown(
+render_html(
     f"""
     <div style="border-radius:18px;overflow:hidden;margin-bottom:20px;padding:36px 32px;
                 background:radial-gradient(circle at 10% 20%,#EC1C24 0%,#131A3A 45%,#0A0E27 100%);
@@ -42,8 +42,7 @@ st.markdown(
             </div>
         </div>
     </div>
-    """,
-    unsafe_allow_html=True,
+    """
 )
 
 col1, col2, col3, col4 = st.columns(4)
@@ -90,10 +89,7 @@ nav_cols = st.columns(3)
 for i, (color, label, page) in enumerate(NAV_ITEMS):
     with nav_cols[i % 3]:
         with st.container(border=True):
-            st.markdown(
-                f'<div style="height:4px;background:{color};border-radius:2px;margin:-1px -1px 10px -1px;"></div>',
-                unsafe_allow_html=True,
-            )
+            render_html(f'<div style="height:4px;background:{color};border-radius:2px;margin:-1px -1px 10px -1px;"></div>')
             st.page_link(page, label=label)
 
 st.divider()
@@ -106,7 +102,7 @@ for col, (_, row) in zip(cols, top_batters.iterrows()):
     with col:
         color = team_color(row["current_team"]) if pd.notna(row.get("current_team")) else "#3B82F6"
         photo = avatar_html(row["player_name"], player_photos.get(row["player_id"]), size=80)
-        st.markdown(
+        render_html(
             f"""
             <div style="border-radius:14px;overflow:hidden;text-align:center;margin-bottom:8px;
                         background:linear-gradient(180deg,{color}55 0%,#131A3A 70%);
@@ -119,8 +115,7 @@ for col, (_, row) in zip(cols, top_batters.iterrows()):
                     {row['runs']:,} runs · SR {row['strike_rate']:.1f}
                 </div>
             </div>
-            """,
-            unsafe_allow_html=True,
+            """
         )
 
 st.subheader("Top Wicket Takers")
@@ -130,7 +125,7 @@ for col, (_, row) in zip(cols, top_bowlers.iterrows()):
     with col:
         color = team_color(row["current_team"]) if pd.notna(row.get("current_team")) else "#3B82F6"
         photo = avatar_html(row["player_name"], player_photos.get(row["player_id"]), size=80)
-        st.markdown(
+        render_html(
             f"""
             <div style="border-radius:14px;overflow:hidden;text-align:center;margin-bottom:8px;
                         background:linear-gradient(180deg,{color}55 0%,#131A3A 70%);
@@ -143,8 +138,7 @@ for col, (_, row) in zip(cols, top_bowlers.iterrows()):
                     {int(row['wickets'])} wickets · Econ {row['economy']:.2f}
                 </div>
             </div>
-            """,
-            unsafe_allow_html=True,
+            """
         )
 
 st.divider()

@@ -9,7 +9,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from app.components import chart_card, inject_theme_css, render_stat_card
+from app.components import chart_card, inject_theme_css, render_html, render_stat_card
 from app.data_loader import (
     load_batting_stats,
     load_bowling_stats,
@@ -36,7 +36,7 @@ st.session_state["selected_team"] = team
 row = team_stats[team_stats["team"] == team].iloc[0]
 color = team_color(team)
 
-st.markdown(
+render_html(
     f"""
     <div style="border-radius:16px;overflow:hidden;margin-bottom:18px;
                 background:radial-gradient(circle at 15% 30%,{color}FF 0%,{color}66 60%,#0A0E27 100%);
@@ -45,8 +45,7 @@ st.markdown(
                     text-shadow:0 2px 8px rgba(0,0,0,0.4);">{team_code(team)}</div>
         <div style="color:white;font-size:22px;font-weight:700;font-family:sans-serif;">{team}</div>
     </div>
-    """,
-    unsafe_allow_html=True,
+    """
 )
 
 cols = st.columns(6)

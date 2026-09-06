@@ -11,7 +11,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-from app.components import avatar_html, chart_card, inject_theme_css, render_page_title
+from app.components import avatar_html, chart_card, inject_theme_css, render_html, render_page_title
 from app.data_loader import load_batting_innings_table, load_player_performance_model, load_player_photos, team_color
 from src.data.team_normalization import canonical_team_name
 
@@ -100,7 +100,7 @@ prediction = model.predict_one(**state)
 
 color = team_color(current_team)
 photo = avatar_html(player_name, player_photos.get(player_id), size=88)
-st.markdown(
+render_html(
     f"""
     <div style="border-radius:16px;overflow:hidden;margin-bottom:18px;display:flex;align-items:center;gap:18px;
                 background:linear-gradient(90deg,{color}55 0%,#131A3A 60%);border:1px solid {color}88;
@@ -116,8 +116,7 @@ st.markdown(
             <div style="color:#B8C0E0;font-size:13px;">{venue}</div>
         </div>
     </div>
-    """,
-    unsafe_allow_html=True,
+    """
 )
 
 gauge_col, prob_col, form_col = st.columns([1, 1, 2])

@@ -8,7 +8,7 @@ if str(ROOT_DIR) not in sys.path:
 import pandas as pd
 import streamlit as st
 
-from app.components import inject_theme_css, render_page_title
+from app.components import inject_theme_css, render_html, render_page_title
 from app.data_loader import load_team_stats, team_color
 from src.data.team_normalization import team_code
 
@@ -28,7 +28,7 @@ team_stats = load_team_stats().sort_values("win_pct", ascending=False).reset_ind
 def render_team_card(team: str, matches: int, wins: int, losses: int, win_pct: float) -> None:
     color = team_color(team)
     code = team_code(team)
-    st.markdown(
+    render_html(
         f"""
         <div style="border-radius:16px;overflow:hidden;margin-bottom:18px;
                     box-shadow:0 8px 20px rgba(0,0,0,0.35);">
@@ -49,8 +49,7 @@ def render_team_card(team: str, matches: int, wins: int, losses: int, win_pct: f
                 <span style="color:white;font-weight:700;">{win_pct:.0f}%</span>
             </div>
         </div>
-        """,
-        unsafe_allow_html=True,
+        """
     )
 
 

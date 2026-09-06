@@ -10,7 +10,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-from app.components import avatar_html, chart_card, inject_theme_css, render_page_title
+from app.components import avatar_html, chart_card, inject_theme_css, render_html, render_page_title
 from app.data_loader import (
     load_batting_percentiles,
     load_batting_stats,
@@ -47,7 +47,7 @@ current_team = (
 
 color = team_color(current_team) if current_team else "#3B82F6"
 photo = avatar_html(player_name, player_photos.get(player_id), size=88)
-st.markdown(
+render_html(
     f"""
     <div style="border-radius:16px;overflow:hidden;margin-bottom:18px;display:flex;align-items:center;gap:18px;
                 background:linear-gradient(90deg,{color}55 0%,#131A3A 60%);border:1px solid {color}88;
@@ -58,8 +58,7 @@ st.markdown(
             <div style="color:#B8C0E0;font-size:13px;">{current_team or ''}</div>
         </div>
     </div>
-    """,
-    unsafe_allow_html=True,
+    """
 )
 
 if not bat_row.empty:
@@ -72,25 +71,25 @@ if not bat_row.empty:
     debut = pd.to_datetime(row["debut_date"]) if pd.notna(row.get("debut_date")) else None
     last_played = pd.to_datetime(row["last_played_date"]) if pd.notna(row.get("last_played_date")) else None
     seasons_span = f"{debut.year}–{last_played.year}" if debut is not None and last_played is not None else "—"
+    matches_played = int(row["matches_played"]) if pd.notna(row.get("matches_played")) else int(row["innings"])
 
-    st.markdown(
+    render_html(
         f"""
         <div style="display:flex;gap:18px;align-items:center;margin:-6px 0 14px 0;flex-wrap:wrap;">
             <span style="color:white;background:{color};padding:3px 12px;border-radius:20px;
                         font-size:12px;font-weight:800;font-family:sans-serif;letter-spacing:0.02em;">{role.upper()}</span>
-            <span style="color:#8892C0;font-size:12px;font-family:sans-serif;">{seasons_span} · {int(row['matches_played'])} matches</span>
+            <span style="color:#8892C0;font-size:12px;font-family:sans-serif;">{seasons_span} · {matches_played} matches</span>
             <span style="color:#8892C0;font-size:12px;font-family:sans-serif;">
                 Debut {debut.strftime('%b %d, %Y') if debut is not None else '—'}
                 &nbsp;·&nbsp; Last played {last_played.strftime('%b %d, %Y') if last_played is not None else '—'}
             </span>
         </div>
-        """,
-        unsafe_allow_html=True,
+        """
     )
 
     st.subheader("Batting")
     cols = st.columns(8)
-    cols[0].metric("Matches", int(row["matches_played"]))
+    cols[0].metric("Matches", matches_played)
     cols[1].metric("Runs", int(row["runs"]))
     cols[2].metric("Average", f"{row['batting_average']:.1f}" if pd.notna(row["batting_average"]) else "—")
     cols[3].metric("Strike Rate", f"{row['strike_rate']:.1f}")
@@ -168,31 +167,57 @@ if not bat_row.empty:
 
     comp_col, dismiss_col = st.columns(2)
     with comp_col:
-        with chart_card("Run Composition", "How career runs break down by shot value"):
-            stroke_counts = {
-                "1s": row["ones"], "2s": row["twos"], "3s": row["threes"],
-                "4s": row["fours"], "5s": row["fives"], "6s": row["sixes"],
-            }
-            stroke_runs = {
-                "1s": row["ones"] * 1, "2s": row["twos"] * 2, "3s": row["threes"] * 3,
-                "4s": row["fours"] * 4, "5s": row["fives"] * 5, "6s": row["sixes"] * 6,
-            }
-            comp_df = pd.DataFrame(
-                {
-                    "stroke": list(stroke_counts.keys()),
-                    "count": list(stroke_counts.values()),
-                    "runs_contributed": list(stroke_runs.values()),
-                }
+        with chart_card(
+            "Scoring Wheel",
+            "Career runs by shot value — wedge size is runs contributed by that stroke. "
+            "This is a run-value breakdown, not a shot-direction wagon wheel: Cricsheet has no "
+            "field-placement data, so this project never guesses at one.",
+        ):
+            strokes = ["1s", "2s", "3s", "4s", "5s", "6s"]
+            counts = [row["ones"], row["twos"], row["threes"], row["fours"], row["fives"], row["sixes"]]
+            run_values = [1, 2, 3, 4, 5, 6]
+            runs_contributed = [c * v for c, v in zip(counts, run_values)]
+            wheel_colors = ["#3B82F6", "#22C55E", "#EAB308", "#F97316", "#A855F7", "#EF4444"]
+
+            fig_wheel = go.Figure()
+            fig_wheel.add_trace(
+                go.Barpolar(
+                    r=runs_contributed,
+                    theta=[i * 60 for i in range(6)],
+                    width=[58] * 6,
+                    marker_color=wheel_colors,
+                    marker_line_color="#0A0E27",
+                    marker_line_width=2,
+                    opacity=0.9,
+                    hovertext=[
+                        f"{s}: {int(c)} times · {rc} runs contributed" for s, c, rc in zip(strokes, counts, runs_contributed)
+                    ],
+                    hoverinfo="text",
+                )
             )
-            comp_df = comp_df[comp_df["count"] > 0]
-            fig_comp = px.bar(
-                comp_df, x="stroke", y="runs_contributed", text="count",
-                labels={"runs_contributed": "Runs contributed", "stroke": ""},
-                hover_data={"count": True}, color_discrete_sequence=[color],
+            fig_wheel.add_trace(
+                go.Scatterpolar(
+                    r=[max(rc, 1) * 1.18 for rc in runs_contributed],
+                    theta=[i * 60 for i in range(6)],
+                    mode="text",
+                    text=[f"{s}<br>{int(c)}×" for s, c in zip(strokes, counts)],
+                    textfont=dict(color="white", size=12),
+                    showlegend=False,
+                    hoverinfo="skip",
+                )
             )
-            fig_comp.update_traces(texttemplate="%{text} times", textposition="outside", marker_color=color)
-            fig_comp.update_layout(**TRANSPARENT_LAYOUT)
-            st.plotly_chart(fig_comp, width="stretch")
+            fig_wheel.update_layout(
+                polar=dict(
+                    bgcolor="rgba(0,0,0,0)",
+                    radialaxis=dict(showticklabels=False, gridcolor="#232B55", linecolor="#232B55"),
+                    angularaxis=dict(showticklabels=False, gridcolor="#232B55", linecolor="#232B55"),
+                ),
+                paper_bgcolor="rgba(0,0,0,0)",
+                showlegend=False,
+                margin=dict(l=30, r=30, t=30, b=10),
+                height=380,
+            )
+            st.plotly_chart(fig_wheel, width="stretch")
             st.caption(
                 f"{row['runs']} runs = {int(row['ones'])} singles + {int(row['twos'])} twos + "
                 f"{int(row['threes'])} threes + {int(row['fours'])} fours + {int(row['fives'])} fives + "
