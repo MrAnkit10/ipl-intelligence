@@ -1,0 +1,38 @@
+{
+  "candidate_validation_metrics": {
+    "linear_regression": {
+      "mae": 0.7963132186697279,
+      "rmse": 1.0232639816186526,
+      "r2": 0.006902048743378408
+    },
+    "random_forest": {
+      "mae": 0.7863541105996164,
+      "rmse": 1.0130183089787967,
+      "r2": 0.02668974206677055
+    }
+  },
+  "best_by_validation_mae": "random_forest",
+  "deployed_model": "random_forest",
+  "test_metrics": {
+    "linear_regression": {
+      "mae": 0.7838120160555591,
+      "rmse": 1.0016258037303738,
+      "r2": 0.013542879128018326
+    },
+    "random_forest": {
+      "mae": 0.778217418813438,
+      "rmse": 0.994943322195642,
+      "r2": 0.026661534466375647
+    }
+  },
+  "naive_baseline_test_metrics": {
+    "mae": 0.8067872159146519,
+    "rmse": 1.0080588167122029,
+    "r2": 0.0008310062697678422
+  },
+  "economy_model_test_metrics": {
+    "mae": 2.798305498050141,
+    "rmse": 4.03004014069403,
+    "r2": -0.08555858655042048
+  }
+}

@@ -47,6 +47,7 @@ models/*.joblib
 !data/features/win_prediction_features.parquet
 !models/win_probability.pkl
 !models/player_performance.pkl
+!models/bowling_performance.pkl
 
 .DS_Store
 *.log

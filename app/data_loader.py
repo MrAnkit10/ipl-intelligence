@@ -202,6 +202,31 @@ def load_batting_innings_table() -> pd.DataFrame:
     return build_batting_innings(load_matches(), load_deliveries())
 
 
+@st.cache_resource
+def load_bowling_performance_model():
+    from src.models.predict_bowling_performance import BowlingPerformanceModel
+
+    return BowlingPerformanceModel.load()
+
+
+@st.cache_data
+def load_bowling_matches_table() -> pd.DataFrame:
+    from src.features.build_bowling_performance_features import build_bowling_matches
+
+    return build_bowling_matches(load_matches(), load_deliveries())
+
+
+@st.cache_data
+def load_bowling_performance_evaluation_report() -> dict:
+    import json
+
+    path = MODELS_DIR / "bowling_performance_evaluation.json"
+    if not path.exists():
+        return {}
+    with open(path) as f:
+        return json.load(f)
+
+
 @st.cache_data
 def load_evaluation_report() -> dict:
     import json

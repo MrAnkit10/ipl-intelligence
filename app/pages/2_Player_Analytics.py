@@ -71,10 +71,19 @@ render_html(
 # ball-by-ball data or the player register, so it's never guessed at here.
 has_bat = not bat_row.empty
 has_bowl = not bowl_row.empty
-bat_wickets_ok = has_bowl and bowl_row.iloc[0]["wickets"] >= 20
-bat_innings_ok = has_bat and bat_row.iloc[0]["innings"] >= 20
-if bat_innings_ok and bat_wickets_ok:
+# Innings count alone misclassifies specialist bowlers as all-rounders: a
+# tailender can accumulate 20+ batting innings purely from batting at
+# #9-11 for a decade while averaging single digits (Bumrah: 29 innings,
+# 75 runs, average 9.4). Career runs is the signal that actually
+# distinguishes "bats a bit" from "a real batting threat".
+bat_significant = has_bat and bat_row.iloc[0]["runs"] >= 500
+bowl_significant = has_bowl and bowl_row.iloc[0]["wickets"] >= 20
+if bat_significant and bowl_significant:
     role = "All-rounder"
+elif bat_significant:
+    role = "Batter"
+elif bowl_significant:
+    role = "Bowler"
 elif has_bat:
     role = "Batter"
 elif has_bowl:
