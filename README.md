@@ -133,7 +133,7 @@ Validation results (used for model selection):
 | Model | Log Loss | ROC-AUC |
 |---|---|---|
 | Logistic Regression | 0.523 | 0.852 |
-| **Random Forest (selected)** | **0.481** | **0.853** |
+| **Random Forest (selected)** | **0.467** | **0.868** |
 | XGBoost | 0.509 | 0.854 |
 | LightGBM | 0.512 | 0.852 |
 
@@ -151,8 +151,8 @@ calibration):
 
 | Model | Log Loss | Brier | ROC-AUC | Accuracy |
 |---|---|---|---|---|
-| Random Forest (raw) | 0.497 | 0.161 | 0.872 | 0.775 |
-| Random Forest + isotonic calibration | 0.531 | 0.156 | 0.871 | 0.753 |
+| Random Forest (raw) | 0.486 | 0.158 | 0.882 | 0.776 |
+| Random Forest + isotonic calibration | 0.485 | 0.148 | 0.880 | 0.792 |
 
 Calibration slightly worsens log loss but improves the Brier score and
 substantially closes the mean calibration-curve gap (predicted vs. observed
@@ -170,31 +170,43 @@ live win-probability page calls.
 streamlit run app/Home.py
 ```
 
-Twelve pages, all reading from the Parquet/CSV tables and the trained models
-(no live API, no database dependency), Model Insights deliberately last in
-the nav order since it's project internals rather than something a visitor
-explores first:
+Thirteen pages, all reading from the Parquet/CSV tables and the trained
+models (no live API, no database dependency), Model Insights deliberately
+last in the nav order since it's project internals rather than something a
+visitor explores first:
 
 - **Home** — headline tournament numbers, a season-archive quick-launch row (2008-2026, one
   click into that season's full match list), a redesigned "Explore" grid, top run-scorers and
   top wicket-takers as team-tinted photo cards
 - **Teams** — a card grid per team (colored badge, code, record, win %); "View Full Stats" drills into...
 - **Team Detail** — full record, head-to-head vs every opponent, leading batter/bowler
-  (broadcast-style stat cards), and a complete match log that opens straight into...
+  (broadcast-style stat cards including highest score / best bowling figures), and a complete
+  match log that opens straight into...
 - **Season Archive** — every IPL season 2008-2026: matches played, the champion (derived as the
-  winner of that season's chronologically-last match), and every match, each opening into...
+  winner of that season's chronologically-last match), Season Awards (Orange Cap, Purple Cap,
+  and the final's Player of the Match, each with a photo), and every match with its own Player
+  of the Match, each opening into...
 - **Match Scorecard** — a full traditional scorecard reconstructed from ball-by-ball data for
   any of the 1,243 matches: batting card (runs/balls/4s/6s/SR/how out), bowling figures
   (overs/maidens/runs/wickets/economy), extras, and fall of wickets — verified against a real,
   independently-checkable match (SRH 207/4 beat RCB 172 by 35 runs, IPL 2017 match 1) before
   trusting it at scale
-- **IPL Overview** — tournament leaders (top scorer/wicket-taker stat cards), team win %,
-  batting-first vs chasing, toss impact, matches per season
-- **Player Analytics** — photo, batting/bowling career stats, run composition (1s/2s/3s/4s/5s/6s
-  breakdown of career runs), dismissal-type breakdown, strike rate/economy by phase, recent form
+- **IPL Overview** — tournament leaders (top scorer/wicket-taker stat cards with highest score
+  / best bowling figures), team win %, batting-first vs chasing, toss impact, matches-per-season
+  trend, and full ranked leaderboards (every player, not just the top 3) for runs and wickets
+- **Player Analytics** — photo, identity strip (role, seasons active, debut/last played —
+  computed from every appearance so it's correct for bowlers too, not just batters), a
+  **Career Dossier** percentile radar for batters (12 rate-stat axes — boundary %, six rate,
+  chase/death strike rate, average, conversion, dot %, and more — ranked against players with
+  15+ innings) and an equivalent **Bowling Dossier** for bowlers (9 axes — wickets/match, best
+  figures, economy by phase, control — ranked against bowlers with 300+ balls bowled), a
+  **Scoring Wheel** (career runs by shot value, 1s through 6s, as a polar chart), dismissal-type
+  breakdown, strike rate/economy by phase, and recent form
 - **Batter vs Bowler** — a split team-color matchup banner (both players' photos), historical
-  head-to-head, outcome distribution per ball
-- **Venue Analytics** — photo, scoring conditions, chasing vs defending record, scoring by over
+  head-to-head, and a donut chart of outcome distribution per ball
+- **Venue Analytics** — photo, scoring conditions, chasing vs defending record, and a
+  scoring-by-over trend line (each over's actual total, not a per-ball average, averaged across
+  every innings played there)
 - **Live Win Probability** — a match-center header (final score both innings, result, venue) plus
   a Manhattan runs-per-over chart, then replays a real historical run chase ball-by-ball through
   the trained model, with a full-match probability timeline annotated with wickets and sixes
@@ -202,6 +214,12 @@ explores first:
 - **Player Performance Predictor** — a gauge-chart expected-runs prediction, milestone
   probability bars, and a form-comparison chart (career/recent/season/venue/opponent averages)
   for a player/opponent/venue combination
+- **Records & Milestones** — biggest wins (by runs and by wickets), highest/lowest completed
+  team totals, best partnerships for any wicket, and fastest fifties/hundreds plus most
+  sixes/fours in a single innings
+- **Player Comparison** — pick any two batters and see career stats side-by-side plus an
+  overlaid percentile radar (the Career Dossier's own metrics) to compare how they each rank
+  against the league on the same axes
 - **Model Insights** — validation/test metrics, raw-vs-calibrated calibration curves, methodology
 
 All pages are checked with Streamlit's `AppTest` headless runner (including
@@ -211,6 +229,17 @@ Home → Seasons → Match Scorecard, Team Detail's match log → Match Scorecar
 imports. This caught a real bug during the page renumbering below: `Home.py`
 still linked to pre-rename filenames, which only surfaced once tested through
 the full app context rather than as an isolated page.
+
+`AppTest` only checks that Streamlit's element tree builds without a Python
+exception — it does not render real HTML, so a separate class of bug slipped
+through it entirely: `st.markdown(..., unsafe_allow_html=True)` snippets
+that embedded a multi-line SVG or an f-string placeholder resolving to `""`
+on its own line produced a blank line in the middle of the HTML, which
+Streamlit's markdown parser treats as the end of the "raw HTML" block —
+everything after it renders as escaped, literal text instead. Fixed with a
+`render_html()` helper (`app/components.py`) that collapses all whitespace
+to single spaces before handing the string to `st.markdown`, used everywhere
+the app builds custom card markup.
 
 ### Visual Design
 
@@ -234,15 +263,56 @@ references (the dark stat-card look) was extracted and reused instead.
 
 ### Data Accuracy
 
-Asked to verify the numbers against the official IPL site — Cricsheet data
-can't be bulk-compared against a JS-heavy commercial site, but it can be
-spot-checked against a citable source. Mumbai Indians' Wikipedia page shows
-273 matches / 151 wins / 55.31% at the time of checking; this project's
-data through the *2025* season shows 277 matches / 151 wins / 55.31% —
-an exact match on wins and win %, meaning Wikipedia simply hasn't been
-updated for the 2026 season yet. This project's data is more current, not
-wrong — a good example of why "does it match another site" isn't itself
-proof of an error.
+Asked to verify the numbers against the official IPL site and other
+citable sources — iplt20.com is a JS-heavy commercial site that can't be
+bulk-scraped, but its content (and Wikipedia's, and ESPNcricinfo's) can be
+spot-checked and cross-referenced by hand, which is what caught the one
+real data bug described below and then confirmed the fix.
+
+**The bug, found by spotting an impossible stat**: the Seasons page once
+showed Sachin Tendulkar with 982 runs and Chennai Super Kings as champion
+for the 2009 season — neither is real (Tendulkar's actual best IPL season
+was 618 runs in 2010; the real 2009 champion was Deccan Chargers).
+Root cause: `_extract_season_year()` in `src/data/parse_cricsheet.py` took
+the first 4 characters of Cricsheet's `season` field, which is a
+split-year string for three IPL seasons — `"2007/08"`, `"2009/10"`,
+`"2020/21"` — representing IPL **2008**, **2010**, and **2020**
+respectively (every match in each falls entirely within that second
+calendar year). Truncating `"2009/10"` to `"2009"` silently merged 60 real
+IPL-2010 matches into the 57 real IPL-2009 matches, corrupting every
+season-level number for that bucket. Fixed by deriving `season_year` from
+the match's own first date instead of parsing the season label at all —
+reliable here since no season in this dataset spans a calendar-year
+boundary. The full pipeline (matches/deliveries tables, every descriptive
+stat, both ML models) was rebuilt from raw Cricsheet JSON after the fix.
+
+**Verification after the fix** — every value below is an exact match
+against Wikipedia, ESPNcricinfo, or iplt20.com's own homepage:
+
+| Check | This project | Independent source |
+|---|---|---|
+| 2008 champion / Orange Cap / Purple Cap | Rajasthan Royals / S Marsh 616 / Sohail Tanvir 22 | same (Wikipedia) |
+| 2009 champion / Orange Cap / Purple Cap | Deccan Chargers / M Hayden 572 / RP Singh 23 | same (ESPNcricinfo) |
+| 2010 champion / Orange Cap / Purple Cap | Chennai Super Kings / S Tendulkar 618 / P Ojha 21 | same (Wikipedia) |
+| 2025 champion / Orange Cap / Purple Cap | Royal Challengers Bengaluru / Sai Sudharsan 759 / Prasidh Krishna 25 | same (Business Standard) |
+| 2026 champion / Orange Cap / Purple Cap | Royal Challengers Bengaluru / V Sooryavanshi 776 / K Rabada 29 | same (iplt20.com homepage) |
+| All 19 seasons' Orange Cap, Purple Cap, and Player of the Final | — | every one matches Wikipedia's season-by-season tables |
+| Career runs / innings leader | V Kohli, 9,336 runs / 275 innings | same (Wikipedia) |
+| Career wickets leader | YS Chahal, 233 wickets | same (Wikipedia) |
+| Highest team total ever | SRH 287/3 (2024) | same |
+| Lowest completed total ever | RCB 49 all out (2017) | same |
+| Best partnership ever | de Villiers & Kohli, 229 runs (2016) | same |
+| Fastest hundred ever | Chris Gayle, 30 balls (2013) | same (the legendary one) |
+| 2026 final: date, venue, margin | 31 May 2026, Narendra Modi Stadium, RCB won by 5 wkts | same (iplt20.com's own match report) |
+
+Separately, before this bug was found: Mumbai Indians' Wikipedia page
+showed 273 matches / 151 wins / 55.31% at the time of checking; this
+project's data through the *2025* season showed 277 matches / 151 wins /
+55.31% — an exact match on wins and win %, meaning Wikipedia simply hadn't
+been updated for the 2026 season yet. Not every mismatch against another
+site is this project being wrong — but the Tendulkar case above shows it
+sometimes is, which is exactly why every "does it match" claim in this
+README is backed by a specific, checkable number rather than asserted.
 
 ### Player & Venue Photos
 
@@ -279,9 +349,9 @@ on MAE (Linear Regression is statistically tied), but because only a tree
 ensemble's per-tree prediction spread can produce the "Prediction Range" and
 P(30+)/P(50+) outputs blueprint Module 6 asks for.
 
-**Honest result**: on the 2025-2026 test seasons, the model's MAE (16.57)
+**Honest result**: on the 2025-2026 test seasons, the model's MAE (16.49)
 beats a naive "always predict this player's career average" baseline
-(16.82) by only ~1.5%. This isn't a bug — a single T20 innings score is
+(16.82) by only ~1.9%. This isn't a bug — a single T20 innings score is
 close to random around a player's underlying ability, so the realistic
 ceiling here is low without richer inputs (which bowler, match situation,
 weather). The Model Insights page reports this comparison directly rather
@@ -350,6 +420,35 @@ the Streamlit Venue Analytics page, and the PostgreSQL load (`fact_matches`
 keeps `venue_original` alongside the canonical `venue`, same audit-trail
 pattern as team names).
 
+## Season-Year Normalization
+
+A third normalization gap, same shape as the two above but on `season_year`
+rather than team or venue names — full story and the verification table
+in [Data Accuracy](#data-accuracy). Short version: Cricsheet's `season`
+field is a split-year string (`"2009/10"`) for three IPL seasons, and
+naively parsing it merged two real tournaments (2009 and 2010) under one
+label. Fixed in `src/data/parse_cricsheet.py` by deriving the year from
+the match's own date instead of the season string.
+
+## Records & Milestones
+
+`src/analytics/records.py` computes classic cricket "records page" content
+directly from `matches`/`deliveries` — biggest wins, highest/lowest
+completed team totals, best partnerships (any wicket, by runs, found by
+walking each innings ball-by-ball and grouping on the number of wickets
+already down), and fastest fifties/hundreds plus most sixes/fours in a
+single innings.
+
+One implementation bug worth documenting: the first version defined
+"fastest fifty/hundred" as *fewest total balls faced in the whole innings*
+— which is a different, slower number than *balls taken to reach the
+milestone* (a batter can reach 100 in 30 balls and then keep batting for
+40 more balls scoring further runs). That first version would have missed
+Chris Gayle's legendary 30-ball century entirely, since his innings was
+175 off 66 balls total. Fixed by walking each innings ball-by-ball with a
+cumulative-runs threshold crossing, which correctly surfaces it as the
+all-time fastest hundred.
+
 ## Development Roadmap
 
 - [x] Repository + environment setup
@@ -359,18 +458,23 @@ pattern as team names).
 - [x] Descriptive analytics (batting/bowling/team/venue stats, tournament overview)
 - [x] Team-name normalization
 - [x] Venue normalization
+- [x] Season-year normalization (found via an impossible stat: a merged 2009/2010 season)
 - [x] PostgreSQL schema, loaded and verified (Postgres.app, no Homebrew)
 - [x] SQL demonstrations: CTEs, window functions, rolling averages, ranking, LAG, views, FILTER
 - [x] Feature engineering (match-state, momentum) for win probability
 - [x] Full model comparison (Logistic Regression, Random Forest, XGBoost, LightGBM) + isotonic calibration
-- [x] Streamlit application (12 pages, including a Season Archive with full ball-by-ball-derived match scorecards)
+- [x] Streamlit application (13 pages, including a Season Archive with full ball-by-ball-derived match scorecards and season awards)
 - [x] Batter-vs-bowler matchup engine (historical; model-based next-ball distribution not yet built)
 - [x] Player performance predictor
+- [x] Career Dossier / Bowling Dossier percentile radars and a two-player comparison tool
+- [x] Records & Milestones page (biggest wins, extreme totals, partnerships, fastest milestones)
 - [x] Deployment (Streamlit Community Cloud)
 - [ ] Tableau dashboard (data + build guide ready — see below; the workbook itself needs to be assembled in the Tableau GUI, which isn't something that can be scripted/verified the way the rest of this repo is)
 
 ## Future Improvements
 
 Model-based next-ball outcome distribution for the matchup engine, live
-match integration, Win Probability Added (WPA) player-impact metric — see
-the full project blueprint for the complete roadmap.
+match integration, Win Probability Added (WPA) player-impact metric,
+fielding stats beyond catches (run-outs, stumpings), and a bowler-style
+Player Comparison page (currently batters only) — see the full project
+blueprint for the complete roadmap.
