@@ -8,3 +8,6 @@ tqdm
 scikit-learn
 joblib
 matplotlib
+
+streamlit
+plotly

@@ -102,7 +102,30 @@ libomp` (or a Docker-based dev environment) unblocks adding them later;
 they're expected to beat the Random Forest baseline.
 
 `python -m src.models.predict` shows the inference interface the Streamlit
-live win-probability page will call.
+live win-probability page calls.
+
+## Streamlit Application
+
+```bash
+streamlit run app/Home.py
+```
+
+Seven pages, all reading from the Parquet/CSV tables and the trained model
+(no live API, no database dependency):
+
+- **Home** — headline tournament numbers, featured players, navigation
+- **IPL Overview** — team win %, batting-first vs chasing, toss impact, matches per season
+- **Player Analytics** — batting/bowling career stats, strike rate/economy by phase, recent form
+- **Batter vs Bowler** — historical head-to-head, outcome distribution per ball
+- **Venue Analytics** — scoring conditions, chasing vs defending record, scoring by over
+- **Live Win Probability** — replays a real historical run chase ball-by-ball through the
+  trained model, with a full-match probability timeline annotated with wickets and sixes
+  (blueprint Modules 2 and 3)
+- **Model Insights** — validation/test metrics, raw-vs-calibrated calibration curves, methodology
+
+All 7 pages are checked with Streamlit's `AppTest` headless runner (including
+widget interactions — changing the selected match/player/matchup) as part of
+verifying this works, not just that it imports.
 
 ## Team-Name Normalization
 
@@ -127,7 +150,7 @@ applied at analysis time only.
 - [x] Feature engineering (match-state, momentum) for win probability
 - [x] Baseline ML (Logistic Regression, Random Forest) + isotonic calibration
 - [ ] XGBoost / LightGBM (blocked on libomp)
-- [ ] Streamlit application
+- [x] Streamlit application (7 pages: Home, Overview, Player Analytics, Batter vs Bowler, Venue Analytics, Win Probability, Model Insights)
 - [ ] Power BI dashboard
 - [ ] Batter-vs-bowler matchup engine
 - [ ] Player performance predictor
