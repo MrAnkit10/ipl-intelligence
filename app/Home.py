@@ -28,7 +28,7 @@ batting_stats = load_batting_stats()
 bowling_stats = load_bowling_stats()
 overview = compute_overview(matches, deliveries, batting_stats, bowling_stats)
 
-ball = BALL_ICON_SVG.format(size=44, color="#ffffff33")
+ball = BALL_ICON_SVG.format(size=56, color="#ffffffAA")
 st.markdown(
     f"""
     <div style="border-radius:18px;overflow:hidden;margin-bottom:20px;padding:36px 32px;

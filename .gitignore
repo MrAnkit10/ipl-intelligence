@@ -37,6 +37,7 @@ models/*.joblib
 !data/processed/player_photos.csv
 !data/processed/venue_photos.csv
 !data/processed/dismissal_breakdown.csv
+!data/processed/batting_percentiles.csv
 !data/features/win_prediction_features.parquet
 !models/win_probability.pkl
 !models/player_performance.pkl

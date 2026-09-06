@@ -7,10 +7,12 @@ if str(ROOT_DIR) not in sys.path:
 
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import streamlit as st
 
 from app.components import avatar_html, chart_card, inject_theme_css, render_page_title
 from app.data_loader import (
+    load_batting_percentiles,
     load_batting_stats,
     load_bowling_stats,
     load_deliveries,
@@ -18,6 +20,7 @@ from app.data_loader import (
     load_player_photos,
     team_color,
 )
+from src.analytics.batting import GROUP_COLORS, PERCENTILE_METRICS
 
 TRANSPARENT_LAYOUT = dict(plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
 
@@ -61,14 +64,107 @@ st.markdown(
 
 if not bat_row.empty:
     row = bat_row.iloc[0]
+
+    role = "Batter"
+    if not bowl_row.empty and bowl_row.iloc[0]["wickets"] >= 20:
+        role = "All-rounder"
+
+    debut = pd.to_datetime(row["debut_date"]) if pd.notna(row.get("debut_date")) else None
+    last_played = pd.to_datetime(row["last_played_date"]) if pd.notna(row.get("last_played_date")) else None
+    seasons_span = f"{debut.year}–{last_played.year}" if debut is not None and last_played is not None else "—"
+
+    st.markdown(
+        f"""
+        <div style="display:flex;gap:18px;align-items:center;margin:-6px 0 14px 0;flex-wrap:wrap;">
+            <span style="color:white;background:{color};padding:3px 12px;border-radius:20px;
+                        font-size:12px;font-weight:800;font-family:sans-serif;letter-spacing:0.02em;">{role.upper()}</span>
+            <span style="color:#8892C0;font-size:12px;font-family:sans-serif;">{seasons_span} · {int(row['matches_played'])} matches</span>
+            <span style="color:#8892C0;font-size:12px;font-family:sans-serif;">
+                Debut {debut.strftime('%b %d, %Y') if debut is not None else '—'}
+                &nbsp;·&nbsp; Last played {last_played.strftime('%b %d, %Y') if last_played is not None else '—'}
+            </span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
     st.subheader("Batting")
-    cols = st.columns(6)
-    cols[0].metric("Innings", int(row["innings"]))
+    cols = st.columns(8)
+    cols[0].metric("Matches", int(row["matches_played"]))
     cols[1].metric("Runs", int(row["runs"]))
     cols[2].metric("Average", f"{row['batting_average']:.1f}" if pd.notna(row["batting_average"]) else "—")
     cols[3].metric("Strike Rate", f"{row['strike_rate']:.1f}")
-    cols[4].metric("50s", int(row["fifties"]))
-    cols[5].metric("100s", int(row["hundreds"]))
+    cols[4].metric("Highest", int(row["highest_score"]) if pd.notna(row.get("highest_score")) else "—")
+    cols[5].metric("100s / 50s", f"{int(row['hundreds'])} / {int(row['fifties'])}")
+    cols[6].metric("4s / 6s", f"{int(row['fours'])} / {int(row['sixes'])}")
+    cols[7].metric("Catches", int(row["catches"]) if pd.notna(row.get("catches")) else "—")
+
+    percentiles = load_batting_percentiles()
+    prow = percentiles[percentiles["player_id"] == player_id]
+    if not prow.empty and row["innings"] >= 5:
+        prow = prow.iloc[0]
+        with chart_card(
+            "Career Dossier",
+            "Every spoke is a percentile (0-100) against players with 15+ career innings — "
+            "how this player's rate stats rank against the league, not raw counting stats.",
+        ):
+            labels = [PERCENTILE_METRICS[m][0] for m in PERCENTILE_METRICS]
+            groups = [PERCENTILE_METRICS[m][1] for m in PERCENTILE_METRICS]
+            values = [prow[m] for m in PERCENTILE_METRICS]
+            raw_fmt = {
+                "boundary_pct": "{:.1f}%", "six_rate": "{:.1f}", "strike_rate_death": "{:.1f}",
+                "chase_strike_rate": "{:.1f}", "batting_average": "{:.1f}", "big_score_pct": "{:.0f}%",
+                "conversion_pct": "{:.0f}%", "balls_per_boundary": "{:.1f}", "dot_ball_pct": "{:.0f}%",
+                "fifty_rate": "{:.0f}%", "strike_rate_middle": "{:.1f}", "acceleration": "{:.2f}x",
+            }
+            raw_values = [
+                raw_fmt[m].format(row[m]) if pd.notna(row.get(m)) else "—" for m in PERCENTILE_METRICS
+            ]
+
+            fig = go.Figure()
+            for group_key in ["power", "consistency", "tempo"]:
+                idx = [i for i, g in enumerate(groups) if g == group_key]
+                fig.add_trace(
+                    go.Barpolar(
+                        r=[values[i] if pd.notna(values[i]) else 0 for i in idx],
+                        theta=[labels[i] for i in idx],
+                        name=group_key.capitalize(),
+                        marker_color=GROUP_COLORS[group_key],
+                        marker_line_color="#0A0E27",
+                        marker_line_width=1,
+                        opacity=0.85,
+                        hovertext=[f"{labels[i]}: {raw_values[i]} (percentile {values[i]:.0f})" for i in idx],
+                        hoverinfo="text",
+                    )
+                )
+            fig.add_trace(
+                go.Scatterpolar(
+                    r=[min(v, 96) + 4 if pd.notna(v) else 4 for v in values],
+                    theta=labels,
+                    mode="text",
+                    text=raw_values,
+                    textfont=dict(color="white", size=11),
+                    showlegend=False,
+                    hoverinfo="skip",
+                )
+            )
+            fig.update_layout(
+                polar=dict(
+                    bgcolor="rgba(0,0,0,0)",
+                    radialaxis=dict(range=[0, 100], showticklabels=False, gridcolor="#232B55", linecolor="#232B55"),
+                    angularaxis=dict(
+                        categoryarray=labels, direction="clockwise", rotation=90,
+                        gridcolor="#232B55", linecolor="#232B55", color="#B8C0E0", tickfont=dict(size=11),
+                    ),
+                ),
+                paper_bgcolor="rgba(0,0,0,0)",
+                legend=dict(orientation="h", yanchor="bottom", y=-0.12, font=dict(color="#B8C0E0")),
+                margin=dict(l=30, r=30, t=10, b=10),
+                height=460,
+            )
+            st.plotly_chart(fig, width="stretch")
+    elif row["innings"] < 5:
+        st.caption("Career Dossier needs at least 5 career innings to produce a meaningful percentile ranking.")
 
     comp_col, dismiss_col = st.columns(2)
     with comp_col:

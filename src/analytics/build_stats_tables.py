@@ -15,7 +15,12 @@ from pathlib import Path
 
 import pandas as pd
 
-from src.analytics.batting import compute_batting_stats, compute_dismissal_breakdown
+from src.analytics.batting import (
+    compute_batting_percentiles,
+    compute_batting_stats,
+    compute_dismissal_breakdown,
+    compute_fielding_stats,
+)
 from src.analytics.bowling import compute_bowling_stats
 from src.analytics.overview import compute_overview
 from src.analytics.team_stats import (
@@ -91,9 +96,14 @@ def build_matches_bi(matches: pd.DataFrame) -> pd.DataFrame:
 def main() -> None:
     matches = pd.read_parquet(PROCESSED_DIR / "matches.parquet")
     deliveries = pd.read_parquet(PROCESSED_DIR / "deliveries.parquet")
+    players = pd.read_parquet(PROCESSED_DIR / "players.parquet")
 
     batting_stats = compute_batting_stats(deliveries)
     bowling_stats = compute_bowling_stats(deliveries)
+    fielding_stats = compute_fielding_stats(deliveries, players)
+    batting_stats = batting_stats.merge(fielding_stats, on="player_id", how="left")
+    batting_stats["catches"] = batting_stats["catches"].fillna(0).astype(int)
+    batting_percentiles = compute_batting_percentiles(batting_stats)
     team_stats = compute_team_stats(matches)
     venue_stats = compute_venue_stats(matches, deliveries)
     head_to_head = compute_head_to_head(matches)
@@ -118,6 +128,7 @@ def main() -> None:
         "dismissal_breakdown.csv": dismissal_breakdown,
         "matches_bi.csv": matches_bi,
         "overview_kpis.csv": overview_kpis,
+        "batting_percentiles.csv": batting_percentiles,
     }
     for filename, df in outputs.items():
         df.to_csv(PROCESSED_DIR / filename, index=False)

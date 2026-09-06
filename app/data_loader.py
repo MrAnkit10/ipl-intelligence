@@ -123,6 +123,14 @@ def load_venue_photos() -> dict:
 
 
 @st.cache_data
+def load_batting_percentiles() -> pd.DataFrame:
+    path = PROCESSED_DIR / "batting_percentiles.csv"
+    if not path.exists():
+        return pd.DataFrame()
+    return pd.read_csv(path)
+
+
+@st.cache_data
 def load_dismissal_breakdown() -> pd.DataFrame:
     path = PROCESSED_DIR / "dismissal_breakdown.csv"
     if not path.exists():

@@ -14,16 +14,27 @@ AVATAR_COLORS = [
     "#17479E", "#FF822A", "#1B2133", "#A72056", "#0D3692",
 ]
 
-# A small custom cricket-ball mark (plain SVG: a circle plus two seam
-# curves) used in place of the 🏏 emoji and, deliberately, in place of
-# any real IPL/BCCI branding — those are trademarked, and reproducing
-# them (even redrawn) on a public deployment isn't something this
-# project can safely do. This is an original, generic cricket icon.
+# This project's own mark — a red cricket ball with a stitched white seam
+# — used in place of the 🏏 emoji and, deliberately, in place of any real
+# IPL/BCCI branding: those are trademarked, and reproducing them (even
+# redrawn) on a public deployment isn't something this project can safely
+# do. The ball body is always solid red with a bright white seam so it
+# stays legible against any background; {color} only tints the outer ring,
+# letting each page tie the mark to its own accent color.
 BALL_ICON_SVG = """
 <svg width="{size}" height="{size}" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="24" cy="24" r="21" fill="{color}" stroke="#ffffff33" stroke-width="1.5"/>
-    <path d="M 24 3 A 21 21 0 0 1 24 45" stroke="#ffffff88" stroke-width="1.2" fill="none" stroke-dasharray="2,2"/>
-    <path d="M 8 12 A 21 21 0 0 0 8 36" stroke="#ffffff88" stroke-width="1.2" fill="none" stroke-dasharray="2,2"/>
+    <circle cx="24" cy="24" r="20" fill="#B3122A" stroke="{color}" stroke-width="2.5"/>
+    <circle cx="24" cy="24" r="20" fill="url(#ballShine)" />
+    <ellipse cx="17" cy="14" rx="6" ry="4" fill="#ffffff" fill-opacity="0.22" transform="rotate(-25 17 14)"/>
+    <path d="M24,4 Q34,24 24,44" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+    <path d="M25.4,10.8 l3.4,-1.9 M27,16.8 l3.7,-1.3 M28,24 l4,0 M27,31.2 l3.7,1.3 M25.4,37.2 l3.4,1.9"
+          stroke="#ffffff" stroke-width="1.3" stroke-linecap="round"/>
+    <defs>
+        <radialGradient id="ballShine" cx="35%" cy="28%" r="70%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.25"/>
+            <stop offset="55%" stop-color="#ffffff" stop-opacity="0"/>
+        </radialGradient>
+    </defs>
 </svg>
 """
 

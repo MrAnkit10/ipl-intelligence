@@ -1,5 +1,7 @@
 """Career batting statistics per player (blueprint section 28)."""
 
+from __future__ import annotations
+
 import numpy as np
 import pandas as pd
 
@@ -120,6 +122,111 @@ def compute_batting_stats(deliveries: pd.DataFrame) -> pd.DataFrame:
 
     stats = stats.reset_index().rename(columns={"index": "batter_id"})
     stats = stats.merge(_phase_strike_rates(main), on="batter_id", how="left")
+    stats = stats.merge(_innings_extremes(faced, innings_runs), on="batter_id", how="left")
+    stats = stats.merge(_batting_first_vs_chase(main), on="batter_id", how="left")
     stats = stats.rename(columns={"batter_id": "player_id"})
 
+    stats["fifty_rate"] = np.where(stats["innings"] > 0, stats["fifties"] / stats["innings"] * 100, np.nan)
+    stats["big_score_pct"] = np.where(
+        stats["innings"] > 0, (stats["fifties"] + stats["hundreds"]) / stats["innings"] * 100, np.nan
+    )
+    fifty_plus = stats["fifties"] + stats["hundreds"]
+    stats["conversion_pct"] = np.where(fifty_plus > 0, stats["hundreds"] / fifty_plus * 100, np.nan)
+    boundaries = stats["fours"] + stats["sixes"]
+    stats["balls_per_boundary"] = np.where(boundaries > 0, stats["balls_faced"] / boundaries, np.nan)
+    stats["six_rate"] = np.where(stats["balls_faced"] > 0, stats["sixes"] / stats["balls_faced"] * 100, np.nan)
+    stats["acceleration"] = np.where(
+        stats["strike_rate_middle"] > 0, stats["strike_rate_death"] / stats["strike_rate_middle"], np.nan
+    )
+
     return stats.sort_values("runs", ascending=False).reset_index(drop=True)
+
+
+def _innings_extremes(faced: pd.DataFrame, innings_runs: pd.DataFrame) -> pd.DataFrame:
+    """Per player: matches played, highest single-innings score, and
+    debut/last-played dates — the identity-strip facts on a broadcast
+    "career dossier" graphic."""
+    matches_played = faced.groupby("batter_id")["match_id"].nunique().rename("matches_played")
+    highest_score = innings_runs.groupby("batter_id")["innings_runs"].max().rename("highest_score")
+    debut = faced.groupby("batter_id")["date"].min().rename("debut_date")
+    last_played = faced.groupby("batter_id")["date"].max().rename("last_played_date")
+    return pd.concat([matches_played, highest_score, debut, last_played], axis=1).reset_index().rename(
+        columns={"index": "batter_id"}
+    )
+
+
+def _batting_first_vs_chase(main: pd.DataFrame) -> pd.DataFrame:
+    """Strike rate split by whether the player was batting first (innings 1)
+    or chasing (innings 2) — excludes super overs (innings 3+), which are a
+    separate tie-breaker format."""
+    faced = main[(main["extra_wides"] == 0) & (main["innings"].isin([1, 2]))]
+    agg = (
+        faced.groupby(["batter_id", "innings"])
+        .agg(runs=("runs_batter", "sum"), balls=("runs_batter", "size"))
+        .reset_index()
+    )
+    agg["strike_rate"] = np.where(agg["balls"] > 0, agg["runs"] / agg["balls"] * 100, np.nan)
+    wide = agg.pivot(index="batter_id", columns="innings", values="strike_rate")
+    wide = wide.rename(columns={1: "batting_first_strike_rate", 2: "chase_strike_rate"})
+    return wide.reset_index()
+
+
+def compute_fielding_stats(deliveries: pd.DataFrame, players: pd.DataFrame) -> pd.DataFrame:
+    """Career catches per player, derived from dismissal records where
+    dismissal_kind is 'caught' or 'caught and bowled' and the named fielder
+    matches a known player. Matched by exact name against the Cricsheet
+    people register (players.parquet); an unregistered substitute fielder
+    (about 4% of catches) is simply not counted rather than guessed at."""
+    main = deliveries[~deliveries["is_super_over"]]
+    caught = main[main["dismissal_kind"].isin(["caught", "caught and bowled"])].dropna(subset=["fielders"])
+    name_to_id = dict(zip(players["register_name"], players["player_id"]))
+    caught = caught.assign(fielder_id=caught["fielders"].map(name_to_id))
+    catches = (
+        caught.dropna(subset=["fielder_id"])
+        .groupby("fielder_id")
+        .size()
+        .rename("catches")
+        .reset_index()
+        .rename(columns={"fielder_id": "player_id"})
+    )
+    return catches
+
+
+PERCENTILE_METRICS = {
+    # column -> (display label, group, higher_is_better)
+    "boundary_pct": ("Boundary %", "power", True),
+    "six_rate": ("Six Rate", "power", True),
+    "strike_rate_death": ("Death SR", "power", True),
+    "chase_strike_rate": ("Chase SR", "power", True),
+    "batting_average": ("Average", "consistency", True),
+    "big_score_pct": ("Big Score %", "consistency", True),
+    "conversion_pct": ("Conversion", "consistency", True),
+    "balls_per_boundary": ("Balls/Bndy", "consistency", False),
+    "dot_ball_pct": ("Dot %", "tempo", False),
+    "fifty_rate": ("Fifty Rate", "tempo", True),
+    "strike_rate_middle": ("Middle SR", "tempo", True),
+    "acceleration": ("Acceleration", "tempo", True),
+}
+
+GROUP_COLORS = {"power": "#EF4444", "consistency": "#3B82F6", "tempo": "#22C55E"}
+
+
+def compute_batting_percentiles(batting_stats: pd.DataFrame, min_innings: int = 15) -> pd.DataFrame:
+    """Percentile rank (0-100) of every PERCENTILE_METRICS column, computed
+    against the pool of players with at least min_innings career innings —
+    the same qualification-threshold idea as a real "qualified for the
+    average" cricket table, so one nervous 3-ball cameo doesn't distort the
+    scale. A player below the threshold is still ranked against that pool
+    (never against themselves alone)."""
+    pool = batting_stats[batting_stats["innings"] >= min_innings]
+    out = batting_stats[["player_id"]].copy()
+    for col, (_, _, higher_is_better) in PERCENTILE_METRICS.items():
+        values = pool[col].dropna()
+        if values.empty:
+            out[col] = np.nan
+            continue
+        ranks = batting_stats[col].apply(
+            lambda v, values=values: np.nan if pd.isna(v) else (values <= v).mean() * 100
+        )
+        out[col] = ranks if higher_is_better else 100 - ranks
+    return out
