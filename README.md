@@ -160,6 +160,26 @@ than hiding it.
 `streamlit run app/Home.py` → **Player Performance Predictor** page lets you
 pick any player/opponent/venue combination and see the live prediction.
 
+## Tableau Dashboard
+
+Power BI Desktop is Windows-only, so this project uses **Tableau Desktop**
+instead for the BI-tool layer the blueprint calls for (business intelligence,
+data modeling, executive dashboard design — a different skill set than the
+Streamlit application).
+
+`python -m src.analytics.build_stats_tables` produces the BI-ready exports:
+`overview_kpis.csv`, `matches_bi.csv` (with `canonical_*` team columns
+already applied), `team_stats.csv`, `head_to_head.csv`, `season_trends.csv`,
+`venue_stats.csv`, `phase_trends.csv`, and `batting_stats.csv`/
+`bowling_stats.csv` (now with each player's `current_team` for filtering).
+
+**What's not automatable**: a Tableau workbook is built through its GUI —
+there's no way to author or verify a `.twbx` file the way the rest of this
+repo's output is checked (tests, `AppTest`, validation scripts). See
+[`dashboard/TABLEAU_GUIDE.md`](dashboard/TABLEAU_GUIDE.md) for the exact
+worksheets/dashboards to build, mapped 1:1 to the four Power BI pages the
+blueprint originally specified (section 37).
+
 ## Team-Name Normalization
 
 Cricsheet records the name a team played under at the time (blueprint
@@ -186,7 +206,7 @@ applied at analysis time only.
 - [x] Streamlit application (8 pages: Home, Overview, Player Analytics, Batter vs Bowler, Venue Analytics, Win Probability, Model Insights, Player Performance Predictor)
 - [x] Batter-vs-bowler matchup engine (historical; model-based next-ball distribution not yet built)
 - [x] Player performance predictor
-- [ ] Power BI dashboard (blocked — Power BI Desktop is Windows-only; web editor or Tableau Public are the Mac-compatible options, undecided)
+- [ ] Tableau dashboard (data + build guide ready — see below; the workbook itself needs to be assembled in the Tableau GUI, which isn't something that can be scripted/verified the way the rest of this repo is)
 - [ ] Deployment
 
 ## Future Improvements

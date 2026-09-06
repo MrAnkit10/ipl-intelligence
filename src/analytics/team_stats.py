@@ -1,5 +1,7 @@
 """Team-level and venue-level analytics (blueprint sections 2 and 8)."""
 
+from itertools import combinations
+
 import numpy as np
 import pandas as pd
 
@@ -131,3 +133,69 @@ def compute_venue_stats(matches: pd.DataFrame, deliveries: pd.DataFrame) -> pd.D
         )
 
     return pd.DataFrame(rows).sort_values("matches_played", ascending=False).reset_index(drop=True)
+
+
+def compute_head_to_head(matches: pd.DataFrame) -> pd.DataFrame:
+    """One row per unordered team pair with an IPL meeting: matches played
+    and each side's win count (blueprint sections 25, 37)."""
+    matches = _with_canonical_team_names(matches)
+    decided = matches[matches["outcome_type"] == "win"]
+    teams = sorted(pd.unique(matches[["team1", "team2"]].values.ravel()))
+
+    rows = []
+    for team_a, team_b in combinations(teams, 2):
+        pair_mask = ((decided["team1"] == team_a) & (decided["team2"] == team_b)) | (
+            (decided["team1"] == team_b) & (decided["team2"] == team_a)
+        )
+        pair_matches = decided[pair_mask]
+        if pair_matches.empty:
+            continue
+        team_a_wins = int((pair_matches["winner"] == team_a).sum())
+        team_b_wins = int((pair_matches["winner"] == team_b).sum())
+        rows.append(
+            {
+                "team_a": team_a,
+                "team_b": team_b,
+                "matches_played": len(pair_matches),
+                "team_a_wins": team_a_wins,
+                "team_b_wins": team_b_wins,
+                "team_a_win_pct": round(team_a_wins / len(pair_matches) * 100, 2),
+            }
+        )
+
+    return pd.DataFrame(rows).sort_values("matches_played", ascending=False).reset_index(drop=True)
+
+
+def compute_season_trends(matches: pd.DataFrame, deliveries: pd.DataFrame) -> pd.DataFrame:
+    """One row per season: scoring and results trends over time (blueprint
+    section 37, "season trends")."""
+    matches = _with_canonical_team_names(matches)
+    main = deliveries[~deliveries["is_super_over"]]
+
+    innings_totals = main.groupby(["match_id", "innings", "season_year"])["runs_total"].sum().reset_index()
+
+    # Winner batted first if it won the toss and chose to bat, or lost the
+    # toss and the opponent chose to field (same pattern as compute_venue_stats).
+    decided = matches[matches["outcome_type"] == "win"]
+    winner_batted_first = ((decided["toss_winner"] == decided["winner"]) & (decided["toss_decision"] == "bat")) | (
+        (decided["toss_winner"] != decided["winner"]) & (decided["toss_decision"] == "field")
+    )
+    chasing_win_by_season = (~winner_batted_first).groupby(decided["season_year"]).mean() * 100
+
+    rows = []
+    for season, season_matches in matches.groupby("season_year"):
+        season_innings = innings_totals[innings_totals["season_year"] == season]
+        season_deliveries = main[main["season_year"] == season]
+        rows.append(
+            {
+                "season_year": season,
+                "matches_played": len(season_matches),
+                "avg_innings_score": round(season_innings["runs_total"].mean(), 1) if len(season_innings) else np.nan,
+                "total_sixes": int((season_deliveries["runs_batter"] == 6).sum()),
+                "total_fours": int((season_deliveries["runs_batter"] == 4).sum()),
+                "total_wickets": int(season_deliveries["is_wicket"].sum()),
+                "chasing_wins_pct": round(chasing_win_by_season.get(season, np.nan), 2),
+            }
+        )
+
+    return pd.DataFrame(rows).sort_values("season_year").reset_index(drop=True)
